@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package schemaVersion="1.4" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd">
+  <vendor>Cmsemicon</vendor>
+  <name>CMS32L051</name>
+  <description>Cmsemicon CMS32L051 Device Family Pack</description>
+  <url>http://www.mcu.com.cn/pack/</url>
+
+  <releases>
+    <release version="1.2.0">
+      Added volatile attribute to IRQ related inline function.
+    </release>
+    <release version="1.1.0">
+      Added the demo project for Lin function.
+    </release>
+    <release version="1.0.0">
+      Modified system initialization function.
+    </release>
+    <release version="0.6.0">
+      Modified system initialization function.
+    </release>
+    <release version="0.5.0">
+      Added 20pin device.
+    </release>
+    <release version="0.1.0">
+      First Version issued.
+    </release>
+  </releases>
+  <keywords>
+    <!-- keywords for indexing -->
+    <keyword>Cmsemicon</keyword>
+    <keyword>CMS32L051</keyword>
+  </keywords>
+  <!-- devices section (mandatory for Device Family Packs) -->
+  <devices>
+    <family Dfamily="M0+ Series" Dvendor="Cmsemicon:161">
+      <!-- *************************  Sub Family 'CMS32L051'  ***************************** -->
+      <subFamily DsubFamily="CMS32L051">
+        <processor Dcore="Cortex-M0+" DcoreVersion="r0p1" Dfpu="0" Dmpu="1" Dendian="Little-endian" Dclock="64000000"/>
+        <description>
+          The CMS32L051 device family contains an ARM Cortex-M0+ processor, running up to 64 MHz with a versatile set of on-chip peripherals.
+        </description>
+        <compile  header="Device/Include/CMS32L051.h"/>
+        <debug    svd="SVD/CMS32L051.svd"/>
+        <algorithm  name="Flash/CMS32L051_DataFlash.FLM"    start="0x00500000"  size="0x00600"     default="1"/>
+        <feature 	type="VCC"    		n="1.8" 	m="5.5"/>
+        <feature 	type="Temp"          	n="-40"     	m="105"/>
+        <feature 	type="DMA"          	n="24"     	name="Enhanced DMA"/>
+        <feature 	type="XTAL"          	n="1000000"     m="20000000" 	name="External Crystal Oscillator"/>
+        <feature 	type="IntRC"          	n="24000000"    m="64000000" 	name="Internal RC Oscillator with +/- 1% accuracy"/>
+        <feature 	type="RTC"          	n="32768"                       name="Internal Real Time Clock(RTC)"/>
+        <feature 	type="WDT"              n="1"/>
+        <feature 	type="PowerMode"        n="3"                           name="Run, Sleep, Deep-Sleep"/>
+        <feature 	type="PowerOther"       n="1"                           name="POR"/>
+        <feature 	type="ADC"              n="15"          m="12"          name="High-Accuracy ADC"/>
+        <feature 	type="AnalogOther"      n="2"                           name="PGA"/>
+        <feature 	type="AnalogOther"      n="2"                           name="CMP"/>
+        <feature 	type="TempSens"         n="1"                           name="Temperature Sensor"/>
+        <feature 	type="I2C"              n="1"                           name="Full Function I2C"/>
+        <feature 	type="SPI"              n="1"                           name="4-wire SPI"/>
+        <feature 	type="SPI"              n="5"                           name="3-wire SPI"/>
+        <feature 	type="UART"             n="3"/>
+        <feature 	type="LIN"              n="1"/>
+        <feature 	type="Timer"            n="4"           m="16"          name="General Purpose Timer (TIM40)"/>
+        <feature 	type="Timer"            n="4"           m="16"          name="General Purpose Timer (TIM41)"/>
+        <!-- *************************  Device 'CMS32L051LQ48'  ***************************** -->
+        <device Dname="CMS32L051LQ48">
+          <description>
+            Code Flash: 64KB,  Data Flash: 1.5KB,  RAM: 8KB
+            Package: 48-lead LQFP(7x7mm, 0.5mm pitch)
+          </description>
+          <memory     name="IROM1"  access="rx"       start="0x00000000"  size="0x10000"     startup="1"   default="1"/>
+          <memory     name="IRAM1"  access="rw"       start="0x20000000"  size="0x02000"     init   ="0"   default="1"/>
+          <algorithm  name="Flash/CMS32L051GE.FLM"    start="0x00000000"  size="0x10000"     default="1"/>
+	      <feature    type="QFP"            n="48"                        name="7x7mm, 0.5mm pitch LQFP"/>
+        </device>
+        <!-- *************************  Device 'CMS32L051QN40'  ***************************** -->
+        <device Dname="CMS32L051QN40">
+          <description>
+            Code Flash: 64KB,  Data Flash: 1.5KB,  RAM: 8KB
+            Package: 40-lead QFN(5x5mm, 0.4mm pitch)
+          </description>
+          <memory     name="IROM1"  access="rx"       start="0x00000000"  size="0x10000"     startup="1"   default="1"/>
+          <memory     name="IRAM1"  access="rx"       start="0x20000000"  size="0x02000"     init   ="0"   default="1"/>
+          <algorithm  name="Flash/CMS32L051GE.FLM"    start="0x00000000"  size="0x10000"     default="1"/>
+	      <feature    type="QFN"            n="40"                        name="5x5mm, 0.4mm pitch QFN"/>
+        </device>
+        <!-- *************************  Device 'CMS32L051LQ32'  ***************************** -->
+        <device Dname="CMS32L051LQ32">
+          <description>
+            Code Flash: 64KB,  Data Flash: 1.5KB,  RAM: 8KB
+            Package: 32-lead LQFP(7x7mm, 0.8mm pitch)
+          </description>
+          <memory     name="IROM1"  access="rx"       start="0x00000000"  size="0x10000"     startup="1"   default="1"/>
+          <memory     name="IRAM1"  access="rx"       start="0x20000000"  size="0x02000"     init   ="0"   default="1"/>
+          <algorithm  name="Flash/CMS32L051GE.FLM"    start="0x00000000"  size="0x10000"     default="1"/>
+	      <feature    type="QFP"            n="32"                        name="7x7mm, 0.8mm pitch LQFP"/>
+        </device>
+        <!-- *************************  Device 'CMS32L051QN32'  ***************************** -->
+        <device Dname="CMS32L051QN32">
+          <description>
+            Code Flash: 64KB,  Data Flash: 1.5KB,  RAM: 8KB
+            Package: 32-lead QFN(5x5mm, 0.5mm pitch)
+          </description>
+          <memory     name="IROM1"  access="rx"       start="0x00000000"  size="0x10000"     startup="1"   default="1"/>
+          <memory     name="IRAM1"  access="rx"       start="0x20000000"  size="0x02000"     init   ="0"   default="1"/>
+          <algorithm  name="Flash/CMS32L051GE.FLM"    start="0x00000000"  size="0x10000"     default="1"/>
+	      <feature    type="QFN"            n="32"                        name="5x5mm, 0.5mm pitch QFN"/>
+        </device>
+        <!-- *************************  Device 'CMS32L051SS24'  ***************************** -->
+        <device Dname="CMS32L051SS24">
+          <description>
+            Code Flash: 64KB,  Data Flash: 1.5KB,  RAM: 8KB
+            Package: 24-lead SSOP(8.65x3.9mm, 0.635mm pitch)
+          </description>
+          <memory     name="IROM1"  access="rx"       start="0x00000000"  size="0x10000"     startup="1"   default="1"/>
+          <memory     name="IRAM1"  access="rx"       start="0x20000000"  size="0x02000"     init   ="0"   default="1"/>
+          <algorithm  name="Flash/CMS32L051GE.FLM"    start="0x00000000"  size="0x10000"     default="1"/>
+	      <feature    type="SOP"            n="32"                        name="8.65x3.9mm, 0.635mm pitch SSOP"/>
+        </device>
+        <!-- *************************  Device 'CMS32L051TS20'  ***************************** -->
+        <device Dname="CMS32L051TS20">
+          <description>
+            Code Flash: 64KB,  Data Flash: 1.5KB,  RAM: 8KB
+            Package: 20-lead TSSOP(6.5x4.4mm, 0.65mm pitch)
+          </description>
+          <memory     name="IROM1"  access="rx"       start="0x00000000"  size="0x10000"     startup="1"   default="1"/>
+          <memory     name="IRAM1"  access="rx"       start="0x20000000"  size="0x02000"     init   ="0"   default="1"/>
+          <algorithm  name="Flash/CMS32L051GE.FLM"    start="0x00000000"  size="0x10000"     default="1"/>
+	      <feature    type="SOP"            n="20"                        name="6.5x4.4mm, 0.65mm pitch TSSOP"/>
+        </device>
+        <!-- *************************  Device 'CMS32L051QN20'  ***************************** -->
+        <device Dname="CMS32L051QN20">
+          <description>
+            Code Flash: 64KB,  Data Flash: 1.5KB,  RAM: 8KB
+            Package: 20-lead QFN(3x3mm, 0.4mm pitch)
+          </description>
+          <memory     name="IROM1"  access="rx"       start="0x00000000"  size="0x10000"     startup="1"   default="1"/>
+          <memory     name="IRAM1"  access="rx"       start="0x20000000"  size="0x02000"     init   ="0"   default="1"/>
+          <algorithm  name="Flash/CMS32L051GE.FLM"    start="0x00000000"  size="0x10000"     default="1"/>
+	      <feature    type="QFN"            n="20"                        name="3x3mm, 0.4mm pitch QFN"/>
+        </device>
+      </subFamily>
+    </family>
+  </devices>
+  <!-- examples section (optional for all Software Packs)-->
+  <examples>
+    <example name="Blinky" doc="README" folder="Examples/Blinky/MDK">
+      <description>Sample project</description>
+      <board name="CMS32L051_EVB" vendor="Cmsemicon"/>
+      <project>
+        <environment name="uv" load="Blinky.uvprojx"/>
+      </project>
+      <attributes>
+        <component Cclass="CMSIS" Cgroup="CORE"/>
+        <component Cclass="Device" Cgroup="Startup"/>
+        <!-- <component Cclass="Device" Cgroup="ISR"/> -->
+      </attributes>
+    </example>
+  </examples>
+  
+  <!-- conditions section (optional for all Software Packs)-->
+  <conditions>
+    <condition id="CMS32L051 CMSIS-CORE">
+      <!-- conditions selecting Devices -->
+      <description>Cmsemicon CMS32L051 Series devices and CMSIS-CORE</description>
+      <require Cclass="CMSIS" Cgroup="CORE"/>
+      <require Dvendor="Cmsemicon:161" Dname="CMS32L051*"/>
+    </condition>
+    <condition id="Startup ARM">
+      <description>Startup assembler file for ARMCC</description>
+      <require Tcompiler="ARMCC"/>
+    </condition>
+    <condition id="Startup GCC">
+      <description>Startup assembler file for GCC</description>
+      <require Tcompiler="GCC"/>
+    </condition>
+    <condition id="Startup IAR">
+      <description>Startup assembler file for IAR</description>
+      <require Tcompiler="IAR"/>
+    </condition>
+  </conditions>
+  
+  <!-- component section (optional for all Software Packs)-->
+  <components>
+    <component Cclass="Device" Cgroup="Startup" Cversion="1.0.0" condition="CMS32L051 CMSIS-CORE">
+      <description>System Startup for Cmsemicon CMS32L051 Series</description>
+      <files>
+        <!--  include folder -->
+        <file category="include" name="Device/Include/"/>
+        <file category="header" name="Device/Source/userdefine.h"  attr="config" version="1.0.0"/>
+
+        <file category="source"  name="Device/Source/ARM/startup_CMS32L051.s" attr="config" condition="Startup ARM" version="1.0.0"/>
+        <file category="source"  name="Device/Source/GCC/startup_CMS32L051.S" attr="config" condition="Startup GCC" version="1.0.0"/>
+        <file category="source"  name="Device/Source/IAR/startup_CMS32L051.s" attr="config" condition="Startup IAR" version="1.0.0"/>
+
+        <file category="source"  name="Device/Source/system_CMS32L051.c"  attr="config" version="1.0.0"/>
+      </files>
+    </component>
+    <!-- <component Cclass="Device" Cgroup="ISR" Cversion="1.0.0" condition="CMS32L051 CMSIS-CORE">
+      <description>Interrupt Server Handler for Cmsemicon CMS32L051 Series</description>
+      <files>
+        <file category="include" name="Device/Include/"/>
+        <file category="source"  name="Device/Source/isr_CMS32L051.c"  attr="config" version="1.0.0"/>
+      </files>
+    </component> -->
+  </components>
+  
+</package>

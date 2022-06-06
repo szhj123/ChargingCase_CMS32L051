@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+diff -urN ../../../CMS32L051.h CMS32L051.h > patch.h
+
+#patch < patch.h
+
