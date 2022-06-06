@@ -1,5 +1,5 @@
 /********************************************************
-* @file       hardware.c
+* @file       hal_task.c
 * @author     szhj13
 * @version    V1.0
 * @date       2022-06-06
@@ -10,20 +10,17 @@
 **********************************************************/
 
 /* Includes ---------------------------------------------*/
-
-#include <stdio.h>
-#include "CMS32L051.h"
-
+#include "hal_task.h"
 /* Private typedef --------------------------------------*/
 /* Private define ---------------------------------------*/
 /* Private macro ----------------------------------------*/
 /* Private function -------------------------------------*/
 /* Private variables ------------------------------------*/
+Hal_Isr_callback_t hal_systick_isr_callback = NULL;
 
-int main(void )
+void Hal_Task_Init(Hal_Isr_callback_t callback )
 {
-	while(1)
-	{	
-	}
+    hal_systick_isr_callback = callback;
+    
 }
 

@@ -1,5 +1,5 @@
 /********************************************************
-* @file       hardware.c
+* @file       drv_task.c
 * @author     szhj13
 * @version    V1.0
 * @date       2022-06-06
@@ -18,12 +18,16 @@
 /* Private define ---------------------------------------*/
 /* Private macro ----------------------------------------*/
 /* Private function -------------------------------------*/
+static void Drv_Task_Isr_Callback(void );
 /* Private variables ------------------------------------*/
 
-int main(void )
+void Drv_Task_Init(void )
 {
-	while(1)
-	{	
-	}
+    Hal_Drv_Task_Init(Drv_Task_Isr_Callback);
 }
 
+
+static void Drv_Task_Isr_Callback(void )
+{
+    
+}
