@@ -142,7 +142,7 @@ const uint8_t user_opt_data[4] __attribute__((used)) __attribute__((section(".AR
 //                                                          <0xE4=> fHOCO = 48MHz, fIH =  3MHz
 //                                                          <0xED=> fHOCO = 64MHz, fIH =  2MHz
 // </h>
-    0xEA, 
+    0xE8, 
 
 /**
  * @brief Flash Protect Control BYTE

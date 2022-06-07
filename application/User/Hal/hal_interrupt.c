@@ -1,5 +1,5 @@
 /********************************************************
-* @file       hardware.c
+* @file       hal_interrupt.c
 * @author     szhj13
 * @version    V1.0
 * @date       2022-06-06
@@ -10,27 +10,24 @@
 **********************************************************/
 
 /* Includes ---------------------------------------------*/
-#include "drv_task.h"
-#include "drv_timer.h"
-
-#include "app_led.h"
+#include "hal_task.h"
+#include "hal_timer.h"
 /* Private typedef --------------------------------------*/
 /* Private define ---------------------------------------*/
 /* Private macro ----------------------------------------*/
 /* Private function -------------------------------------*/
+void IRQ17_Handler(void) __attribute__((alias("tm40_channel0_interrupt")));
 /* Private variables ------------------------------------*/
 
-int main(void )
+void SysTick_Handler(void )
 {
-    Drv_Task_Init();
+    Hal_Task_Isr_Handler();
+}
 
-    Drv_Timer_Init();
-
-    App_Led_Init();
+void tm40_channel0_interrupt(void )
+{
+    INTC_ClearPendingIRQ(TM00_IRQn);    /* clear INTTM00 interrupt flag */
     
-	while(1)
-	{	
-        Drv_Task_Scheduler();
-	}
+    Hal_Timer_Isr_Handler();
 }
 
