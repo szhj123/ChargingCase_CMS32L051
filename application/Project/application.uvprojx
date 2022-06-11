@@ -393,6 +393,16 @@
               <FileType>1</FileType>
               <FilePath>..\..\Driver\src\gpio.c</FilePath>
             </File>
+            <File>
+              <FileName>sci.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Driver\src\sci.c</FilePath>
+            </File>
+            <File>
+              <FileName>retarget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Driver\src\retarget.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -407,6 +417,11 @@
               <FileName>app_led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\App\app_led.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_com.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\App\app_com.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -433,6 +448,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\Drv\drv_event.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_com.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Drv\drv_com.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -457,6 +477,11 @@
               <FileName>hal_led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Hal\hal_led.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal_com.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Hal\hal_com.c</FilePath>
             </File>
           </Files>
         </Group>

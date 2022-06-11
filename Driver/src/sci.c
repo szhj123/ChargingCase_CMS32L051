@@ -177,31 +177,54 @@ MD_STATUS UART_BaudRateCal(uint32_t fclk_freq, uint32_t baud, uart_baud_t *pvalu
 {
     MD_STATUS status = MD_ERROR;
 
-    int32_t baud_err;
+    int32_t baud_err,baud_err_temp = 100;
     uint32_t baud_cal;
     uint32_t fmck_freq;
-    unsigned char i, j;
+    uint32_t least_freq;
+    unsigned char i, j,m,k=0;
+    unsigned char i_record,j_record;
+  
+    least_freq = baud*2*128;
+    m = fclk_freq/least_freq +1 ;
+  
+    while((1<<k) < m)
+    {
+       k++;
+    }
 
-    for (i = 0; i < 16; i++)
+    for (i = k; i < 16; i++)
     {
         fmck_freq = fclk_freq / sps_tbl[i];
         for (j = 2; j < 128; j++)
         {
             baud_cal = fmck_freq / (j + 1) / 2;
-            baud_err = 10000 * baud_cal / baud - 10000;  /* n ten thousandths */
-            if (abs(baud_err) < 20)  /* 0.2% */
+            baud_err = (1000 * baud_cal / baud - 1000)*10;  // n ten thousandths
+            if(abs(baud_err_temp) > abs(baud_err))
+            {
+                baud_err_temp = baud_err;
+                j_record = j;
+               i_record = i;
+            }
+            if (abs(baud_err_temp) < 20)  /* 0.2% */
             {
                 pvalue->prs = i;
                 pvalue->sdr = j;
                 //printf("fclk_freq = %10dHz, baud = %6dbps, prs = %2d, sdr = %3d, errors = %3d\n", fclk_freq, baud, pvalue->prs, pvalue->sdr, baud_err);
                 status = MD_OK;
                 return (status);
-            }
+            }            
         }
     }
-
+    if(abs(baud_err_temp) > 20)
+   {
+       pvalue->prs = i_record;
+       pvalue->sdr = j_record;
+      status = MD_OK;  
+   }
+    
     return (status);
 }
+
 
 /***********************************************************************************************************************
 * Function Name: UART0_BaudRate

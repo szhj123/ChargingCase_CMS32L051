@@ -18,14 +18,14 @@
 /* Private function -------------------------------------*/
 static void Tim40_Channel0_Interval_Init(void );
 /* Private variables ------------------------------------*/
-static Hal_Isr_callback_t hal_timer_isr_callback = NULL;
+static Hal_Isr_Callback_t hal_timer_isr_callback = NULL;
 
 void Hal_Timer_Init(void )
 {
     Tim40_Channel0_Interval_Init();
 }
 
-void Hal_Timer_Regist_Isr_Callback(Hal_Isr_callback_t callback )
+void Hal_Timer_Regist_Isr_Callback(Hal_Isr_Callback_t callback )
 {
     hal_timer_isr_callback = callback;
 }

@@ -16,7 +16,7 @@
 /* Private macro ----------------------------------------*/
 /* Private function -------------------------------------*/
 /* Private variables ------------------------------------*/
-Hal_Isr_callback_t hal_systick_isr_callback = NULL;
+Hal_Isr_Callback_t hal_systick_isr_callback = NULL;
 
 void Hal_Task_Init(void )
 {
@@ -26,7 +26,7 @@ void Hal_Task_Init(void )
 
 }
 
-void Hal_Task_Regist_Isr_Callabck(Hal_Isr_callback_t callback )
+void Hal_Task_Regist_Isr_Callabck(Hal_Isr_Callback_t callback )
 {
     hal_systick_isr_callback = callback;
 }
