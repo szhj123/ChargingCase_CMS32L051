@@ -92,9 +92,9 @@ void Hal_Com_Rx_Isr_Handler(void )
     
     rx_data = SCI0->RXD0;
 
-    if(hal_com_isr_callback != NULL)
+    if(hal_com_rx_end_callback != NULL)
     {
-        hal_com_isr_callback(rx_data);
+        hal_com_rx_end_callback(rx_data);
     }
     
 }
