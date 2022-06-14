@@ -13,6 +13,7 @@
 #include "drv_task.h"
 #include "drv_timer.h"
 #include "drv_event.h"
+#include "app_event.h"
 #include "app_com.h"
 #include "app_led.h"
 /* Private typedef --------------------------------------*/
@@ -27,8 +28,8 @@ int main(void )
 
     Drv_Timer_Init();
 
-    Drv_Msg_Init();
-
+    App_Msg_Init();
+    
     App_Com_Init();
 
     App_Led_Init();

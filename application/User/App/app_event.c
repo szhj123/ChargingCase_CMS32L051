@@ -14,6 +14,8 @@
 #include "drv_timer.h"
 #include "drv_event.h"
 
+#include "app_event.h"
+
 /* Private typedef --------------------------------------*/
 /* Private define ---------------------------------------*/
 /* Private macro ----------------------------------------*/
@@ -30,5 +32,11 @@ void App_Msg_Init(void )
 
 static void App_Msg_Handler(void *arg )
 {
-    
+    static msg_t msg;
+
+    if(Drv_Msg_Queue_Get(&msg))
+    {
+        msg.handler((void *)&msg);
+    }
 }
+

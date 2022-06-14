@@ -29,7 +29,7 @@ void Drv_Msg_Init(void )
     }
 }
 
-void Drv_Msg_Queue_Add(void (*handler)(void *), uint8_t cmd, uint8_t *buf, uint8_t length )
+void Drv_Msg_Queue_Set(void (*handler)(void *), uint8_t cmd, uint8_t *buf, uint8_t length )
 {
     uint8_t i;
     

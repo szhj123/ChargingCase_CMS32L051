@@ -423,6 +423,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\App\app_com.c</FilePath>
             </File>
+            <File>
+              <FileName>app_event.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\App\app_event.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

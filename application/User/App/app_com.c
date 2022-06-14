@@ -34,7 +34,7 @@ void App_Com_Init(void )
 
 static void App_Com_Msg_Set(uint8_t cmd, uint8_t *buf, uint16_t length )
 {
-    Drv_Msg_Queue_Add(App_Com_Rx_Handler, cmd, buf, length);
+    Drv_Msg_Queue_Set(App_Com_Rx_Handler, cmd, buf, length);
 }
 
 static void App_Com_Rx_Handler(void *arg )
