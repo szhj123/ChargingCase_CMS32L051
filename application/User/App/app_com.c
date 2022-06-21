@@ -39,6 +39,16 @@ static void App_Com_Msg_Set(uint8_t cmd, uint8_t *buf, uint16_t length )
 
 static void App_Com_Rx_Handler(void *arg )
 {
-    
+    msg_t *msg = (msg_t *)arg; 
+
+    switch(msg->cmd)
+    {
+        case CMD_SET_LED:
+        {
+            App_Led_Set_Flash(msg->buf, msg->length);
+            break;
+        }
+        default: break;
+    }
 }
 

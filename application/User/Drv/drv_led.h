@@ -25,11 +25,14 @@ typedef struct _led_block_t
     PORT_TypeDef port;
     PIN_TypeDef  pin;
 
+    uint8_t  name;
+
     led_style_t style;
 
     uint16_t onTime;
     uint16_t offTime;
     uint16_t delayCnt;
+    uint8_t  speed;
 }led_block_t;
 
 void Drv_Led_Init(led_block_t *led );
