@@ -25,23 +25,23 @@ void Hal_Led_Gpio_Init(PORT_TypeDef port, PIN_TypeDef pin )
 
 void Hal_Led_Set_On(PORT_TypeDef port, PIN_TypeDef pin )
 {
-    PORT_SetBit(port, pin);
+    PORT_ClrBit(port, pin);
 }
 
 void Hal_Led_Set_Off(PORT_TypeDef port, PIN_TypeDef pin )
 {
-    PORT_ClrBit(port, pin);
+    PORT_SetBit(port, pin);
 }
 
 uint8_t Hal_Led_Get_State(PORT_TypeDef port, PIN_TypeDef pin )
 {
     if(PORT_GetBit(port, pin))
     {
-        return LED_ON;
+        return LED_OFF;
     }
     else
     {
-        return LED_OFF;
+        return LED_ON;
     }
 }
 

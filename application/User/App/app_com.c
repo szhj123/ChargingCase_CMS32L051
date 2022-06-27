@@ -45,7 +45,7 @@ static void App_Com_Rx_Handler(void *arg )
     {
         case CMD_SET_LED:
         {
-            App_Led_Set_Flash(msg->buf, msg->length);
+            App_Led_Set_Para(msg->buf, msg->length);
             break;
         }
         default: break;
