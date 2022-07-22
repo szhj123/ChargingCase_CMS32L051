@@ -11,7 +11,7 @@
 #include "tim4.h"
 #include "sci.h"
 #include "adc.h"
-
+#include "dma.h"
 
 typedef void (*Hal_Isr_Callback_t)(void );
 

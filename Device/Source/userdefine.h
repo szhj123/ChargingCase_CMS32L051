@@ -98,8 +98,8 @@ DMA Control Data Set definitions
 #define SPI11_WITH_DMA
 #define CTRL_DATA_SPI11 6
 
-//#define SPI20_WITH_DMA
-//#define CTRL_DATA_SPI20 8
+#define SPI20_WITH_DMA
+#define CTRL_DATA_SPI20 8
 
 //#define SPI21_WITH_DMA
 //#define CTRL_DATA_SPI21 10

@@ -15,11 +15,12 @@
 #include "drv_event.h"
 #include "app_event.h"
 #include "app_com.h"
+#include "app_lcd.h"
 #include "app_led.h"
 /* Private typedef --------------------------------------*/
-/* Private define ------------------B---------------------*/
-/* Private macro ----------------------------------------*/
-/* Private function -------------------------------------*/
+/* Private define ------------------ ------------------- -*/
+/* Private macro ---------------------------------------*/
+/* Private function ---------------------------------- --*/
 /* Private variables ------------------------------------*/
 
 int main(void )
@@ -31,6 +32,8 @@ int main(void )
     App_Msg_Init();
     
     App_Com_Init();
+
+    App_Lcd_Init();
 
     App_Led_Init();
     

@@ -1,0 +1,140 @@
+2. HSD 0.96 IPS Panel
+void NV3022_HSD096_Initial(void)
+{
+LCD_NV3022_CMD(0xff);
+LCD_NV3022_Parameter(0xa5);
+LCD_NV3022_CMD(0x3a);
+LCD_NV3022_Parameter(0x55);
+LCD_NV3022_CMD(0x51);
+LCD_NV3022_Parameter(0x14);
+LCD_NV3022_CMD(0x53);
+LCD_NV3022_Parameter(0x11);
+LCD_NV3022_CMD(0x62);
+LCD_NV3022_Parameter(0x20);
+LCD_NV3022_CMD(0x86);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_CMD(0x87);
+LCD_NV3022_Parameter(0x1a);
+LCD_NV3022_CMD(0x88);
+LCD_NV3022_Parameter(0x11);//vcomh0
+LCD_NV3022_CMD(0x89);
+LCD_NV3022_Parameter(0x1c);//vcoml
+LCD_NV3022_CMD(0x61);
+LCD_NV3022_Parameter(0x16);
+LCD_NV3022_CMD(0x93);
+LCD_NV3022_Parameter(0x12); // 13--line inversion 12--frame inversion
+LCD_NV3022_CMD(0x95);
+LCD_NV3022_Parameter(0x10);
+LCD_NV3022_CMD(0x96);
+LCD_NV3022_Parameter(0x0e);
+LCD_NV3022_CMD(0xb4);
+LCD_NV3022_Paramete(0x60);
+LCD_NV3022_CMD(0x91);
+LCD_NV3022_Paramete(0x10);
+LCD_NV3022_CMD(0xC1);
+LCD_NV3022_Paramete(0xF1);
+LCD_NV3022_CMD(0xC5);
+LCD_NV3022_Paramete(0xF8);
+LCD_NV3022_CMD(0xb5);
+LCD_NV3022_Parameter(0x20);
+LCD_NV3022_CMD(0xc3);
+LCD_NV3022_Parameter(0x11);//ss/gs
+LCD_NV3022_CMD(0x83);
+LCD_NV3022_Parameter(0x10);
+//////////////////////gamma_set//////////////////////////////////////
+LCD_NV3022_CMD(0x2a); // Set col address
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x84); // Start col address
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x84); // End col address
+LCD_NV3022_CMD(0x2b); // Set page address
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00); // Start col address
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x1f); // End col address
+LCD_NV3022_CMD(0x2c); // Write Display Data
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x13);//VPMIDP G[0] 15/16
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x11);//VRP1 G[1] 10
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x16);//VRP0 G[2] 21
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x05);//KP7 G[3] 0
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x0d);//KP6 G[4] 1
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x0c);//KP5 G[5] 2
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x0d);//KP4 G[6] 6
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x1e);//KP3 G[7] 25
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x1b);//KP2 G[8] 29
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x1b);//KP1 G[9] 30
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x1f);//KP0 G[10] 31
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x13);//VPMIDN G[11] 15/16
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x16); //VRN0 G[13] 21
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x11);//VRN1 G[12] 10
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x1f);//KN0 G[21] 31
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x1b);//KN1 G[20] 30
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x1b);//KN2 G[19] 29
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x1e);//KN3 G[18] 25
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x0d);//KN4 G[17] 6
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x0c);//KN5 G[16] 2
+LCD_NV3022_Parameter(0X00);
+LCD_NV3022_Parameter(31-0x13);//KN6 G[15] 1
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_Parameter(31-0x05);//KN7 G[14] 0
+LCD_NV3022_CMD(0x2a); // Set col address
+LCD_NV3022_Parameter(0); // Start col address
+LCD_NV3022_Parameter(0);
+LCD_NV3022_Parameter(0);
+LCD_NV3022_Parameter(127); // End col address
+LCD_NV3022_CMD(0x2b); // Set page address
+LCD_NV3022_Parameter(0); // Start col address
+LCD_NV3022_Parameter(0);
+LCD_NV3022_Parameter(0);
+LCD_NV3022_Parameter(159); //159 End col address
+LCD_NV3022_CMD(0x83);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_CMD(0xff);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_CMD(0x11);
+Delay_ms(200);
+LCD_NV3022_CMD(0x21);
+LCD_NV3022_CMD(0x36);
+LCD_NV3022_Parameter(0x00);
+LCD_NV3022_CMD(0x29);
+}

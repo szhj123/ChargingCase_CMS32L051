@@ -98,8 +98,8 @@ DMA Control Data Set definitions
 #define SPI11_WITH_DMA
 #define CTRL_DATA_SPI11 6
 
-//#define SPI20_WITH_DMA
-//#define CTRL_DATA_SPI20 8
+#define SPI20_WITH_DMA
+#define CTRL_DATA_SPI20 8
 
 //#define SPI21_WITH_DMA
 //#define CTRL_DATA_SPI21 10
@@ -852,10 +852,10 @@ typedef enum
 
 /* ToDo: You can allocate the SS20 to any desired pins */
 #define SS20_PORT_SETTING() do{ \
-        PORT->P63CFG = 0x00;         /* P63 default GPIO function */ \
-        PORT->P6   |=  (1 << 3);     /* P63 output high level */ \
-        PORT->PM6  &= ~(1 << 3);     /* P63 is used as SS20 output */ \
-        PORT->PMC6 &= ~(1 << 3);     /* P63 digital function */ \
+        PORT->P12CFG = 0x00;         /* P63 default GPIO function */ \
+        PORT->P12  |=  (1 << 0);     /* P63 output high level */ \
+        PORT->PM12  &= ~(1 << 0);     /* P63 is used as SS20 output */ \
+        PORT->PMC12 &= ~(1 << 0);     /* P63 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SS20 to any desired pins */
@@ -877,20 +877,20 @@ typedef enum
 
 /* ToDo: You can allocate the SCLKO20 to any desired pins with PxxCFG register */
 #define SCLKO20_PORT_SETTING() do{ \
-        PORT->P15CFG = 0x09;        /* allocate SCLK20 to P15 */ \
-        PORT->P1   |=  (1 << 5);    /* P15 output high level */ \
-        PORT->PM1  &= ~(1 << 5);    /* P15 is used as SCLK20 output */ \
-        PORT->POM1 &= ~(1 << 5);    /* P15 is normal output mode */ \
-        PORT->PMC1 &= ~(1 << 5);    /* P15 digital function */ \
+        PORT->P10CFG = 0x09;        /* allocate SCLK20 to P15 */ \
+        PORT->P1   |=  (1 << 0);    /* P15 output high level */ \
+        PORT->PM1  &= ~(1 << 0);    /* P15 is used as SCLK20 output */ \
+        PORT->POM1 &= ~(1 << 0);    /* P15 is normal output mode */ \
+        PORT->PMC1 &= ~(1 << 0);    /* P15 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SDO20 to any desired pins with PxxCFG register */
 #define SDO20_PORT_SETTING() do{ \
-        PORT->P13CFG = 0x06;        /* allocate SDO20 to P13 */ \
-        PORT->P1   |=  (1 << 3);    /* P13 output high level */ \
-        PORT->PM1  &= ~(1 << 3);    /* P13 is used as SDO20 output */ \
-        PORT->POM1 &= ~(1 << 3);    /* P13 is normal output mode */ \
-        PORT->PMC1 &= ~(1 << 3);    /* P13 digital function */ \
+        PORT->P11CFG = 0x06;        /* allocate SDO20 to P11 */ \
+        PORT->P1   |=  (1 << 1);    /* P11 output high level */ \
+        PORT->PM1  &= ~(1 << 1);    /* P11 is used as SDO20 output */ \
+        PORT->POM1 &= ~(1 << 1);    /* P11 is normal output mode */ \
+        PORT->PMC1 &= ~(1 << 1);    /* P11 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SDI20 to any desired pins with SDI20PCFG register */

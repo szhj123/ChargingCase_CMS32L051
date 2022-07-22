@@ -13,6 +13,7 @@
 #include "hal_task.h"
 #include "hal_timer.h"
 #include "hal_com.h"
+#include "hal_lcd.h"
 /* Private typedef --------------------------------------*/
 /* Private define ---------------------------------------*/
 /* Private macro ----------------------------------------*/
@@ -20,6 +21,7 @@
 void IRQ17_Handler(void) __attribute__((alias("tm40_channel0_interrupt")));
 void IRQ11_Handler(void) __attribute__((alias("uart0_interrupt_receive")));
 void IRQ10_Handler(void) __attribute__((alias("uart0_interrupt_send")));
+void IRQ07_Handler(void) __attribute__((alias("spi20_interrupt")));
 /* Private variables ------------------------------------*/
 
 void SysTick_Handler(void )
@@ -47,4 +49,17 @@ void uart0_interrupt_send(void )
 
     Hal_Com_Tx_Isr_Handler();
 }
+
+void spi20_interrupt(void)
+{
+    INTC_ClearPendingIRQ(SPI20_IRQn);
+
+    while (SCI0->SSR00 & _0040_SCI_UNDER_EXECUTE)
+    {
+        ;
+    }
+
+    Hal_Lcd_Isr_Handler();
+}
+
 
