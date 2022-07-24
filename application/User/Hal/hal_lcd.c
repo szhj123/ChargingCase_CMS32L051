@@ -19,7 +19,6 @@
 static void Hal_Lcd_Spi_Init(void );
 /* Private variables ------------------------------------*/
 static Hal_Isr_Callback_t lcd_isr_callback = NULL;
-static uint8_t lcd_interrupt_cnt = 0;
 static uint8_t lcdClrReqFlag;
 
 void Hal_Lcd_Init(void )
@@ -52,9 +51,9 @@ static void Hal_Lcd_Spi_Init(void )
                   _0000_SCI_TRIGGER_SOFTWARE | _0000_SCI_MODE_SPI | _0000_SCI_TRANSFER_END;
     SCI1->SCR10 = _0004_SCRMN_DEFAULT_VALUE | _C000_SCI_RECEPTION_TRANSMISSION | dap << 13 | ckp << 12 | _0000_SCI_INTSRE_MASK |
                   _0000_SCI_PARITY_NONE | _0000_SCI_MSB | _0000_SCI_STOP_NONE | _0003_SCI_LENGTH_8;
-	//SCI1->SDR10 = 0 << 9; 	// fMCK/(1+n)x2 = fMCK/2
+	SCI1->SDR10 = 0 << 9; 	// fMCK/(1+n)x2 = fMCK/2
     //SCI1->SDR10 = 1 << 9; 	// fMCK/(1+n)x2 = fMCK/4
-    SCI1->SDR10 = 2 << 9;		// fMCK/(1+n)x2 = fMCK/6
+    //SCI1->SDR10 = 2 << 9;		// fMCK/(1+n)x2 = fMCK/6
     //SCI1->SDR10 = 3 << 9;		// fMCK/(1+n)x2 = fMCK/8
 	//SCI1->SDR10 = 7 << 9;		// fMCK/(1+n)x2 = fMCK/16
     //SCI1->SDR10 = _CE00_SCI_BAUDRATE_DIVISOR;
@@ -76,7 +75,7 @@ static void Hal_Lcd_Spi_Init(void )
     SDO20_PORT_SETTING();
 }
 
-void Hal_Lcd_Set_BgColor(uint8_t *buf, uint16_t length, Hal_Isr_Callback_t callback )
+void Hal_Lcd_Spi_Send_With_DMA(const uint8_t *buf, uint16_t length, Hal_Isr_Callback_t callback )
 {
     LCD_CS_LOW();
 
@@ -94,8 +93,8 @@ void Hal_Lcd_Set_BgColor(uint8_t *buf, uint16_t length, Hal_Isr_Callback_t callb
                                           (0 << CTRL_DMACR_DAMOD_Pos) | (1 << CTRL_DMACR_SAMOD_Pos) |
                                           (0 << CTRL_DMACR_MODE_Pos);
     DMAVEC->CTRL[CTRL_DATA_SPI20].DMBLS = 1;
-    DMAVEC->CTRL[CTRL_DATA_SPI20].DMACT = 2048;//(LCD_W*LCD_H*2)-1;
-    DMAVEC->CTRL[CTRL_DATA_SPI20].DMRLD = 2048;//(LCD_W*LCD_H*2)-1;
+    DMAVEC->CTRL[CTRL_DATA_SPI20].DMACT = length-1;
+    DMAVEC->CTRL[CTRL_DATA_SPI20].DMRLD = length-1;
     DMAVEC->CTRL[CTRL_DATA_SPI20].DMSAR = (uint32_t)&buf[1];
     DMAVEC->CTRL[CTRL_DATA_SPI20].DMDAR = (uint32_t)&SCI1->SIO20;
 
@@ -114,12 +113,10 @@ void Hal_Lcd_Set_BgColor(uint8_t *buf, uint16_t length, Hal_Isr_Callback_t callb
 
     lcdClrReqFlag = 1;
 
-    lcd_interrupt_cnt = 0;
-
     SCI1->SIO20 = buf[0]; /* started by writing data to SDR[7:0] */
 }
 
-void Hal_Lcd_Send_Single_Data(uint8_t dat )
+void Hal_Lcd_Spi_Send_One_Byte(uint8_t dat )
 {
     SCI1->SOE1 |= _0001_SCI_CH0_OUTPUT_ENABLE;
     SCI1->SS1 |= _0001_SCI_CH0_START_TRG_ON;
@@ -153,13 +150,9 @@ void Hal_Lcd_Isr_Handler(void )
     if(lcdClrReqFlag)
     {
         lcdClrReqFlag = 0;
-
-        lcd_interrupt_cnt = 0;
         
 		LCD_CS_HIGH();
-
-        lcd_interrupt_cnt = 0;
-
+        
         if(lcd_isr_callback != NULL)
         {
             lcd_isr_callback();

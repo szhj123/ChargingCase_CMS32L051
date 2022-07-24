@@ -4,6 +4,7 @@
 #include "drv_lcd.h"
 
 void App_Lcd_Init(void );
+void App_Lcd_Show_Picture(void );
 
 #endif 
 

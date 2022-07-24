@@ -1,0 +1,5 @@
+---- lcd_interrupt_cnt Matches (4 in 1 files) ----
+hal_lcd.c (application\User\Hal) line 22 : static uint8_t lcd_interrupt_cnt = 0;
+Hal_Lcd_Set_BgColor in hal_lcd.c (application\User\Hal) :     lcd_interrupt_cnt = 0;
+Hal_Lcd_Isr_Handler in hal_lcd.c (application\User\Hal) :         lcd_interrupt_cnt = 0;
+Hal_Lcd_Isr_Handler in hal_lcd.c (application\User\Hal) :         lcd_interrupt_cnt = 0;

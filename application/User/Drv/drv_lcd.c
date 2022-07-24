@@ -17,7 +17,6 @@
 /* Private macro ---------------------------------------*/
 /* Private function ---------------------------------- --*/
 /* Private variables ------------------------------------*/
-static uint8_t picBuf[2048];
 
 void Drv_Lcd_Init(void )
 {
@@ -153,13 +152,13 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0); // Start col address
     Drv_Lcd_Wr_Data(0);
     Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(79); // End col address
+    Drv_Lcd_Wr_Data(120); // End col address
 
     Drv_Lcd_Wr_Cmd(0x2b); // Set page address
     Drv_Lcd_Wr_Data(0); // Start col address
     Drv_Lcd_Wr_Data(0);
     Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(159); //159 End col address
+    Drv_Lcd_Wr_Data(160); //159 End col address
 
     Drv_Lcd_Wr_Cmd(0x83);
     Drv_Lcd_Wr_Data(0x00);
@@ -173,13 +172,10 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Cmd(0x29);
     
-    //Drv_Lcd_Clr(0xF800);
-    Drv_Lcd_Clr(0x00f8, NULL);
+    Drv_Lcd_Clr(0x0000);
     
     Drv_LCD_BackLed_On();
 }
-
-#if 0
 void Drv_Lcd_Clr(uint16_t color)
 {
 	uint16_t i,j;
@@ -194,29 +190,21 @@ void Drv_Lcd_Clr(uint16_t color)
 	{
 	    for(j=0;j<LCD_H;j++)
 		{    
-			Hal_Lcd_Send_Single_Data(color>>8);
-			Hal_Lcd_Send_Single_Data(color);
+			Hal_Lcd_Spi_Send_One_Byte(color>>8);
+			Hal_Lcd_Spi_Send_One_Byte(color);
 		}
 	}
 
     LCD_CS_HIGH();
 }
-#else
-void Drv_Lcd_Clr(uint16_t color, Hal_Isr_Callback_t callback )
-{
-    uint16_t i;
-    uint16_t *u16DataPtr = (uint16_t *)picBuf;
 
-    for(i=0;i<1024;i++)
-    {
-        *u16DataPtr++ = color;
-    }
-    
+
+void Drv_Lcd_Show_Picture(const uint8_t *buf, uint32_t length, Hal_Isr_Callback_t callback )
+{
     Drv_Lcd_Set_Position(0,0, LCD_W-1,LCD_H-1);
 
-    Hal_Lcd_Set_BgColor(picBuf, sizeof(picBuf), callback );
+    Hal_Lcd_Spi_Send_With_DMA(buf, length, callback);
 }
-#endif 
 
 
 void Drv_Lcd_Set_Position(uint16_t startX, uint16_t startY, uint16_t endX, uint16_t endY )
@@ -243,7 +231,7 @@ void Drv_Lcd_Wr_Cmd(uint8_t cmd )
 
     LCD_RS_LOW();
 
-    Hal_Lcd_Send_Single_Data(cmd);
+    Hal_Lcd_Spi_Send_One_Byte(cmd);
 
     LCD_CS_HIGH();
     
@@ -255,7 +243,7 @@ void Drv_Lcd_Wr_Data(uint8_t dat )
 
     LCD_RS_HIGH();
 
-    Hal_Lcd_Send_Single_Data(dat);
+    Hal_Lcd_Spi_Send_One_Byte(dat);
 
     LCD_CS_HIGH();
 }

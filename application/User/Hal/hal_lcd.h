@@ -3,8 +3,8 @@
 
 #include "hal_cms32l051.h"
 
-#define LCD_W 121u
-#define LCD_H 161u
+#define LCD_W 100
+#define LCD_H 161
 
 #define PIC_MAX_SIZE (LCD_W * LCD_H * 2)
 
@@ -23,9 +23,9 @@
 
 
 void Hal_Lcd_Init(void );
-void Hal_Lcd_Send_Single_Data(uint8_t dat );
+void Hal_Lcd_Spi_Send_One_Byte(uint8_t dat );
 void Hal_Lcd_Send_With_Loop(uint8_t *buf, uint16_t length );
-void Hal_Lcd_Set_BgColor(uint8_t *pBuf, uint16_t length, Hal_Isr_Callback_t callback );
+void Hal_Lcd_Spi_Send_With_DMA(const uint8_t *pBuf, uint16_t length, Hal_Isr_Callback_t callback );
 void Hal_Lcd_Isr_Handler(void );
 
 #endif 
