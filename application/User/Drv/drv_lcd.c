@@ -12,6 +12,7 @@
 /* Includes ---------------------------------------------*/
 #include "drv_lcd.h"
 #include "drv_timer.h"
+#include "drv_lcd_font.h"
 /* Private typedef --------------------------------------*/
 /* Private define ------------------ ------------------- -*/
 /* Private macro ---------------------------------------*/
@@ -152,13 +153,13 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0); // Start col address
     Drv_Lcd_Wr_Data(0);
     Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(120); // End col address
+    Drv_Lcd_Wr_Data(132); // End col address
 
     Drv_Lcd_Wr_Cmd(0x2b); // Set page address
     Drv_Lcd_Wr_Data(0); // Start col address
     Drv_Lcd_Wr_Data(0);
     Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(160); //159 End col address
+    Drv_Lcd_Wr_Data(162); //159 End col address
 
     Drv_Lcd_Wr_Cmd(0x83);
     Drv_Lcd_Wr_Data(0x00);
@@ -175,25 +176,58 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Clr(0x0000);
     
     Drv_LCD_BackLed_On();
+
+    Drv_Lcd_Show_String(32, 10, "100%", 0xffff, 0x0000, 32, 0);
+
+    Drv_Lcd_Fill(40, 55, 55, 60, 0xffff);
+    Drv_Lcd_Draw_Rectangle(35, 60, 60, 120, 0xffff);
+
+    Drv_Lcd_Fill(80, 55, 95, 60, 0xffff);
+    Drv_Lcd_Draw_Rectangle(75, 60, 100, 120, 0xffff);
+
+    Drv_Lcd_Fill(40, 65, 56, 73, 0x1f00);
+    Drv_Lcd_Fill(40, 76, 56, 84, 0x1f00);
+    Drv_Lcd_Fill(40, 87, 56, 95, 0x1f00);
+    Drv_Lcd_Fill(40, 98, 56, 106, 0x1f00);
+    Drv_Lcd_Fill(40, 109, 56, 117, 0xf800);
+
+    Drv_Lcd_Fill(80, 65, 96, 73, 0x1f00);
+    Drv_Lcd_Fill(80, 76, 96, 84, 0x1f00);
+    Drv_Lcd_Fill(80, 87, 96, 95, 0x1f00);
+    Drv_Lcd_Fill(80, 98, 96, 106, 0x1f00);
+    Drv_Lcd_Fill(80, 109, 96, 117, 0xf800);
 }
+
 void Drv_Lcd_Clr(uint16_t color)
 {
 	uint16_t i,j;
 
-	Drv_Lcd_Set_Position(0,0, LCD_W-1,LCD_H-1);
+	Drv_Lcd_Set_Position(0, 0, LCD_W-1,LCD_H-1);
 
     LCD_CS_LOW();
 
 	LCD_RS_HIGH();
 
-	for(i=0;i<LCD_W;i++)
+	for(i=0;i<LCD_H;i++)
 	{
-	    for(j=0;j<LCD_H;j++)
+	    for(j=0;j<LCD_W;j++)
 		{    
 			Hal_Lcd_Spi_Send_One_Byte(color>>8);
 			Hal_Lcd_Spi_Send_One_Byte(color);
 		}
 	}
+    
+    LCD_CS_HIGH();
+}
+
+void Drv_Lcd_Wr_Color(uint16_t dat)
+{
+    LCD_CS_LOW();
+
+	LCD_RS_HIGH();
+
+    Hal_Lcd_Spi_Send_One_Byte(dat>>8);
+    Hal_Lcd_Spi_Send_One_Byte(dat);
 
     LCD_CS_HIGH();
 }
@@ -201,7 +235,7 @@ void Drv_Lcd_Clr(uint16_t color)
 
 void Drv_Lcd_Show_Picture(const uint8_t *buf, uint32_t length, Hal_Isr_Callback_t callback )
 {
-    Drv_Lcd_Set_Position(0,0, LCD_W-1,LCD_H-1);
+    Drv_Lcd_Set_Position(80,100, 107-1, 150-1);
 
     Hal_Lcd_Spi_Send_With_DMA(buf, length, callback);
 }
@@ -268,4 +302,150 @@ void Drv_Lcd_Delay_Us(uint16_t us )
         for(i=0;i<48;i++);
     }
 }
+
+void Drv_Lcd_Fill(uint16_t xsta,uint16_t ysta,uint16_t xend,uint16_t yend,uint16_t color)
+{          
+	uint16_t i,j; 
+    
+	Drv_Lcd_Set_Position(xsta,ysta,xend-1,yend-1);
+    
+	for(i=ysta;i<yend;i++)
+	{													   	 	
+		for(j=xsta;j<xend;j++)
+		{
+			Drv_Lcd_Wr_Color(color);
+		}
+	} 					  	    
+}
+
+void Drv_Lcd_Draw_Point(uint16_t x,uint16_t y,uint16_t color)
+{
+	Drv_Lcd_Set_Position(x,y,x,y);
+	
+	Drv_Lcd_Wr_Color(color);
+} 
+
+void Drv_Lcd_Draw_Line(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
+{
+	uint16_t t; 
+	int xerr=0,yerr=0,delta_x,delta_y,distance;
+	int incx,incy,uRow,uCol;
+	delta_x=x2-x1; 
+	delta_y=y2-y1;
+	uRow=x1;
+	uCol=y1;
+	if(delta_x>0)incx=1; 
+	else if (delta_x==0)incx=0;
+	else {incx=-1;delta_x=-delta_x;}
+	if(delta_y>0)incy=1;
+	else if (delta_y==0)incy=0;
+	else {incy=-1;delta_y=-delta_y;}
+	if(delta_x>delta_y)distance=delta_x; 
+	else distance=delta_y;
+	for(t=0;t<distance+1;t++)
+	{
+		Drv_Lcd_Draw_Point(uRow,uCol,color);
+		xerr+=delta_x;
+		yerr+=delta_y;
+		if(xerr>distance)
+		{
+			xerr-=distance;
+			uRow+=incx;
+		}
+		if(yerr>distance)
+		{
+			yerr-=distance;
+			uCol+=incy;
+		}
+	}
+}
+
+void Drv_Lcd_Draw_Rectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,uint16_t color)
+{
+	Drv_Lcd_Draw_Line(x1,y1,x2,y1,color);
+	Drv_Lcd_Draw_Line(x1,y1,x1,y2,color);
+	Drv_Lcd_Draw_Line(x1,y2,x2,y2,color);
+	Drv_Lcd_Draw_Line(x2,y1,x2,y2,color);
+}
+
+void Drv_Lcd_Show_Char(uint16_t x,uint16_t y,uint8_t num,uint16_t fc,uint16_t bc,uint8_t sizey,uint8_t mode)
+{
+	uint8_t temp,sizex,t,m=0;
+	uint16_t i,TypefaceNum;//Ò»¸ö×Ö·ûËùÕ¼×Ö½Ú´óÐ¡
+	uint16_t x0=x;
+	sizex=sizey/2;
+	TypefaceNum=(sizex/8+((sizex%8)?1:0))*sizey;
+	num=num-' ';    //µÃµ½Æ«ÒÆºóµÄÖµ
+	Drv_Lcd_Set_Position(x,y,x+sizex-1,y+sizey-1);  //ÉèÖÃ¹â±êÎ»ÖÃ 
+	for(i=0;i<TypefaceNum;i++)
+	{ 
+		temp=ascii_3216[num][i];		 //µ÷ÓÃ16x32×ÖÌå
+
+		for(t=0;t<8;t++)
+		{
+			if(!mode)//·Çµþ¼ÓÄ£Ê½
+			{
+				if(temp&(0x01<<t))Drv_Lcd_Wr_Color(fc);
+				else Drv_Lcd_Wr_Color(bc);
+				m++;
+				if(m%sizex==0)
+				{
+					m=0;
+					break;
+				}
+			}
+			else//µþ¼ÓÄ£Ê½
+			{
+				if(temp&(0x01<<t))Drv_Lcd_Draw_Point(x,y,fc);
+				x++;
+				if((x-x0)==sizex)
+				{
+					x=x0;
+					y++;
+					break;
+				}
+			}
+		}
+	}   	 	  
+}
+
+uint32_t mypow(uint8_t m,uint8_t n)
+{
+	uint32_t result=1;	 
+	while(n--)result*=m;
+	return result;
+}
+
+void Drv_Lcd_Show_String(uint16_t x,uint16_t y,const uint8_t *p,uint16_t fc,uint16_t bc,uint8_t sizey,uint8_t mode)
+{         
+	while(*p!='\0')
+	{       
+		Drv_Lcd_Show_Char(x,y,*p,fc,bc,sizey,mode);
+		x+=sizey/2;
+		p++;
+	}  
+}
+
+void Drv_Lcd_Show_IntNum(uint16_t x,uint16_t y,uint16_t num,uint8_t len,uint16_t fc,uint16_t bc,uint8_t sizey )
+{         	
+	uint8_t t,temp;
+	uint8_t enshow=0;
+	uint8_t sizex=sizey/2;
+	for(t=0;t<len;t++)
+	{
+		temp=(num/mypow(10,len-t-1))%10;
+		if(enshow==0&&t<(len-1))
+		{
+			if(temp==0)
+			{
+				Drv_Lcd_Show_Char(x+t*sizex,y,' ',fc,bc,sizey,0);
+				continue;
+			}else enshow=1; 
+		 	 
+		}
+        
+	 	Drv_Lcd_Show_Char(x+t*sizex,y,temp+48,fc,bc,sizey,0);
+	}
+} 
+
 

@@ -13,7 +13,7 @@
 #include "drv_timer.h"
 
 #include "app_lcd.h"
-#include "app_lcd_picture.h"
+#include "drv_lcd_picture.h"
 
 /* Private typedef --------------------------------------*/
 /* Private define ------------------ ------------------- -*/
@@ -31,7 +31,7 @@ void App_Lcd_Init(void )
 
 void App_Lcd_Show_Picture(void )
 {
-    Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
+    Drv_Lcd_Show_Picture(gImage_bt_logo, sizeof(gImage_bt_logo), App_Lcd_Show_Picture_End_Callback);
 }
 
 static void App_Lcd_Show_Picture_End_Callback(void )

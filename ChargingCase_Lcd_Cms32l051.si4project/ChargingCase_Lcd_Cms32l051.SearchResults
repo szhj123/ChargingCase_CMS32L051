@@ -1,5 +1,3 @@
----- lcd_interrupt_cnt Matches (4 in 1 files) ----
-hal_lcd.c (application\User\Hal) line 22 : static uint8_t lcd_interrupt_cnt = 0;
-Hal_Lcd_Set_BgColor in hal_lcd.c (application\User\Hal) :     lcd_interrupt_cnt = 0;
-Hal_Lcd_Isr_Handler in hal_lcd.c (application\User\Hal) :         lcd_interrupt_cnt = 0;
-Hal_Lcd_Isr_Handler in hal_lcd.c (application\User\Hal) :         lcd_interrupt_cnt = 0;
+---- gImage_pic Matches (3 in 2 files) ----
+App_Lcd_Show_Picture in app_lcd.c (application\User\App) :     Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
+app_lcd_picture.h (application\User\App) line 4 : const unsigned char gImage_pic[12000] = { /* 0X10,0X10,0X00,0X64,0X00,0X3C,0X01,0X1B, */

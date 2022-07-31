@@ -3,8 +3,8 @@
 
 #include "hal_cms32l051.h"
 
-#define LCD_W 100
-#define LCD_H 161
+#define LCD_W 132
+#define LCD_H 162
 
 #define PIC_MAX_SIZE (LCD_W * LCD_H * 2)
 
