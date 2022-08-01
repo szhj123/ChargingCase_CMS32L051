@@ -177,25 +177,37 @@ void Drv_Lcd_Init(void )
     
     Drv_LCD_BackLed_On();
 
-    Drv_Lcd_Show_String(32, 10, "100%", 0xffff, 0x0000, 32, 0);
+    Drv_Lcd_Show_String(32, 10, "100%", WHITE, BLACK, 32, 0);
 
-    Drv_Lcd_Fill(40, 55, 55, 60, 0xffff);
-    Drv_Lcd_Draw_Rectangle(35, 60, 60, 120, 0xffff);
+    Drv_Lcd_Fill(35, 50, 50, 55, WHITE);
+    Drv_Lcd_Draw_Rectangle(30, 55, 55, 115, WHITE);
 
-    Drv_Lcd_Fill(80, 55, 95, 60, 0xffff);
-    Drv_Lcd_Draw_Rectangle(75, 60, 100, 120, 0xffff);
+    Drv_Lcd_Fill(85, 50, 100, 55, WHITE);
+    Drv_Lcd_Draw_Rectangle(80, 55, 105, 115, WHITE);
 
-    Drv_Lcd_Fill(40, 65, 56, 73, 0x1f00);
-    Drv_Lcd_Fill(40, 76, 56, 84, 0x1f00);
-    Drv_Lcd_Fill(40, 87, 56, 95, 0x1f00);
-    Drv_Lcd_Fill(40, 98, 56, 106, 0x1f00);
-    Drv_Lcd_Fill(40, 109, 56, 117, 0xf800);
+    Drv_Lcd_Fill(35, 60, 51, 68, GREEN);
+    Drv_Lcd_Fill(35, 71, 51, 79, GREEN);
+    Drv_Lcd_Fill(35, 82, 51, 90, GREEN);
+    Drv_Lcd_Fill(35, 93, 51, 101, GREEN);
+    Drv_Lcd_Fill(35, 104, 51, 112, RED);
 
-    Drv_Lcd_Fill(80, 65, 96, 73, 0x1f00);
-    Drv_Lcd_Fill(80, 76, 96, 84, 0x1f00);
-    Drv_Lcd_Fill(80, 87, 96, 95, 0x1f00);
-    Drv_Lcd_Fill(80, 98, 96, 106, 0x1f00);
-    Drv_Lcd_Fill(80, 109, 96, 117, 0xf800);
+    Drv_Lcd_Fill(85, 60, 101, 68, GREEN);
+    Drv_Lcd_Fill(85, 71, 101, 79, GREEN);
+    Drv_Lcd_Fill(85, 82, 101, 90, GREEN);
+    Drv_Lcd_Fill(85, 93, 101, 101, GREEN);
+    Drv_Lcd_Fill(85, 104, 101, 112, RED);
+
+    Drv_Lcd_Show_String(32, 125, "L", WHITE, BLACK, 32, 0);
+    Drv_Lcd_Draw_Rectangle(30, 125, 50, 156, WHITE);
+
+    Drv_Lcd_Show_String(86, 125, "R", WHITE, BLACK, 32, 0);
+    Drv_Lcd_Draw_Rectangle(84, 125, 104, 156, WHITE);
+
+    Drv_Lcd_Draw_Line(60, 130, 75, 150, BLUE);
+    Drv_Lcd_Draw_Line(60, 150, 75, 130, BLUE);
+    Drv_Lcd_Draw_Line(68, 125, 68, 155, BLUE);
+    Drv_Lcd_Draw_Line(68, 125, 75, 130, BLUE);
+    Drv_Lcd_Draw_Line(68, 155, 75, 150, BLUE);
 }
 
 void Drv_Lcd_Clr(uint16_t color)

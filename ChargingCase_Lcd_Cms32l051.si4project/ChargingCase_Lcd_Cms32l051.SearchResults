@@ -1,3 +1,3 @@
----- gImage_pic Matches (3 in 2 files) ----
-App_Lcd_Show_Picture in app_lcd.c (application\User\App) :     Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
-app_lcd_picture.h (application\User\App) line 4 : const unsigned char gImage_pic[12000] = { /* 0X10,0X10,0X00,0X64,0X00,0X3C,0X01,0X1B, */
+---- Cms32l051_Adc_Read_InterVol Matches (2 in 2 files) ----
+Hal_Batt_Init in hal_battery.c (application\User\Hal) :     Cms32l051_Adc_Read_InterVol();
+hal_cms32l051.h (application\User\Hal) line 25 : void Cms32l051_Adc_Read_InterVol(void );

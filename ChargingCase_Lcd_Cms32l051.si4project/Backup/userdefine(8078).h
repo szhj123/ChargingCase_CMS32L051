@@ -852,10 +852,10 @@ typedef enum
 
 /* ToDo: You can allocate the SS20 to any desired pins */
 #define SS20_PORT_SETTING() do{ \
-        PORT->P12CFG = 0x00;         /* P63 default GPIO function */ \
-        PORT->P12  |=  (1 << 0);     /* P63 output high level */ \
-        PORT->PM12  &= ~(1 << 0);     /* P63 is used as SS20 output */ \
-        PORT->PMC12 &= ~(1 << 0);     /* P63 digital function */ \
+        PORT->P120CFG = 0x00;         /* P120 default GPIO function */ \
+        PORT->P12   |=  (1 << 0);     /* P120 output high level */ \
+        PORT->PM12  &= ~(1 << 0);     /* P120 is used as SS20 output */ \
+        PORT->PMC12 &= ~(1 << 0);     /* P120 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SS20 to any desired pins */
@@ -877,11 +877,11 @@ typedef enum
 
 /* ToDo: You can allocate the SCLKO20 to any desired pins with PxxCFG register */
 #define SCLKO20_PORT_SETTING() do{ \
-        PORT->P10CFG = 0x09;        /* allocate SCLK20 to P15 */ \
-        PORT->P1   |=  (1 << 0);    /* P15 output high level */ \
-        PORT->PM1  &= ~(1 << 0);    /* P15 is used as SCLK20 output */ \
-        PORT->POM1 &= ~(1 << 0);    /* P15 is normal output mode */ \
-        PORT->PMC1 &= ~(1 << 0);    /* P15 digital function */ \
+        PORT->P10CFG = 0x09;        /* allocate SCLK20 to P10 */ \
+        PORT->P1   |=  (1 << 0);    /* P10 output high level */ \
+        PORT->PM1  &= ~(1 << 0);    /* P10 is used as SCLK20 output */ \
+        PORT->POM1 &= ~(1 << 0);    /* P10 is normal output mode */ \
+        PORT->PMC1 &= ~(1 << 0);    /* P10 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SDO20 to any desired pins with PxxCFG register */

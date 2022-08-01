@@ -26,7 +26,7 @@ void App_Lcd_Init(void )
 {
     Drv_Lcd_Init();
 
-    App_Lcd_Show_Picture();
+    //App_Lcd_Show_Picture();
 }
 
 void App_Lcd_Show_Picture(void )

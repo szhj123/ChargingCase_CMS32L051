@@ -383,6 +383,7 @@ typedef enum
   */
 
 /* ToDo: Please comment out the following unused ANIx setting according to your application needs. */
+#if 0
 #define ADC_PORT_SETTING() do{ \
         PORT->PMC2 |= (1 << 0);   /* Set ANI0(P20) pin: It is necessary for ADC_VREF_AVREFP_AVREFM, used as AVREFP */ \
         PORT->PMC2 |= (1 << 1);   /* Set ANI1(P21) pin: It is necessary for ADC_VREF_AVREFP_AVREFM, used as AVREFM */ \
@@ -422,6 +423,13 @@ typedef enum
         PORT->PMC13|= (1 << 0);   /* Set ANI35(P130) pin */ \
         PORT->PMC13|= (1 << 6);   /* Set ANI36(P136) pin */ \
 }while(0)
+#else
+#define ADC_PORT_SETTING() do{ \
+        PORT->PMC7 |= (1 << 3);   /* Set ANI32(P73) pin */ \
+        PORT->PMC7 |= (1 << 4);   /* Set ANI33(P74) pin */ \
+}while(0)
+
+#endif 
 
 /* ================================================================================================================== */
 /* ================                                        CMP                                       ================ */
@@ -852,10 +860,10 @@ typedef enum
 
 /* ToDo: You can allocate the SS20 to any desired pins */
 #define SS20_PORT_SETTING() do{ \
-        PORT->P63CFG = 0x00;         /* P63 default GPIO function */ \
-        PORT->P6   |=  (1 << 3);     /* P63 output high level */ \
-        PORT->PM6  &= ~(1 << 3);     /* P63 is used as SS20 output */ \
-        PORT->PMC6 &= ~(1 << 3);     /* P63 digital function */ \
+        PORT->P120CFG = 0x00;         /* P120 default GPIO function */ \
+        PORT->P12   |=  (1 << 0);     /* P120 output high level */ \
+        PORT->PM12  &= ~(1 << 0);     /* P120 is used as SS20 output */ \
+        PORT->PMC12 &= ~(1 << 0);     /* P120 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SS20 to any desired pins */
@@ -877,20 +885,20 @@ typedef enum
 
 /* ToDo: You can allocate the SCLKO20 to any desired pins with PxxCFG register */
 #define SCLKO20_PORT_SETTING() do{ \
-        PORT->P15CFG = 0x09;        /* allocate SCLK20 to P15 */ \
-        PORT->P1   |=  (1 << 5);    /* P15 output high level */ \
-        PORT->PM1  &= ~(1 << 5);    /* P15 is used as SCLK20 output */ \
-        PORT->POM1 &= ~(1 << 5);    /* P15 is normal output mode */ \
-        PORT->PMC1 &= ~(1 << 5);    /* P15 digital function */ \
+        PORT->P10CFG = 0x09;        /* allocate SCLK20 to P10 */ \
+        PORT->P1   |=  (1 << 0);    /* P10 output high level */ \
+        PORT->PM1  &= ~(1 << 0);    /* P10 is used as SCLK20 output */ \
+        PORT->POM1 &= ~(1 << 0);    /* P10 is normal output mode */ \
+        PORT->PMC1 &= ~(1 << 0);    /* P10 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SDO20 to any desired pins with PxxCFG register */
 #define SDO20_PORT_SETTING() do{ \
-        PORT->P13CFG = 0x06;        /* allocate SDO20 to P13 */ \
-        PORT->P1   |=  (1 << 3);    /* P13 output high level */ \
-        PORT->PM1  &= ~(1 << 3);    /* P13 is used as SDO20 output */ \
-        PORT->POM1 &= ~(1 << 3);    /* P13 is normal output mode */ \
-        PORT->PMC1 &= ~(1 << 3);    /* P13 digital function */ \
+        PORT->P11CFG = 0x06;        /* allocate SDO20 to P11 */ \
+        PORT->P1   |=  (1 << 1);    /* P11 output high level */ \
+        PORT->PM1  &= ~(1 << 1);    /* P11 is used as SDO20 output */ \
+        PORT->POM1 &= ~(1 << 1);    /* P11 is normal output mode */ \
+        PORT->PMC1 &= ~(1 << 1);    /* P11 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SDI20 to any desired pins with SDI20PCFG register */

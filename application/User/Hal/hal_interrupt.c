@@ -22,6 +22,9 @@ void IRQ17_Handler(void) __attribute__((alias("tm40_channel0_interrupt")));
 void IRQ11_Handler(void) __attribute__((alias("uart0_interrupt_receive")));
 void IRQ10_Handler(void) __attribute__((alias("uart0_interrupt_send")));
 void IRQ07_Handler(void) __attribute__((alias("spi20_interrupt")));
+void IRQ02_Handler(void) __attribute__((alias("intp_1_interrupt")));
+void IRQ03_Handler(void) __attribute__((alias("intp_2_interrupt")));
+
 /* Private variables ------------------------------------*/
 
 void SysTick_Handler(void )
@@ -60,6 +63,16 @@ void spi20_interrupt(void)
     }
 
     Hal_Lcd_Isr_Handler();
+}
+
+void intp_1_interrupt(void)
+{
+    INTC_ClearPendingIRQ(INTP1_IRQn);
+}
+
+void intp_2_interrupt(void)
+{
+    INTC_ClearPendingIRQ(INTP2_IRQn);
 }
 
 

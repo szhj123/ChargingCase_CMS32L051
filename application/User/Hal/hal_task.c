@@ -20,9 +20,7 @@ Hal_Isr_Callback_t hal_systick_isr_callback = NULL;
 
 void Hal_Task_Init(void )
 {
-    SystemCoreClockUpdate();
-
-    SysTick_Config(SystemCoreClock / 1000);
+    Cms32l051_Systick_Init();
 
 }
 

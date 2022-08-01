@@ -27,11 +27,7 @@ static uint16_t txLength;
 
 void Hal_Com_Init(void )
 {
-    SystemCoreClockUpdate();
-
-    UART0_Init(SystemCoreClock, 115200);
-
-    INTC_EnableIRQ(SR0_IRQn);
+    Cms32l051_Uart0_Init();
 }
 
 void Hal_Com_Regist_Rx_Callback(hal_com_rx_end_callback_t callback )
