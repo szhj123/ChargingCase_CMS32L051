@@ -35,7 +35,6 @@ void Cms32l051_Gpio_Init(void )
     PORT_Init(PORT2, PIN0, OUTPUT);
 
     PORT_SetBit(PORT2, PIN2);
-    PORT_SetBit(PORT2, PIN0);
     
     //p147, lcd background led, output
     //p136, lcd rst, output
