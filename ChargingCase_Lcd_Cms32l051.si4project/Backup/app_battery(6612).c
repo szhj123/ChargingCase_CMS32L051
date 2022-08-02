@@ -426,14 +426,7 @@ static void App_Batt_Event_Handler(void *arg )
     
     if(Drv_Batt_Get_Usb_State() == USB_PLUG_OUT)
     {
-        if(battLevel < 20)
-        {
-            App_Lcd_Set_BattLevel_Flash(battLevel, RED);
-        }
-        else
-        {
-            App_Lcd_Set_BattLevel_Solid(battLevel);
-        }
+        App_Lcd_Set_BattLevel_Solid(battLevel);
     }
 
     App_Lcd_Set_EarbudChg_L_Flash();
