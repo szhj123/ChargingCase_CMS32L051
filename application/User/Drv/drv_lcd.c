@@ -177,6 +177,8 @@ void Drv_Lcd_Init(void )
     
     Drv_LCD_BackLed_On();
 
+    #if 0
+
     Drv_Lcd_Show_String(32, 10, "100%", WHITE, BLACK, 32, 0);
 
     Drv_Lcd_Fill(35, 50, 50, 55, WHITE);
@@ -208,6 +210,7 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Draw_Line(68, 125, 68, 155, BLUE);
     Drv_Lcd_Draw_Line(68, 125, 75, 130, BLUE);
     Drv_Lcd_Draw_Line(68, 155, 75, 150, BLUE);
+    #endif 
 }
 
 void Drv_Lcd_Clr(uint16_t color)

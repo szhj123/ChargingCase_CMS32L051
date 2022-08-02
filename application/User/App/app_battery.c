@@ -11,12 +11,19 @@
 
 /* Includes ---------------------------------------------*/
 #include "app_battery.h"
+#include "app_lcd.h"
 #include "drv_task.h"
+#include "drv_event.h"
 /* Private typedef --------------------------------------*/
 /* Private define ------------------ --------------------*/
 #define ADC_DET_COUNT                100  
 /* Private macro ---------------------------------------*/
 /* Private function ---------------------------------- --*/
+static void App_Batt_Handler(void *arg );
+static void App_Batt_Discharging_Handler(void );
+static void App_Batt_Charging_Handler(void );
+static void Drv_Batt_Adc_Sample(uint8_t *battSampleEndFlag );
+static void App_Batt_Event_Handler(void *arg );
 /* Private variables ------------------------------------*/
 batt_para_t battPara;
 
@@ -24,7 +31,7 @@ void App_Batt_Init(void )
 {
     Drv_Batt_Init();
 
-    Drv_Task_Regist_Period(App_Batt_Handler, 0, 100, NULL);
+    Drv_Task_Regist_Period(App_Batt_Handler, 0, 1, NULL);
 }
 
 static void App_Batt_Handler(void *arg )
@@ -107,14 +114,24 @@ static void App_Batt_Discharging_Handler(void )
         {
             saveBattLevel = App_Batt_Get_Level();
 
-            saveEarbudChg_l = App_Earbud_Get_Chg_State_L();
+            saveEarbudChg_l = App_Earbud_Get_ChgState_L();
 
-            saveEarbudChg_r = App_Earbud_Get_Chg_State_R();
+            saveEarbudChg_r = App_Earbud_Get_ChgState_R();
+
+            App_Batt_Send_Event();
+
+            battPara.dischgState = DISCH_STATE_HANDLER;
             
             break;
         }
         case DISCH_STATE_HANDLER:
         {
+            if(saveBattLevel != App_Batt_Get_Level())
+            {
+                saveBattLevel = App_Batt_Get_Level();
+
+                App_Batt_Send_Event();
+            }
             break;
         }
         default: break;
@@ -126,7 +143,7 @@ static void App_Batt_Charging_Handler(void )
     
 }
 
-uint16_t App_Batt_Get_Level(void )
+batt_level_state_t App_Batt_Get_Level(void )
 {
     static const uint8_t battErrVol = 25; //ms
     
@@ -142,7 +159,7 @@ uint16_t App_Batt_Get_Level(void )
         }
         else if(battPara.battVol >=BATT_VOL_70 && battPara.battVol < BATT_VOL_80)
         {
-            battPara.battLevel = BATT_LEVEL70;
+            battPara.battLevel = BATT_LEVEL_70;
         }
         else if(battPara.battVol >=BATT_VOL_60 && battPara.battVol < BATT_VOL_70)
         {
@@ -195,10 +212,168 @@ uint16_t App_Batt_Get_Level(void )
         }
         else if(battPara.battLevel == BATT_LEVEL_90)
         {
-            
+            if(battPara.battVol < (BATT_VOL_90 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_80;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_80)
+        {
+            if(battPara.battVol < (BATT_VOL_80 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_70;
+            }
+            else if(battPara.battVol > (BATT_VOL_90 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_90;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_70)
+        {
+            if(battPara.battVol < (BATT_VOL_70 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_60;
+            }
+            else if(battPara.battVol > (BATT_VOL_80 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_80;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_60)
+        {
+            if(battPara.battVol < (BATT_VOL_60 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_50;
+            }
+            else if(battPara.battVol > (BATT_VOL_70 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_70;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_50)
+        {
+            if(battPara.battVol < (BATT_VOL_50 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_40;
+            }
+            else if(battPara.battVol > (BATT_VOL_60 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_60;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_40)
+        {
+            if(battPara.battVol < (BATT_VOL_40 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_30;
+            }
+            else if(battPara.battVol > (BATT_VOL_50 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_50;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_30)
+        {
+            if(battPara.battVol < (BATT_VOL_30 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_20;
+            }
+            else if(battPara.battVol > (BATT_VOL_40 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_40;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_20)
+        {
+            if(battPara.battVol < (BATT_VOL_20 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_10;
+            }
+            else if(battPara.battVol > (BATT_VOL_30 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_30;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_10)
+        {
+            if(battPara.battVol < (BATT_VOL_10 - battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_5;
+            }
+            else if(battPara.battVol > (BATT_VOL_20 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_20;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_5)
+        {
+            if(battPara.battVol < BATT_VOL_0)
+            {
+                battPara.battLevel = BATT_LEVEL_0;
+            }
+            else if(battPara.battVol > (BATT_VOL_10 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_10;
+            }
+        }
+        else if(battPara.battLevel == BATT_LEVEL_0)
+        {
+            if(battPara.battVol > (BATT_VOL_5 + battErrVol))
+            {
+                battPara.battLevel = BATT_LEVEL_5;
+            }
         }
     }
+
+    return battPara.battLevel;
 }
+
+earbud_chg_state_t App_Earbud_Get_ChgState_L(void )
+{
+    static const uint8_t curErr = 5;//ma
+    
+    if(battPara.earbudChgState_l == EARBUD_CHG_PROCEE)
+    {
+        if(battPara.earbudCur_l < EARBUD_MIN_CUR)
+        {
+            battPara.earbudChgState_l = EARBUD_CHG_DONE;
+        }
+    }
+    else
+    {
+        if(battPara.earbudCur_l > (EARBUD_MIN_CUR + curErr))
+        {
+            battPara.earbudChgState_l = EARBUD_CHG_PROCEE;
+        }
+    }
+
+    
+    return battPara.earbudChgState_l;
+}
+
+earbud_chg_state_t App_Earbud_Get_ChgState_R(void )
+{
+    static const uint8_t curErr = 5;//ma
+    
+    if(battPara.earbudChgState_r == EARBUD_CHG_PROCEE)
+    {
+        if(battPara.earbudCur_r < EARBUD_MIN_CUR)
+        {
+            battPara.earbudChgState_r = EARBUD_CHG_DONE;
+        }
+    }
+    else
+    {
+        if(battPara.earbudCur_r > (EARBUD_MIN_CUR + curErr))
+        {
+            battPara.earbudChgState_r = EARBUD_CHG_PROCEE;
+        }
+    }
+		
+		return battPara.earbudChgState_r;
+}
+
+
 
 void App_Batt_Set_BatVol(uint16_t battVol )
 {
@@ -230,4 +405,33 @@ uint16_t App_Earbud_Get_Cur_R(void )
     return battPara.earbudCur_r;
 }
 
+void App_Batt_Send_Event(void )
+{
+    uint8_t buf[3] = {0};
+
+    buf[0] = (uint8_t )App_Batt_Get_Level();
+    buf[1] = (uint8_t )App_Earbud_Get_ChgState_L();
+    buf[2] = (uint8_t )App_Earbud_Get_ChgState_R();
+
+    Drv_Msg_Queue_Put(App_Batt_Event_Handler, BATT_CMD, buf, sizeof(buf));
+}
+
+static void App_Batt_Event_Handler(void *arg )
+{
+    msg_t *msg = (msg_t *)arg; 
+
+    uint8_t battLevel = msg->buf[0];
+    earbud_chg_state_t earbudChgStateL= (earbud_chg_state_t )msg->buf[1];
+    earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[2];
+    
+    if(Drv_Batt_Get_Usb_State() == USB_PLUG_OUT)
+    {
+        App_Lcd_Set_BattLevel_Solid(battLevel);
+    }
+
+    App_Lcd_Set_EarbudChg_L_Flash();
+
+    App_Lcd_Set_EarbudChg_R_Flash();
+    
+}
 

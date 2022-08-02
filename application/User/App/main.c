@@ -32,13 +32,13 @@ int main(void )
 
     App_Msg_Init();
 
-    App_Batt_Init();
-    
-    App_Com_Init();
-
     App_Lcd_Init();
 
-    App_Led_Init();
+    App_Batt_Init();
+    
+    //App_Com_Init();
+
+    //App_Led_Init();
     
 	while(1)
 	{	
