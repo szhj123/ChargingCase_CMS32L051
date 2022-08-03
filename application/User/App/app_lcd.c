@@ -221,7 +221,7 @@ void App_Lcd_Set_EarbudChg_L_Flash(void )
 }
 
 void App_Lcd_Set_Earbud_L_Solid(void )
-{
+{    
     lcdPara.l_show_earbudChg_callback = NULL;
     
     Drv_Lcd_Fill(35, 60, 51, 68, GREEN);

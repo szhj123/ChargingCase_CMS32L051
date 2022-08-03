@@ -13,6 +13,7 @@
 #include "app_battery.h"
 #include "app_lcd.h"
 #include "drv_task.h"
+#include "drv_timer.h"
 #include "drv_event.h"
 /* Private typedef --------------------------------------*/
 /* Private define ------------------ --------------------*/
@@ -33,6 +34,7 @@ static void App_Batt_Charging_Handler(void );
 static void App_Batt_Charging_Full_Detect(void );
 static void Drv_Batt_Adc_Sample(uint8_t *battSampleEndFlag );
 static void App_Batt_Event_Handler(void *arg );
+static void App_Lcd_Shutdown(void *arg );
 /* Private variables ------------------------------------*/
 batt_para_t battPara;
 
@@ -568,6 +570,8 @@ void App_Batt_Send_Event(void )
 
 static void App_Batt_Event_Handler(void *arg )
 {
+    static uint8_t showTimerId = TIMER_NULL;
+    
     msg_t *msg = (msg_t *)arg; 
 
     uint8_t battLevel = msg->buf[0];
@@ -591,10 +595,18 @@ static void App_Batt_Event_Handler(void *arg )
         else 
         {
             App_Lcd_Set_BattLevel_Flash(battLevel, RED);
-        }        
+        }     
+
+        if(earbudChgStateL == EARBUD_CHG_DONE && earbudChgStateR == EARBUD_CHG_DONE)
+        {
+            Drv_Timer_Delete(showTimerId);
+            showTimerId = Drv_Timer_Regist_Oneshot(App_Lcd_Shutdown, 5000, NULL);
+        }
     }
     else
     {
+        Drv_Timer_Delete(showTimerId);
+        
         if(battLevel >= 100)
         {
             App_Lcd_Set_BattLevel_Solid(battLevel, GREEN);
@@ -622,8 +634,14 @@ static void App_Batt_Event_Handler(void *arg )
     {
         App_Lcd_Set_EarbudChg_R_Flash();
     }
-
-    App_Lcd_Show_Bt_Logo();
     
+    App_Lcd_Show_Bt_Logo();
+}
+
+static void App_Lcd_Shutdown(void *arg )
+{
+    App_Lcd_Clr();
+
+    App_Lcd_Background_Led_Off();
 }
 
