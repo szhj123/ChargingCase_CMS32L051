@@ -122,6 +122,8 @@ static void App_Batt_Discharging_Handler(void )
     static earbud_chg_state_t saveEarbudChg_r;
 
     battPara.chgState = CHG_STATE_INIT;
+
+    battPara.battVolSave = battPara.battVol;
     
     switch(battPara.dischgState)
     {
@@ -174,15 +176,16 @@ static void App_Batt_Charging_Handler(void )
     static earbud_chg_state_t saveEarbudChg_l;
     static earbud_chg_state_t saveEarbudChg_r;
 
-    static uint16_t saveBattVol;
-
     battPara.dischgState = DISCHG_STATE_INIT;
 
     switch(battPara.chgState)
     {
         case CHG_STATE_INIT:
         {
-            saveBattVol = App_Batt_Get_BatVol();
+            if(battPara.battVolSave == 0)
+            {
+                battPara.battVolSave = App_Batt_Get_BatVol();
+            }
             
             saveBattLevel = App_Batt_Get_Level();
 
@@ -206,9 +209,9 @@ static void App_Batt_Charging_Handler(void )
             {
                 battPara.delayCnt = 0;
 
-                if(App_Batt_Get_BatVol() > saveBattVol)
+                if(App_Batt_Get_BatVol() > battPara.battVolSave)
                 {
-                    battPara.battVolErr = App_Batt_Get_BatVol() - saveBattVol;
+                    battPara.battVolErr = App_Batt_Get_BatVol() - battPara.battVolSave;
 
                     battPara.chgState = CHG_STATE_HANDLER;
                 }

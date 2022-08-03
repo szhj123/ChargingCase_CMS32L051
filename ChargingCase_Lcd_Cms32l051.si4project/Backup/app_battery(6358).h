@@ -62,7 +62,6 @@ typedef struct _batt_para_t
     chg_state chgState;
 
     uint16_t battVol;
-    uint16_t battVolSave;
     uint16_t battVolErr;
     uint16_t earbudCur_l;
     uint16_t earbudCur_r;
