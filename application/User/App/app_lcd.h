@@ -16,6 +16,9 @@ typedef struct _lcd_para_t
     char battLevelStr[5];
 
     uint16_t battLeveColor;
+    
+    uint16_t startX;
+    uint16_t startY;
 
     uint16_t showBattLevelDelayCnt;
     uint16_t l_showEarbudChgDelayCnt;
@@ -23,11 +26,14 @@ typedef struct _lcd_para_t
 }lcd_para_t;
 
 void App_Lcd_Init(void );
+void App_Lcd_Clr(void );
 void App_Lcd_Show_Picture(void );
-void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel );
+void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color );
 void App_Lcd_Set_BattLevel_Flash(uint8_t battLevel, uint16_t color );
 void App_Lcd_Set_EarbudChg_L_Flash(void );
 void App_Lcd_Set_EarbudChg_R_Flash(void );
+void App_Lcd_Ui_Init(uint8_t battLevel );
+void App_Lcd_Show_Bt_Logo(void );
 
 #endif 
 

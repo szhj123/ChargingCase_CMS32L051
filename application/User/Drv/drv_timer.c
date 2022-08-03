@@ -70,19 +70,19 @@ uint8_t Drv_Timer_Regist_Oneshot(void (*handler)(void *), uint16_t ticks, void *
     return Drv_Timer_Regist(handler, ticks, 0, arg );
 }
 
-void Drv_Timer_Delete(timer_block_t *timer )
+void Drv_Timer_Delete(uint8_t timerId )
 {
-    if(timer == NULL)
+    if(timerId == TIMER_NULL)
     {
         return ;
     }
 
-    timer->handler = NULL;
-    timer->arg = NULL;
-    timer->id = 0;
-    timer->ticks = 0;
-    timer->period = 0;
-    timer->isRegist = 0;
+    timerList[timerId].handler = NULL;
+    timerList[timerId].arg = NULL;
+    timerList[timerId].id = 0;
+    timerList[timerId].ticks = 0;
+    timerList[timerId].period = 0;
+    timerList[timerId].isRegist = 0;
 }
 
 static void Drv_Timer_Isr_Handler(void )
@@ -111,7 +111,7 @@ static void Drv_Timer_Isr_Handler(void )
                 }
                 else
                 {
-                    Drv_Timer_Delete(&timerList[id]);
+                    Drv_Timer_Delete(id);
                 }
             }
         }

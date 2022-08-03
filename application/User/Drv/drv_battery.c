@@ -22,8 +22,6 @@ uint16_t battVol;
 void Drv_Batt_Init(void )
 {
     Hal_Batt_Init();    
-
-    battVol = Drv_Batt_Get_BatVol();
 }
 
 uint8_t Drv_Batt_Get_Usb_State(void )
@@ -37,6 +35,11 @@ uint8_t Drv_Batt_Get_Usb_State(void )
         return USB_PLUG_OUT;
     }
 }
+
+uint8_t Drv_Batt_Get_Charing_State(void )
+{
+    return Hal_Batt_Get_Charging_State();
+} 
 
 uint16_t Drv_Batt_Get_BatVol(void )
 {
@@ -64,4 +67,6 @@ uint16_t Drv_Earbud_Get_Cur_R(void )
 	
     return earbudCur;
 }
+
+
 

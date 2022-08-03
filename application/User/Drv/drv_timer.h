@@ -20,6 +20,6 @@ typedef struct _timer_block_t
 void Drv_Timer_Init(void );
 uint8_t Drv_Timer_Regist_Period(void (*handler)(void *), uint16_t ticks, uint16_t period, void *arg );
 uint8_t Drv_Timer_Regist_Oneshot(void (*handler)(void *), uint16_t ticks, void *arg );
-void Drv_Timer_Delete(timer_block_t *timer );
+void Drv_Timer_Delete(uint8_t timerId );
 
 #endif 

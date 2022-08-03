@@ -14,6 +14,7 @@
 #include "hal_timer.h"
 #include "hal_com.h"
 #include "hal_lcd.h"
+#include "hal_key.h"
 /* Private typedef --------------------------------------*/
 /* Private define ---------------------------------------*/
 /* Private macro ----------------------------------------*/
@@ -68,6 +69,8 @@ void spi20_interrupt(void)
 void intp_1_interrupt(void)
 {
     INTC_ClearPendingIRQ(INTP1_IRQn);
+
+    Hal_Key_Isr_Handler();
 }
 
 void intp_2_interrupt(void)

@@ -16,6 +16,7 @@
 #include "app_battery.h"
 #include "app_event.h"
 #include "app_com.h"
+#include "app_key.h"
 #include "app_lcd.h"
 #include "app_led.h"
 /* Private typedef --------------------------------------*/
@@ -33,8 +34,11 @@ int main(void )
     App_Msg_Init();
 
     App_Lcd_Init();
+    
+    App_Key_Init();
 
     App_Batt_Init();
+
     
     //App_Com_Init();
 

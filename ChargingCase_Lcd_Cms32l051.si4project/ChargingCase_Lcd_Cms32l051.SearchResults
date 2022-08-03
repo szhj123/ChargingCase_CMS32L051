@@ -1,3 +1,5 @@
----- Cms32l051_Adc_Read_InterVol Matches (2 in 2 files) ----
-Hal_Batt_Init in hal_battery.c (application\User\Hal) :     Cms32l051_Adc_Read_InterVol();
-hal_cms32l051.h (application\User\Hal) line 25 : void Cms32l051_Adc_Read_InterVol(void );
+---- Drv_Timer_Delete Matches (4 in 3 files) ----
+App_Hall_Detect_Callback in app_key.c (application\User\App) :     Drv_Timer_Delete(timer_block_t * timer)
+drv_timer.c (application\User\Drv) line 73 : void Drv_Timer_Delete(uint8_t timerId )
+Drv_Timer_Isr_Handler in drv_timer.c (application\User\Drv) :                     Drv_Timer_Delete(&timerList[id]);
+drv_timer.h (application\User\Drv) line 23 : void Drv_Timer_Delete(uint8_t timerId );

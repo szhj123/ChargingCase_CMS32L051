@@ -42,7 +42,7 @@ uint8_t Hal_Batt_Get_Usb_State(void )
     return PORT_GetBit(PORT5, PIN1);
 }
 
-uint8_t Hal_Batt_Get_Charge_State(void )
+uint8_t Hal_Batt_Get_Charging_State(void )
 {
     return PORT_GetBit(PORT2, PIN1);
 }

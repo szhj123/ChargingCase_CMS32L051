@@ -31,7 +31,7 @@ typedef enum
 {
     CHG_STATE_INIT = 0,
     CHG_STATE_GET_BATT_ERR_VOL,
-    CHR_STATE_HANDLER
+    CHG_STATE_HANDLER
 }chg_state;
 
 typedef enum _batt_level_state_t
@@ -62,8 +62,12 @@ typedef struct _batt_para_t
     chg_state chgState;
 
     uint16_t battVol;
+    uint16_t battVolErr;
     uint16_t earbudCur_l;
     uint16_t earbudCur_r;
+
+    uint16_t delayCnt;
+    
 
     batt_level_state_t battLevel;
     earbud_chg_state_t earbudChgState_l;
@@ -82,5 +86,6 @@ batt_level_state_t App_Batt_Get_Level(void );
 earbud_chg_state_t App_Earbud_Get_ChgState_L(void );
 earbud_chg_state_t App_Earbud_Get_ChgState_R(void );
 void App_Batt_Send_Event(void );
+uint8_t App_Batt_Get_Usb_State(void );
 
 #endif 
