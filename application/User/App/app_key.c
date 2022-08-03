@@ -26,7 +26,6 @@ static void App_Hall_Detect_Callback(void );
 static void App_Hall_Handler(void *arg );
 static void App_Hall_Event_Handler(void *arg );
 static void App_Lcd_Show_Pic_End_Callbck(void *arg );
-static void App_Lcd_Shutdown(void *arg );
 
 static void App_Cmd_Tx_Handler(void *arg );
 static void App_Cmd_OpenCase_Tx_Callback(void );
@@ -91,6 +90,8 @@ static void App_Hall_Event_Handler(void *arg )
     {
         App_Lcd_Show_Picture();
 
+        App_Batt_Delete_Standby_Timer();
+
         Drv_Timer_Delete(showTimerId);
 
         showTimerId = Drv_Timer_Regist_Oneshot(App_Lcd_Show_Pic_End_Callbck, 5000, NULL);
@@ -98,26 +99,10 @@ static void App_Hall_Event_Handler(void *arg )
 }
 
 static void App_Lcd_Show_Pic_End_Callbck(void *arg )
-{
-    static uint8_t showTimerId = TIMER_NULL;
-    
+{    
     App_Lcd_Clr();
 
     App_Batt_Send_Event();
-
-    if(App_Earbud_Get_ChgState_L() == EARBUD_CHG_DONE && App_Earbud_Get_ChgState_R() == EARBUD_CHG_DONE)
-    {
-        Drv_Timer_Delete(showTimerId);
-
-        showTimerId = Drv_Timer_Regist_Oneshot(App_Lcd_Shutdown, 5000, NULL);
-    }
-}
-
-static void App_Lcd_Shutdown(void *arg )
-{
-    App_Lcd_Clr();
-
-    App_Lcd_Background_Led_Off();
 }
 
 static void App_Cmd_Tx_Delay_Count(void )

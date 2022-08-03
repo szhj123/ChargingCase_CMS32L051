@@ -38,6 +38,9 @@ static void App_Lcd_Shutdown(void *arg );
 /* Private variables ------------------------------------*/
 batt_para_t battPara;
 
+uint8_t standbyTimerId = TIMER_NULL;
+
+
 void App_Batt_Init(void )
 {
     uint8_t i;
@@ -131,7 +134,10 @@ static void App_Batt_Discharging_Handler(void )
     {
         case DISCHG_STATE_INIT:
         {
-            saveBattLevel = App_Batt_Get_Level();
+            if(saveBattLevel == 0)
+            {
+                saveBattLevel = App_Batt_Get_Level();
+            }
 
             saveEarbudChg_l = App_Earbud_Get_ChgState_L();
 
@@ -569,9 +575,7 @@ void App_Batt_Send_Event(void )
 }
 
 static void App_Batt_Event_Handler(void *arg )
-{
-    static uint8_t showTimerId = TIMER_NULL;
-    
+{    
     msg_t *msg = (msg_t *)arg; 
 
     uint8_t battLevel = msg->buf[0];
@@ -599,13 +603,14 @@ static void App_Batt_Event_Handler(void *arg )
 
         if(earbudChgStateL == EARBUD_CHG_DONE && earbudChgStateR == EARBUD_CHG_DONE)
         {
-            Drv_Timer_Delete(showTimerId);
-            showTimerId = Drv_Timer_Regist_Oneshot(App_Lcd_Shutdown, 5000, NULL);
+            Drv_Timer_Delete(standbyTimerId);
+            
+            standbyTimerId = Drv_Timer_Regist_Oneshot(App_Lcd_Shutdown, 5000, NULL);
         }
     }
     else
     {
-        Drv_Timer_Delete(showTimerId);
+        Drv_Timer_Delete(standbyTimerId);
         
         if(battLevel >= 100)
         {
@@ -643,5 +648,10 @@ static void App_Lcd_Shutdown(void *arg )
     App_Lcd_Clr();
 
     App_Lcd_Background_Led_Off();
+}
+
+void App_Batt_Delete_Standby_Timer(void )
+{
+    Drv_Timer_Delete(standbyTimerId);
 }
 

@@ -88,5 +88,6 @@ earbud_chg_state_t App_Earbud_Get_ChgState_L(void );
 earbud_chg_state_t App_Earbud_Get_ChgState_R(void );
 void App_Batt_Send_Event(void );
 uint8_t App_Batt_Get_Usb_State(void );
+void App_Batt_Delete_Standby_Timer(void );
 
 #endif 
