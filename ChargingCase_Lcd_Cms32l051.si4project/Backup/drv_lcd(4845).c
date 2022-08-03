@@ -175,7 +175,7 @@ void Drv_Lcd_Init(void )
     
     Drv_Lcd_Clr(0x0000);
     
-    Drv_Lcd_Background_Led_On();
+    Drv_LCD_BackLed_On();
 
     #if 0
 
@@ -298,12 +298,12 @@ void Drv_Lcd_Wr_Data(uint8_t dat )
 }
 
 
-void Drv_Lcd_Background_Led_On(void )
+void Drv_LCD_BackLed_On(void )
 {
     LCD_BACK_LED_LOW();
 }
 
-void Drv_Lcd_Background_Led_Off(void )
+void Drv_LCD_BackLed_Off(void )
 {
     LCD_BACK_LED_HIGH();
 }

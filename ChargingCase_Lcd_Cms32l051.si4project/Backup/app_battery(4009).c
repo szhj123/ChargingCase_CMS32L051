@@ -602,23 +602,9 @@ static void App_Batt_Event_Handler(void *arg )
         }
     }
 
-    if(earbudChgStateL == EARBUD_CHG_DONE)
-    {
-        App_Lcd_Set_Earbud_L_Solid();
-    }
-    else
-    {
-        App_Lcd_Set_EarbudChg_L_Flash();
-    }
+    App_Lcd_Set_EarbudChg_L_Flash();
 
-    if(earbudChgStateR == EARBUD_CHG_DONE)
-    {
-        App_Lcd_Set_Earbud_R_Solid();
-    }
-    else
-    {
-        App_Lcd_Set_EarbudChg_R_Flash();
-    }
+    App_Lcd_Set_EarbudChg_R_Flash();
 
     App_Lcd_Show_Bt_Logo();
     

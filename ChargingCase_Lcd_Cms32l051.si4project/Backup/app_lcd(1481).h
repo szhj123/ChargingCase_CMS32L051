@@ -19,8 +19,6 @@ typedef struct _lcd_para_t
     
     uint16_t startX;
     uint16_t startY;
-    uint8_t  flashCharIndex;
-    uint8_t  flashCharLength;
 
     uint16_t showBattLevelDelayCnt;
     uint16_t l_showEarbudChgDelayCnt;
@@ -36,10 +34,6 @@ void App_Lcd_Set_EarbudChg_L_Flash(void );
 void App_Lcd_Set_EarbudChg_R_Flash(void );
 void App_Lcd_Ui_Init(uint8_t battLevel );
 void App_Lcd_Show_Bt_Logo(void );
-void App_Lcd_Set_Earbud_L_Solid(void );
-void App_Lcd_Set_Earbud_R_Solid(void );
-void App_Lcd_Background_Led_On(void );
-void App_Lcd_Background_Led_Off(void );
 
 #endif 
 
