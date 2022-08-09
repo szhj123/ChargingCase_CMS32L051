@@ -13,6 +13,7 @@
 #include "drv_task.h"
 #include "drv_timer.h"
 #include "drv_event.h"
+#include "drv_flash.h"
 #include "app_battery.h"
 #include "app_event.h"
 #include "app_com.h"
@@ -30,6 +31,8 @@ int main(void )
     Drv_Task_Init();
 
     Drv_Timer_Init();
+
+    Drv_Flash_Init();
 
     App_Msg_Init();
 

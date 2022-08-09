@@ -139,6 +139,43 @@ void Cms32l051_Spi20_Init(void )
     SDO20_PORT_SETTING();
 }
 
+void Cms32l051_Spi00_Init(void )
+{
+    uint8_t dap, ckp;
+    spi_mode_t mode = SPI_MODE_0;
+    
+    dap = ~mode & 0x01;
+    ckp = (~mode & 0x02) >> 1;
+    CGC->PER0 |= CGC_PER0_SCI0EN_Msk;
+    SCI0->ST0 |= _0001_SCI_CH0_STOP_TRG_ON;
+    SCI0->SPS0 &= ~SCI0_SPS0_PRS01_Msk;
+    SCI0->SPS0 |= (0 << SCI0_SPS0_PRS01_Pos);
+    SCI0->SIR00 = _0004_SCI_SIRMN_FECTMN | _0002_SCI_SIRMN_PECTMN | _0001_SCI_SIRMN_OVCTMN;
+    SCI0->SMR00 = _0020_SMRMN_DEFAULT_VALUE | _8000_SCI_CLOCK_SELECT_CK01 | _0000_SCI_CLOCK_MODE_CKS |
+                  _0000_SCI_TRIGGER_SOFTWARE | _0000_SCI_MODE_SPI | _0000_SCI_TRANSFER_END;
+    SCI0->SCR00 = _0004_SCRMN_DEFAULT_VALUE | _C000_SCI_RECEPTION_TRANSMISSION | dap << 13 | ckp << 12 | _0000_SCI_INTSRE_MASK |
+                  _0000_SCI_PARITY_NONE | _0000_SCI_MSB | _0000_SCI_STOP_NONE | _0003_SCI_LENGTH_8;
+    SCI0->SDR00 = _CE00_SCI_BAUDRATE_DIVISOR;
+    /* Set output enable */
+    if ((mode == SPI_MODE_0) || (mode == SPI_MODE_1))
+    {
+        SCI0->SO0 &= ~_0100_SCI_CH0_CLOCK_OUTPUT_1;
+    }
+    if ((mode == SPI_MODE_2) || (mode == SPI_MODE_3))
+    {
+        SCI0->SO0 |= _0100_SCI_CH0_CLOCK_OUTPUT_1;
+    }
+    SCI0->SOE0 |= _0001_SCI_CH0_OUTPUT_ENABLE;
+    /* Set SSn pin */
+    SS00_PORT_SETTING();
+    /* Set SCLK00 pin */
+    SCLKO00_PORT_SETTING();
+    /* Set SDI00 pin */
+    SDI00_PORT_SETTING();
+    /* Set SDO00 pin */
+    SDO00_PORT_SETTING();
+} 
+
 void Cms32l051_Adc_Init(void )
 {
     ADC_Init();

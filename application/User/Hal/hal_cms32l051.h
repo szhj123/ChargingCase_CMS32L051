@@ -25,6 +25,7 @@ void Cms32l051_Gpio_Init(void );
 void Cms32l051_Intp_Init(void );
 void Cms32l051_Tim40_Channel0_Interval_Init(void );
 void Cms32l051_Uart0_Init(void );
+void Cms32l051_Spi00_Init(void );
 void Cms32l051_Spi20_Init(void );
 void Cms32l051_Adc_Init(void );
 

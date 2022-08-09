@@ -526,21 +526,30 @@ typedef enum
   */
 
 /* ToDo: You can allocate the SS00 to any desired pins with SS00PCFG register */
+#if 0
 #define SS00_PORT_SETTING() do{ \
         PORT->SS00PCFG = 0x1B;       /* allocate SS00 to P62 */ \
         PORT->PM6  |=  (1 << 2);     /* P62 is used as SS00 input */ \
         PORT->PU6  |=  (1 << 2);     /* P62 pull up resistor enable */ \
         PORT->PMC6 &= ~(1 << 2);     /* P62 digital function */ \
 }while(0)
+#else
+#define SS00_PORT_SETTING() do{ \
+        PORT->P16CFG = 0x00;         /* P16 default GPIO function */ \
+        PORT->P1   |=  (1 << 6);     /* P16 output high level */ \
+        PORT->PM1  &= ~(1 << 6);     /* P16 is used as SS00 output */ \
+        PORT->PMC1 &= ~(1 << 6);     /* P16 digital function */ \
+}while(0)
+#endif 
 
 /* ToDo: You can allocate the SS00 to any desired pins */
 #define SS00_PORT_SET() do{ \
-        PORT->PSET6 = (1 << 2);      /* P62 output high level */ \
+        PORT->PSET1 = (1 << 6);      /* P16 output high level */ \
 }while(0)
 
 /* ToDo: You can allocate the SS00 to any desired pins */
 #define SS00_PORT_CLR() do{ \
-        PORT->PCLR6 = (1 << 2);      /* P62 output low level */ \
+        PORT->PCLR1 = (1 << 6);      /* P16 output low level */ \
 }while(0)
 
 /* ToDo: You can allocate the SCLKI00 to any desired pins with SCLKI00PCFG register */
@@ -552,27 +561,27 @@ typedef enum
 
 /* ToDo: You can allocate the SCLKO00 to any desired pins with PxxCFG register */
 #define SCLKO00_PORT_SETTING() do{ \
-        PORT->P30CFG = 0x08;        /* allocate SCLKO00 to P30 */ \
-        PORT->P3   |=  (1 << 0);    /* P30 output high level */ \
-        PORT->PM3  &= ~(1 << 0);    /* P30 is used as SCLK00 output */ \
-        PORT->POM3 &= ~(1 << 0);    /* P30 is normal output mode */ \
-        PORT->PMC3 &= ~(1 << 0);    /* P30 digital function */ \
+        PORT->P15CFG = 0x08;        /* allocate SCLKO00 to P15 */ \
+        PORT->P1   |=  (1 << 5);    /* P15 output high level */ \
+        PORT->PM1  &= ~(1 << 5);    /* P15 is used as SCLK00 output */ \
+        PORT->POM1 &= ~(1 << 5);    /* P15 is normal output mode */ \
+        PORT->PMC1 &= ~(1 << 5);    /* P15 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SDO00 to any desired pins with PxxCFG register */
 #define SDO00_PORT_SETTING() do{ \
-        PORT->P51CFG = 0x05;        /* allocate SDO00 to P51 */ \
-        PORT->P5   |=  (1 << 1);    /* P51 output high level */ \
-        PORT->PM5  &= ~(1 << 1);    /* P51 is used as SDO00 output */ \
-        PORT->POM5 &= ~(1 << 1);    /* P51 is normal output mode */ \
-        PORT->PMC5 &= ~(1 << 1);    /* P51 digital function */ \
+        PORT->P12CFG = 0x05;        /* allocate SDO00 to P12 */ \
+        PORT->P1   |=  (1 << 2);    /* P12 output high level */ \
+        PORT->PM1  &= ~(1 << 2);    /* P12 is used as SDO00 output */ \
+        PORT->POM1 &= ~(1 << 2);    /* P12 is normal output mode */ \
+        PORT->PMC1 &= ~(1 << 2);    /* P12 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the SDI00 to any desired pins with SDI00PCFG register */
 #define SDI00_PORT_SETTING() do{ \
-        PORT->SDI00PCFG = 0x17;     /* allocate SDI00 to P50 */ \
-        PORT->PM5  |=  (1 << 0);    /* P50 is used as SDI00 input */ \
-        PORT->PMC5 &= ~(1 << 0);    /* P50 digital function */ \
+        PORT->SDI00PCFG = 0x07;     /* allocate SDI00 to P14 */ \
+        PORT->PM1  |=  (1 << 4);    /* P14 is used as SDI00 input */ \
+        PORT->PMC1 &= ~(1 << 4);    /* P14 digital function */ \
 }while(0)
 
 /**
