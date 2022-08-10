@@ -29,7 +29,7 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Delay_Us(100);
     LCD_RST_HIGH();
     Drv_Lcd_Delay_Us(120);
-    
+
     Drv_Lcd_Wr_Cmd(0xff);
     Drv_Lcd_Wr_Data(0xa5);
     Drv_Lcd_Wr_Cmd(0x3a);
@@ -172,9 +172,6 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Cmd(0x36);
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Cmd(0x29);
-
-    Drv_Lcd_Wr_Cmd(0x36);
-    Drv_Lcd_Wr_Data(0xc0);
     
     Drv_Lcd_Clr(0x0000);
     

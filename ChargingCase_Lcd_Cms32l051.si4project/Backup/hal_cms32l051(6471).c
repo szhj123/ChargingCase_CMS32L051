@@ -155,7 +155,7 @@ void Cms32l051_Spi00_Init(void )
                   _0000_SCI_TRIGGER_SOFTWARE | _0000_SCI_MODE_SPI | _0000_SCI_TRANSFER_END;
     SCI0->SCR00 = _0004_SCRMN_DEFAULT_VALUE | _C000_SCI_RECEPTION_TRANSMISSION | dap << 13 | ckp << 12 | _0000_SCI_INTSRE_MASK |
                   _0000_SCI_PARITY_NONE | _0000_SCI_MSB | _0000_SCI_STOP_NONE | _0003_SCI_LENGTH_8;
-    SCI0->SDR00 = 3 << 9;
+    SCI0->SDR00 = _CE00_SCI_BAUDRATE_DIVISOR;
     /* Set output enable */
     if ((mode == SPI_MODE_0) || (mode == SPI_MODE_1))
     {
