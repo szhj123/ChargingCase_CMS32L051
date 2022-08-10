@@ -142,7 +142,7 @@ void Cms32l051_Spi20_Init(void )
 void Cms32l051_Spi00_Init(void )
 {
     uint8_t dap, ckp;
-    spi_mode_t mode = SPI_MODE_3;
+    spi_mode_t mode = SPI_MODE_0;
     
     dap = ~mode & 0x01;
     ckp = (~mode & 0x02) >> 1;

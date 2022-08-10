@@ -17,7 +17,7 @@
 /* Private function ---------------------------------- --*/
 /* Private variables ------------------------------------*/
 uint8_t wrBuf[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-uint8_t rdBuf[256];
+uint8_t rdBuf[10];
 
 void Drv_Flash_Init(void )
 {
@@ -25,13 +25,13 @@ void Drv_Flash_Init(void )
 
     Drv_Flash_Read_Jedec_Id();
 
-    Drv_Flash_Read_With_Loop(0, rdBuf, 256);
+    Drv_Flash_Read_With_Loop(10, rdBuf, 10);
     
     Drv_Flash_Sector_Erase(0);
 
-    Drv_Flash_Read_With_Loop(0, rdBuf, 256);
+    Drv_Flash_Read_With_Loop(0, rdBuf, 10);
 
-    Drv_Flash_Write_With_Loop(0, wrBuf, 10);
+    //Drv_Flash_Write_With_Loop(0, wrBuf, 10);
     
     //Drv_Flash_Read_With_Loop(0, rdBuf, 10);
 }
