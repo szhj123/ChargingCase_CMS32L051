@@ -15,7 +15,6 @@
 #include "hal_com.h"
 #include "hal_lcd.h"
 #include "hal_key.h"
-#include "hal_flash.h"
 /* Private typedef --------------------------------------*/
 /* Private define ---------------------------------------*/
 /* Private macro ----------------------------------------*/
@@ -59,10 +58,6 @@ void uart0_interrupt_send(void )
 void spi00_interrupt(void )
 {
     INTC_ClearPendingIRQ(SPI00_IRQn);
-
-    Hal_Flash_Spi00_Tx_Isr_Handler();
-
-    Hal_Flash_Spi00_Rx_Isr_Handler();
 }
 
 void spi20_interrupt(void)

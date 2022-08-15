@@ -95,7 +95,7 @@ void App_Lcd_Show_Picture(void )
     lcdPara.l_show_earbudChg_callback = NULL;
     lcdPara.r_show_earbudChg_callback = NULL;
     
-    //Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
+    Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
 
     App_Lcd_Background_Led_On();
 }

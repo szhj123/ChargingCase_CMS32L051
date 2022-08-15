@@ -16,27 +16,39 @@
 /* Private define ------------------ ------------------- -*/
 /* Private macro ---------------------------------------*/
 /* Private function ---------------------------------- --*/
+void Drv_Flash_Loop_Wait(uint16_t n);
 /* Private variables ------------------------------------*/
-uint8_t wrBuf[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+uint8_t wrBuf[] = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
 uint8_t rdBuf[256];
 uint16_t flashWaitCnt;
 
-static uint8_t flashWrEndFlag = 0;
-static uint8_t flashRdEndFlag = 0;
+static void Drv_Flash_Delay_Count(void *arg )
+{
+    if(flashWaitCnt > 0)
+    {
+        flashWaitCnt--;
+    }
+}
 
 void Drv_Flash_Init(void )
 {
     Hal_Flash_Init();
 
-    Drv_Flash_Read(0, rdBuf, 10);
+    Drv_Timer_Regist_Period(Drv_Flash_Delay_Count, 0, 1, NULL);
     
+    Drv_Flash_Loop_Wait(25);
+
     Drv_Flash_Sector_Erase(0);
 
-    Drv_Flash_Read_With_Loop(0, rdBuf, 10);
+    Drv_Flash_Loop_Wait(100);
 
-    Drv_Flash_Write(0, wrBuf, 10);
+    Drv_Flash_Read_With_Loop(0, rdBuf, 10);
+    Drv_Flash_Loop_Wait(10);
+
+    Drv_Flash_Write_With_Loop(0, wrBuf, 10);
+    Drv_Flash_Loop_Wait(10);
     
-    Drv_Flash_Read(0, rdBuf, 10);
+    Drv_Flash_Read_With_Loop(0, rdBuf, 10);
 }
 
 void Drv_Flash_Read_Jedec_Id(void )
@@ -129,95 +141,11 @@ void Drv_Flash_Read_With_Loop(uint32_t addr, uint8_t *buf, uint16_t length )
     Hal_Flash_Stop();
 }
 
-static void Drv_Flash_Write_End_Callback(void )
+void Drv_Flash_Loop_Wait(uint16_t n)
 {
-    flashWrEndFlag = 1;
-}
+	flashWaitCnt = n;
 
-void Drv_Flash_Write_With_DMA(uint32_t addr, uint8_t *buf, uint16_t length )
-{
-    Drv_Write_Enable();
-    
-    Hal_Flash_Start();
-    
-    Hal_Flash_Single_Write(PAGE_PROGRAM);
-
-    Hal_Flash_Single_Write((uint8_t )(addr >> 16));
-    Hal_Flash_Single_Write((uint8_t )(addr >> 8));
-    Hal_Flash_Single_Write((uint8_t )(addr));
-
-    Hal_Flash_Multiple_Write_With_DMA(buf, length, Drv_Flash_Write_End_Callback);
-
-    while(!flashWrEndFlag);
-    flashWrEndFlag = 0;
-
-    Hal_Flash_Stop();
-
-    Drv_Flash_Wait_Bus_Idle();
-}
-
-void Drv_Flash_Write(uint32_t addr, uint8_t *buf, uint32_t length )
-{
-    uint16_t firstPageByte;
-    uint16_t lastPageByte;
-    uint32_t pageNum;
-    uint32_t i;
-
-    if((addr % PAGE_SIZE))
-    {
-        firstPageByte = PAGE_SIZE - (addr % PAGE_SIZE);        
-    }
-    else
-    {
-        firstPageByte = 0;
-    }
-
-    pageNum = (length - firstPageByte) / PAGE_SIZE;
-
-    lastPageByte = (length - firstPageByte) % PAGE_SIZE;
-
-    if(firstPageByte)
-    {
-        Drv_Flash_Write_With_DMA(addr, buf, firstPageByte);
-        
-        addr += firstPageByte;
-    
-        buf += firstPageByte;
-    }
-    
-    for(i=0;i<pageNum;i++)
-    {
-        Drv_Flash_Write_With_DMA(addr, buf, PAGE_SIZE);
-
-        addr += PAGE_SIZE;
-        
-        buf += PAGE_SIZE;
-    }
-
-    Drv_Flash_Write_With_DMA(addr, buf, lastPageByte);
-}
-
-static void Drv_Flash_Read_End_Callback(void )
-{
-    flashRdEndFlag = 1;
-}
-
-void Drv_Flash_Read(uint32_t addr, uint8_t *buf, uint32_t length )
-{
-    Hal_Flash_Start();
-
-    Hal_Flash_Single_Write(READ_DATA);
-
-    Hal_Flash_Single_Write((uint8_t )(addr >> 16));
-    Hal_Flash_Single_Write((uint8_t )(addr >> 8));
-    Hal_Flash_Single_Write((uint8_t )(addr));
-
-    Hal_Flash_Multiple_Read_With_DMA(buf, length, Drv_Flash_Read_End_Callback);
-
-    while(!flashRdEndFlag);
-    flashRdEndFlag = 0;
-    
-    Hal_Flash_Stop();
+    while(flashWaitCnt);
 }
 
 
