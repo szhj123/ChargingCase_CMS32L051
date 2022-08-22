@@ -27,7 +27,7 @@ static uint16_t txLength;
 
 void Hal_Com_Init(void )
 {
-    Cms32l051_Uart0_Init();
+    Cms32l051_Uart1_Init();
 }
 
 void Hal_Com_Regist_Rx_Callback(hal_com_rx_end_callback_t callback )
@@ -35,23 +35,23 @@ void Hal_Com_Regist_Rx_Callback(hal_com_rx_end_callback_t callback )
     hal_com_rx_end_callback = callback;
 }
 
-void Hal_Com_Send_With_Interrupt(uint8_t *buf, uint16_t length, hal_com_tx_end_callback_t callback )
+void Hal_Com_Tx_With_Interrupt(uint8_t *buf, uint16_t length, hal_com_tx_end_callback_t callback )
 {
     if(buf == NULL || length <=0 )
     {
         return ;
     }
     
-    INTC_ClearPendingIRQ(ST0_IRQn); /* clear INTST1 interrupt flag */
-    NVIC_ClearPendingIRQ(ST0_IRQn); /* clear INTST1 interrupt flag */
-    INTC_EnableIRQ(ST0_IRQn);       /* enable INTST1 interrupt */
+    INTC_ClearPendingIRQ(ST1_IRQn); /* clear INTST2 interrupt flag */
+    NVIC_ClearPendingIRQ(ST1_IRQn); /* clear INTST2 interrupt flag */
+    INTC_EnableIRQ(ST1_IRQn);       /* enable INTST2 interrupt */
 
     txPtr = buf;
     txLength = length;
     txCnt = 0;
     hal_com_tx_end_callback = callback;
 
-    SCI0->TXD0 = buf[0];
+    SCI0->TXD1 = buf[0];
     txPtr++;
     txCnt++;
 }   
@@ -60,7 +60,7 @@ void Hal_Com_Tx_Isr_Handler(void )
 {
     if(txCnt < txLength)
     {
-        SCI0->TXD0 = *txPtr;
+        SCI0->TXD1 = *txPtr;
         txPtr++;
         txCnt++;
     }
@@ -72,7 +72,7 @@ void Hal_Com_Tx_Isr_Handler(void )
 
         if(hal_com_tx_end_callback != NULL)
         {
-            INTC_DisableIRQ(ST0_IRQn);
+            INTC_DisableIRQ(ST1_IRQn);
             hal_com_tx_end_callback();
         }
     }
@@ -81,12 +81,8 @@ void Hal_Com_Tx_Isr_Handler(void )
 void Hal_Com_Rx_Isr_Handler(void )
 {
     volatile uint8_t rx_data;
-    volatile uint8_t err_type;
     
-    err_type = (uint8_t)(SCI0->SSR01 & 0x0007U);
-    SCI0->SIR01 = (uint16_t)err_type;
-    
-    rx_data = SCI0->RXD0;
+    rx_data = SCI0->RXD1;
 
     if(hal_com_rx_end_callback != NULL)
     {

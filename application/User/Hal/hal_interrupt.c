@@ -21,8 +21,8 @@
 /* Private macro ----------------------------------------*/
 /* Private function -------------------------------------*/
 void IRQ17_Handler(void) __attribute__((alias("tm40_channel0_interrupt")));
-void IRQ11_Handler(void) __attribute__((alias("uart0_interrupt_receive")));
-void IRQ10_Handler(void) __attribute__((alias("uart0_interrupt_send")));
+void IRQ14_Handler(void) __attribute__((alias("uart1_interrupt_receive")));
+void IRQ13_Handler(void) __attribute__((alias("uart1_interrupt_send")));
 void IRQ10_Handler(void) __attribute__((alias("spi00_interrupt")));
 void IRQ07_Handler(void) __attribute__((alias("spi20_interrupt")));
 void IRQ02_Handler(void) __attribute__((alias("intp_1_interrupt")));
@@ -42,16 +42,16 @@ void tm40_channel0_interrupt(void )
     Hal_Timer_Isr_Handler();
 }
 
-void uart0_interrupt_receive(void )
+void uart1_interrupt_receive(void )
 {
-    INTC_ClearPendingIRQ(SR0_IRQn);
+    INTC_ClearPendingIRQ(SR1_IRQn);
     
     Hal_Com_Rx_Isr_Handler();
 }
 
-void uart0_interrupt_send(void )
+void uart1_interrupt_send(void )
 {
-    INTC_ClearPendingIRQ(ST0_IRQn);
+    INTC_ClearPendingIRQ(ST1_IRQn);
 
     Hal_Com_Tx_Isr_Handler();
 }

@@ -25,6 +25,7 @@
 void Drv_Flash_Init(void );
 void Drv_Flash_Read_Jedec_Id(void );
 void Drv_Flash_Sector_Erase(uint32_t addr );
+void Drv_Flash_Block_64k_Erase(uint32_t addr );
 void Drv_Flash_Write_With_Loop(uint32_t addr, uint8_t *buf, uint16_t length );
 void Drv_Flash_Read_With_Loop(uint32_t add, uint8_t *buf, uint16_t length );
 void Drv_Flash_Write(uint32_t addr, uint8_t *buf, uint32_t length );

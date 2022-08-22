@@ -17,26 +17,16 @@
 /* Private macro ---------------------------------------*/
 /* Private function ---------------------------------- --*/
 /* Private variables ------------------------------------*/
-uint8_t wrBuf[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-uint8_t rdBuf[256];
-uint16_t flashWaitCnt;
-
 static uint8_t flashWrEndFlag = 0;
 static uint8_t flashRdEndFlag = 0;
+uint8_t rdBuf[10];
 
 void Drv_Flash_Init(void )
 {
     Hal_Flash_Init();
 
     Drv_Flash_Read(0, rdBuf, 10);
-    
-    Drv_Flash_Sector_Erase(0);
-
-    Drv_Flash_Read_With_Loop(0, rdBuf, 10);
-
-    Drv_Flash_Write(0, wrBuf, 10);
-    
-    Drv_Flash_Read(0, rdBuf, 10);
+   
 }
 
 void Drv_Flash_Read_Jedec_Id(void )
@@ -85,6 +75,23 @@ void Drv_Flash_Sector_Erase(uint32_t addr )
     Hal_Flash_Start();
 
     Hal_Flash_Single_Write(SECTOR_ERASE);
+
+    Hal_Flash_Single_Write((uint8_t )(addr >> 16));
+    Hal_Flash_Single_Write((uint8_t )(addr >> 8));
+    Hal_Flash_Single_Write((uint8_t )(addr));
+
+    Hal_Flash_Stop();
+
+    Drv_Flash_Wait_Bus_Idle();
+}
+
+void Drv_Flash_Block_64k_Erase(uint32_t addr )
+{
+    Drv_Write_Enable();
+
+    Hal_Flash_Start();
+
+    Hal_Flash_Single_Write(BLOCK_ERASE_64K);
 
     Hal_Flash_Single_Write((uint8_t )(addr >> 16));
     Hal_Flash_Single_Write((uint8_t )(addr >> 8));
@@ -162,8 +169,8 @@ void Drv_Flash_Write(uint32_t addr, uint8_t *buf, uint32_t length )
     uint16_t lastPageByte;
     uint32_t pageNum;
     uint32_t i;
-
-    if((addr % PAGE_SIZE))
+   
+    if((addr % PAGE_SIZE) != 0)
     {
         firstPageByte = PAGE_SIZE - (addr % PAGE_SIZE);        
     }
@@ -172,29 +179,36 @@ void Drv_Flash_Write(uint32_t addr, uint8_t *buf, uint32_t length )
         firstPageByte = 0;
     }
 
-    pageNum = (length - firstPageByte) / PAGE_SIZE;
-
-    lastPageByte = (length - firstPageByte) % PAGE_SIZE;
-
-    if(firstPageByte)
+    if(length > firstPageByte)
     {
-        Drv_Flash_Write_With_DMA(addr, buf, firstPageByte);
+        pageNum = (length - firstPageByte) / PAGE_SIZE;
+
+        lastPageByte = (length - firstPageByte) % PAGE_SIZE;
+
+        if(firstPageByte)
+        {
+            Drv_Flash_Write_With_DMA(addr, buf, firstPageByte);
+            
+            addr += firstPageByte;
         
-        addr += firstPageByte;
-    
-        buf += firstPageByte;
+            buf += firstPageByte;
+        }
+        
+        for(i=0;i<pageNum;i++)
+        {
+            Drv_Flash_Write_With_DMA(addr, buf, PAGE_SIZE);
+
+            addr += PAGE_SIZE;
+            
+            buf += PAGE_SIZE;
+        }
+
+        Drv_Flash_Write_With_DMA(addr, buf, lastPageByte);
     }
-    
-    for(i=0;i<pageNum;i++)
+    else
     {
-        Drv_Flash_Write_With_DMA(addr, buf, PAGE_SIZE);
-
-        addr += PAGE_SIZE;
-        
-        buf += PAGE_SIZE;
+        Drv_Flash_Write_With_DMA(addr, buf, length);
     }
-
-    Drv_Flash_Write_With_DMA(addr, buf, lastPageByte);
 }
 
 static void Drv_Flash_Read_End_Callback(void )

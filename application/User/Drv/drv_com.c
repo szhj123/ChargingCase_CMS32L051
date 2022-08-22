@@ -20,6 +20,7 @@ static void Drv_Com_Rx_Handler(uint8_t recvData );
 
 /* Private variables ------------------------------------*/
 drv_com_rx_callback_t drv_com_rx_callback = NULL;
+com_queue_t comQueue;
 
 
 void Drv_Com_Init(void )
@@ -34,9 +35,9 @@ void Drv_Com_Regist_Rx_Callback(drv_com_rx_callback_t callback )
     drv_com_rx_callback = callback;
 }
 
-void Drv_Com_Send_With_Interrupt(uint8_t *buf, uint16_t length, hal_com_tx_end_callback_t callback )
+void Drv_Com_Tx_With_Interrupt(uint8_t *buf, uint16_t length, hal_com_tx_end_callback_t callback )
 {
-    Hal_Com_Send_With_Interrupt(buf, length, callback);   
+    Hal_Com_Tx_With_Interrupt(buf, length, callback);   
 }
 
 static void Drv_Com_Rx_Handler(uint8_t recvData )
@@ -114,4 +115,40 @@ static void Drv_Com_Rx_Handler(uint8_t recvData )
     }
     
 }
+
+void Drv_Com_Queue_Put(uint8_t *buf, uint8_t length )
+{
+    uint8_t i;
+    
+    if(length > COM_MAX_DATA_LENGTH)
+    {
+        length = COM_MAX_DATA_LENGTH;
+    }
+
+    for(i=0;i<length;i++)
+    {
+        comQueue.qBuf[comQueue.tail].dBuf[i] = buf[i];
+    }
+
+    comQueue.qBuf[comQueue.tail].length = length;
+
+    comQueue.tail = (comQueue.tail + 1) % COM_MAX_QUEUE_LENGTH;
+}
+
+uint8_t Drv_Com_Queue_Get(com_data_t *comData )
+{
+    uint8_t retVal = 0;
+    
+    if(comQueue.head != comQueue.tail)
+    {
+        *comData = comQueue.qBuf[comQueue.head];
+
+        comQueue.head = (comQueue.head + 1) % COM_MAX_QUEUE_LENGTH;
+
+        retVal = 1;
+    }
+
+    return retVal;
+}
+
 

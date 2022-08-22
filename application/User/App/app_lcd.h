@@ -5,12 +5,22 @@
 
 typedef void (*lcd_show_callback_t)(void );
 
+typedef struct _pic_para_t
+{
+    uint8_t picIndex;
+    uint16_t width;
+    uint16_t height;
+}pic_para_t;
 
 typedef struct _lcd_para_t
 {
+    pic_para_t picPara;
     lcd_show_callback_t show_battLevel_callback;
     lcd_show_callback_t l_show_earbudChg_callback; 
     lcd_show_callback_t r_show_earbudChg_callback;
+
+    uint32_t picFlashAddr;
+    
     uint8_t l_earbudFlashStep;
     uint8_t r_earbudFlashStep;
     char battLevelStr[5];
@@ -40,6 +50,8 @@ void App_Lcd_Set_Earbud_L_Solid(void );
 void App_Lcd_Set_Earbud_R_Solid(void );
 void App_Lcd_Background_Led_On(void );
 void App_Lcd_Background_Led_Off(void );
+void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length );
+void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length );
 
 #endif 
 

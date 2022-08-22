@@ -14,6 +14,7 @@
 #include "drv_task.h"
 #include "drv_timer.h"
 #include "app_lcd.h"
+#include "drv_flash.h"
 #include "drv_lcd_picture.h"
 
 /* Private typedef --------------------------------------*/
@@ -468,3 +469,28 @@ void App_Lcd_Ui_Init(uint8_t battLevel )
     App_Lcd_Background_Led_On();
 }
 
+
+
+void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length )
+{
+    uint8_t picIndex= buf[0];
+    uint16_t picWidth = (uint16_t )buf[2] << 8 | buf[1];
+    uint16_t picHeight = (uint16_t )buf[4] << 8 | buf[3];
+
+    uint32_t falshAddr = picIndex * ERASE_64K_BLOCK_SIZE;
+
+    lcdPara.picFlashAddr = falshAddr+5;
+    
+    Drv_Flash_Block_64k_Erase(falshAddr);
+
+    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picWidth, 2);
+    
+    Drv_Flash_Write_With_Loop(falshAddr+2, (uint8_t *)&picHeight, 2);
+}
+
+void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length )
+{
+    Drv_Flash_Write(lcdPara.picFlashAddr, buf, length);
+
+    lcdPara.picFlashAddr += length;
+}

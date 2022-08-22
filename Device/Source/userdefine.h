@@ -682,18 +682,18 @@ typedef enum
 
 /* ToDo: You can allocate the TXD1 to any desired pins with PxxCFG register */
 #define TXD1_PORT_SETTING() do{ \
-        PORT->P00CFG = 0x0A;        /* allocate TXD1 to P00 */ \
-        PORT->P0   |=  (1 << 0);    /* P00 output high level */ \
-        PORT->PM0  &= ~(1 << 0);    /* P00 is used as TXD1 output */ \
-        PORT->POM0 &= ~(1 << 0);    /* P00 is normal output mode */ \
-        PORT->PMC0 &= ~(1 << 0);    /* P00 digital function */ \
+        PORT->P70CFG = 0x0A;        /* allocate TXD1 to P70 */ \
+        PORT->P7   |=  (1 << 0);    /* P70 output high level */ \
+        PORT->PM7  &= ~(1 << 0);    /* P70 is used as TXD1 output */ \
+        PORT->POM7 &= ~(1 << 0);    /* P70 is normal output mode */ \
+        PORT->PMC7 &= ~(1 << 0);    /* P70 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the RXD1 to any desired pins with RXD1PCFG register */
 #define RXD1_PORT_SETTING() do{ \
-        PORT->RXD1PCFG = 0x02;      /* allocate RXD1 to P01 */ \
-        PORT->PM0  |=  (1 << 1);    /* P01 is used as RXD1 input */ \
-        PORT->PMC0 &= ~(1 << 1);    /* P01 digital function */ \
+        PORT->RXD1PCFG = 0x1f;      /* allocate RXD1 to P72 */ \
+        PORT->PM7  |=  (1 << 2);    /* P72 is used as RXD1 input */ \
+        PORT->PMC7 &= ~(1 << 2);    /* P72 digital function */ \
 }while(0)
 
 /**

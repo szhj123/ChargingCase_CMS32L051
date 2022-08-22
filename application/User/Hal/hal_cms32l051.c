@@ -100,6 +100,13 @@ void Cms32l051_Uart0_Init(void )
     INTC_EnableIRQ(SR0_IRQn);
 }
 
+void Cms32l051_Uart1_Init(void )
+{
+    SystemCoreClockUpdate();
+    
+    UART1_Init(SystemCoreClock, 115200);
+}
+
 void Cms32l051_Spi20_Init(void )
 {
     uint8_t dap, ckp;
