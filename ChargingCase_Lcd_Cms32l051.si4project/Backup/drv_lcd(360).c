@@ -253,7 +253,7 @@ void Drv_Lcd_Wr_Color(uint16_t dat)
 
 void Drv_Lcd_Show_Picture(const uint8_t *buf, uint32_t length, Hal_Isr_Callback_t callback )
 {
-    //Drv_Lcd_Set_Position(0,0, 131-1, 162-1);
+    Drv_Lcd_Set_Position(0,0, 131-1, 162-1);
 
     Hal_Lcd_Spi_Send_With_DMA(buf, length, callback);
 }

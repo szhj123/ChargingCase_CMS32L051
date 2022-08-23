@@ -52,7 +52,6 @@ void App_Lcd_Background_Led_On(void );
 void App_Lcd_Background_Led_Off(void );
 void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length );
 void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length );
-void App_Lcd_Show_Picture_Handler(void );
 
 #endif 
 

@@ -36,7 +36,7 @@ int main(void )
 
     App_Msg_Init();
 
-    App_Lcd_Init();
+    //App_Lcd_Init();
     
     //App_Key_Init();
 
@@ -49,8 +49,6 @@ int main(void )
 	while(1)
 	{	
         Drv_Task_Scheduler();
-
-        App_Lcd_Show_Picture_Handler();
 	}
 }
 
