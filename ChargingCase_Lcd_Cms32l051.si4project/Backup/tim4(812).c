@@ -47,7 +47,7 @@ void TM40_IntervalTimer(tm4_channel_t ch, uint16_t num)
             INTC_ClearPendingIRQ(TM00_IRQn);
             NVIC_ClearPendingIRQ(TM00_IRQn);
             /* Channel 0 is used as interval timer */
-            TM40->TMR00 = _0000_TM4_CLOCK_SELECT_CKM0 | _0000_TM4_CLOCK_MODE_CKS | _0000_TM4_TRIGGER_SOFTWARE |
+            TM40->TMR00 = _8000_TM4_CLOCK_SELECT_CKM1 | _0000_TM4_CLOCK_MODE_CKS | _0000_TM4_TRIGGER_SOFTWARE |
                           _0000_TM4_MODE_INTERVAL_TIMER | _0000_TM4_START_INT_UNUSED;
             TM40->TDR00 = num - 1;
             TM40->TOE0 &= ~_0001_TM4_CH0_OUTPUT_ENABLE;

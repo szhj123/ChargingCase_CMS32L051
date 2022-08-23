@@ -143,11 +143,6 @@ static void Drv_Flash_Write_End_Callback(void )
 
 void Drv_Flash_Write_With_DMA(uint32_t addr, uint8_t *buf, uint16_t length )
 {
-    if(length < 1)
-    {
-        return ;
-    }
-    
     Drv_Write_Enable();
     
     Hal_Flash_Start();
@@ -157,7 +152,7 @@ void Drv_Flash_Write_With_DMA(uint32_t addr, uint8_t *buf, uint16_t length )
     Hal_Flash_Single_Write((uint8_t )(addr >> 16));
     Hal_Flash_Single_Write((uint8_t )(addr >> 8));
     Hal_Flash_Single_Write((uint8_t )(addr));
-    
+
     Hal_Flash_Multiple_Write_With_DMA(buf, length, Drv_Flash_Write_End_Callback);
 
     while(!flashWrEndFlag);
@@ -208,17 +203,11 @@ void Drv_Flash_Write(uint32_t addr, uint8_t *buf, uint32_t length )
             buf += PAGE_SIZE;
         }
 
-        if(lastPageByte)
-        {
-            Drv_Flash_Write_With_DMA(addr, buf, lastPageByte);
-        }
+        Drv_Flash_Write_With_DMA(addr, buf, lastPageByte);
     }
     else
     {
-        if(length)
-        {
-            Drv_Flash_Write_With_DMA(addr, buf, length);
-        }
+        Drv_Flash_Write_With_DMA(addr, buf, length);
     }
 }
 
