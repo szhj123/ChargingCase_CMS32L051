@@ -104,7 +104,7 @@ void Cms32l051_Uart1_Init(void )
 {
     SystemCoreClockUpdate();
     
-    UART1_Init(SystemCoreClock, 230400);
+    UART1_Init(SystemCoreClock, 115200);
 }
 
 void Cms32l051_Spi20_Init(void )

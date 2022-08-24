@@ -5,33 +5,21 @@
 
 typedef void (*lcd_show_callback_t)(void );
 
-#define PIC_MAX_READ_BUF                512
-
-typedef enum 
-{
-    PIC_STATE_GET_INFO = 0,
-    PIC_STATE_GET_DATA,
-    PIC_STATE_WAIT_GET_END,
-    PIC_STATE_IDLE
-}pic_state_t;
-
 typedef struct _pic_para_t
 {
-    pic_state_t picState;
-    uint32_t    picTotalData;
-    uint32_t    picDataCnt;
-    uint32_t    picFlashAddr;
-    uint16_t    picWidth;
-    uint16_t    picHeight;
-    uint8_t     picIndex;
-    uint8_t     picDataBuf[PIC_MAX_READ_BUF];
+    uint8_t picIndex;
+    uint16_t width;
+    uint16_t height;
 }pic_para_t;
 
 typedef struct _lcd_para_t
 {
+    pic_para_t picPara;
     lcd_show_callback_t show_battLevel_callback;
     lcd_show_callback_t l_show_earbudChg_callback; 
     lcd_show_callback_t r_show_earbudChg_callback;
+
+    uint32_t picFlashAddr;
     
     uint8_t l_earbudFlashStep;
     uint8_t r_earbudFlashStep;
@@ -65,7 +53,6 @@ void App_Lcd_Background_Led_Off(void );
 void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length );
 void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length );
 void App_Lcd_Show_Picture_Handler(void );
-void App_Lcd_Show_Picture_En(void );
 
 #endif 
 

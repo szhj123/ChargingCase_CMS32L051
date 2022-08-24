@@ -1,6 +1,4 @@
----- IRQ13_Handler Matches (5 in 3 files) ----
-sci_user.c (Driver\src) line 55 : //void IRQ13_Handler(void) __attribute__((alias("uart1_interrupt_send")));
-sci_user.c (Driver\src) line 57 : //void IRQ13_Handler(void) __attribute__((alias("spi10_interrupt")));
-sci_user.c (Driver\src) line 59 : //void IRQ13_Handler(void) __attribute__((alias("iic10_interrupt")));
-spi_user.c (Driver\src) line 23 : void IRQ13_Handler(void) __attribute__((alias("spi_interrupt")));
-__Vectors in startup_CMS32L051.c (Device\Source\ARM) :   (vect_t)IRQ13_Handler,
+---- lcdPara.picFlashAddr Matches (3 in 1 files) ----
+App_Lcd_Set_Pic_Enable in app_lcd.c (application\User\App) :     lcdPara.picFlashAddr = falshAddr+5;
+App_Lcd_Set_Pic_Data in app_lcd.c (application\User\App) :     Drv_Flash_Write(lcdPara.picFlashAddr, buf, length);
+App_Lcd_Set_Pic_Data in app_lcd.c (application\User\App) :     lcdPara.picFlashAddr += length;

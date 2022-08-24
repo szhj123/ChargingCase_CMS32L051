@@ -45,7 +45,7 @@ static void Drv_Com_Rx_Handler(uint8_t recvData )
     static com_rx_state_t comRxState = COM_RX_SYNC;
     static uint8_t comRxDataCnt = 0;
     static uint8_t comRxDataLength;
-    static uint8_t comRxBuf[256];
+    static uint8_t comRxBuf[128];
     static uint8_t comRxDataCalChecksum = 0;
 
     switch(comRxState)
