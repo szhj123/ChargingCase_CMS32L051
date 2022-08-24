@@ -104,14 +104,14 @@ void App_Lcd_Show_Picture(void )
 
 void App_Lcd_Show_Picture_Handler(void )
 {
-    static uint8_t picShowState;
+    static uint8_t lcdShowState;
     static pic_para_t picPara;
     static uint8_t picIndex;
     static uint32_t picTotalData;
     static uint32_t picFlashAddr;
     static uint8_t picData[512];
 
-    switch(picShowState)
+    switch(lcdShowState)
     {
         case 0:
         {
@@ -129,7 +129,7 @@ void App_Lcd_Show_Picture_Handler(void )
                 picFlashAddr = picIndex*ERASE_64K_BLOCK_SIZE + 5;
 
                 lcdWrEndFlag = 0;
-                picShowState = 1;
+                lcdShowState = 1;
             }
             break;
         }
@@ -151,7 +151,7 @@ void App_Lcd_Show_Picture_Handler(void )
             }
                 
             Drv_Lcd_Show_Picture(picData, sizeof(picData), App_Lcd_Show_Picture_End_Callback);
-            picShowState = 2;
+            lcdShowState = 2;
 
             break;
         }
@@ -163,11 +163,11 @@ void App_Lcd_Show_Picture_Handler(void )
                 
                 if(picTotalData == 0)
                 {
-                    picShowState = 3;
+                    lcdShowState = 3;
                 }
                 else
                 {
-                    picShowState = 1;
+                    lcdShowState = 1;
                 }
             }
 

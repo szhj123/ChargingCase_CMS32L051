@@ -12,7 +12,6 @@
 /* Includes ---------------------------------------------*/
 #include "drv_flash.h"
 #include "drv_timer.h"
-
 /* Private typedef --------------------------------------*/
 /* Private define ------------------ ------------------- -*/
 /* Private macro ---------------------------------------*/
@@ -20,34 +19,14 @@
 /* Private variables ------------------------------------*/
 static uint8_t flashWrEndFlag = 0;
 static uint8_t flashRdEndFlag = 0;
+uint8_t rdBuf[10];
 
 void Drv_Flash_Init(void )
-{   
-    #if 1
+{
     Hal_Flash_Init();
-    #else
-    extern const unsigned char gImage_pic[];
-    uint8_t  picIndex= 0;
-    uint16_t picWidth = 0x84;
-    uint16_t picHeight = 0xa2;
 
-    uint32_t falshAddr = 0;
-    
-    Hal_Flash_Init();
-    
-    Drv_Flash_Block_64k_Erase(falshAddr);
-
-    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picIndex, 1);
-    falshAddr += 1;
-    
-    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picWidth, 2);
-    falshAddr += 2;
-    
-    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picHeight, 2);
-    falshAddr += 2;
-    
-    Drv_Flash_Write(falshAddr, (uint8_t *)gImage_pic, 42444);
-    #endif 
+    Drv_Flash_Read(0, rdBuf, 10);
+   
 }
 
 void Drv_Flash_Read_Jedec_Id(void )
