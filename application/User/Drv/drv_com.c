@@ -66,14 +66,7 @@ static void Drv_Com_Rx_Handler(uint8_t recvData )
         }
         case COM_RX_LENGTH:
         {
-            if(recvData > sizeof(comRxBuf))
-            {
-                comRxDataLength = sizeof(comRxBuf);
-            }
-            else
-            {
-                comRxDataLength = recvData;
-            }
+            comRxDataLength = recvData;
             
             comRxBuf[comRxDataCnt++] = comRxDataLength;
             comRxDataCalChecksum += comRxDataLength;

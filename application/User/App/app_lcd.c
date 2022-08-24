@@ -27,7 +27,6 @@ static void App_Lcd_BattLevel_Flash(void );
 static void App_Lcd_EarbudChg_L_Flash(void );
 static void App_Lcd_EarbudChg_R_Flash(void );
 /* Private variables ------------------------------------*/
-static task_block_t *taskLcd = NULL;
 static lcd_para_t lcdPara;
 static pic_para_t picPara;
 static uint8_t lcdWrEndFlag;
@@ -36,7 +35,7 @@ void App_Lcd_Init(void )
 {
     Drv_Lcd_Init();
 
-    taskLcd = Drv_Task_Regist_Period(App_Lcd_Display_Handler, 0, 1, NULL);    
+    Drv_Task_Regist_Period(App_Lcd_Display_Handler, 0, 1, NULL);    
 }
 
 static void App_Lcd_Delay_Count(void )
