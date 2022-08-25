@@ -32,8 +32,6 @@ void Drv_Flash_Init(void )
     uint16_t picHeight = 0xa2;
 
     uint32_t falshAddr = 0;
-
-    static uint8_t buf[10];
     
     Hal_Flash_Init();
     
@@ -49,8 +47,6 @@ void Drv_Flash_Init(void )
     falshAddr += 2;
     
     Drv_Flash_Write(falshAddr, (uint8_t *)gImage_pic, 42444);
-
-    Drv_Flash_Read(0, buf, 10);
     #endif 
 }
 

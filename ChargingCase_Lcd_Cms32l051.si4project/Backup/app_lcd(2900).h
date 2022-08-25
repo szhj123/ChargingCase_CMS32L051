@@ -24,7 +24,6 @@ typedef struct _pic_para_t
     uint16_t    picWidth;
     uint16_t    picHeight;
     uint8_t     picIndex;
-    uint8_t     picTotalNum;
     uint8_t     picDataBuf[PIC_MAX_READ_BUF];
 }pic_para_t;
 
