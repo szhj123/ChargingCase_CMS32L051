@@ -26,7 +26,6 @@ static void App_Lcd_Show_Picture_End_Callback(void );
 static void App_Lcd_BattLevel_Flash(void );
 static void App_Lcd_EarbudChg_L_Flash(void );
 static void App_Lcd_EarbudChg_R_Flash(void );
-static void App_Lcd_Show_Picture_Switch(void *arg );
 /* Private variables ------------------------------------*/
 static lcd_para_t lcdPara;
 static pic_para_t picPara;
@@ -104,28 +103,27 @@ void App_Lcd_Show_Picture(void )
 }
 
 void App_Lcd_Show_Picture_Handler(void )
-{    
+{
     switch(picPara.picState)
     {
         case PIC_STATE_GET_INFO:
         {
-            uint8_t buf[6];
+            uint8_t buf[5];
             
-            Drv_Flash_Read((picPara.picIndex+picPara.picCnt)*ERASE_64K_BLOCK_SIZE, buf, 6);
-            //Drv_Flash_Read((picPara.picCnt+5)*ERASE_64K_BLOCK_SIZE, buf, 6);
+            //Drv_Flash_Read(picIndex*ERASE_64K_BLOCK_SIZE, buf, 5);
+            Drv_Flash_Read(0, buf, 5);
 
-            picPara.picTotalNum = buf[0];
-            picPara.picIndex =  buf[1];
-            picPara.picWidth =  (uint16_t )buf[3] << 8 | buf[2];
-            picPara.picHeight = (uint16_t )buf[5] << 8 | buf[4];
+            picPara.picIndex =  buf[0];
+            picPara.picWidth =  (uint16_t )buf[2] << 8 | buf[1];
+            picPara.picHeight = (uint16_t )buf[4] << 8 | buf[3];
 
-            if(picPara.picTotalNum != 0xff)
+            if(picPara.picIndex != 0xff)
             {
                 Drv_Lcd_Set_Position(0, 0, picPara.picWidth-1, picPara.picHeight-1);
                 
                 picPara.picTotalData = picPara.picWidth*picPara.picHeight*2;
                 
-                picPara.picFlashAddr = picPara.picIndex*ERASE_64K_BLOCK_SIZE + 6;
+                picPara.picFlashAddr = picPara.picIndex*ERASE_64K_BLOCK_SIZE + 5;
 
                 lcdWrEndFlag = 0;
                 
@@ -165,17 +163,10 @@ void App_Lcd_Show_Picture_Handler(void )
             if(lcdWrEndFlag)
             {
                 lcdWrEndFlag = 0;
-
+                
                 if(picPara.picTotalData == 0)
                 {
-                    if(picPara.picTotalNum == 1)
-                    {
-                        picPara.picState = PIC_STATE_IDLE;
-                    }
-                    else
-                    {
-                        Drv_Timer_Regist_Oneshot(App_Lcd_Show_Picture_Switch, PIC_SHOW_SPEED, NULL);
-                    }
+                    picPara.picState = PIC_STATE_IDLE;
                 }
                 else
                 {
@@ -198,32 +189,10 @@ static void App_Lcd_Show_Picture_End_Callback(void )
     lcdWrEndFlag = 1;
 }
 
-static void App_Lcd_Show_Picture_Switch(void *arg )
+void App_Lcd_Show_Picture_En(void )
 {
-    picPara.picCnt++;
-                        
-    if(picPara.picCnt >= picPara.picTotalNum)
-    {
-        picPara.picCnt = 0;
-        
-        picPara.picState = PIC_STATE_GET_INFO;
-    }
-    else
-    {                            
-        picPara.picState = PIC_STATE_GET_INFO;
-    }
-}
-
-void App_Lcd_Show_Picture_En(uint8_t picIndex )
-{
-    picPara.picCnt = 0;
-    
-    picPara.picIndex = picIndex;
-    
     picPara.picState = PIC_STATE_GET_INFO;
 }
-
-
 
 void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color )
 {
@@ -592,67 +561,44 @@ void App_Lcd_Ui_Init(uint8_t battLevel )
 
 void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length )
 {
-    uint8_t  picTotalNum = buf[0];
-    uint8_t  picIndex= buf[1];
-    uint16_t picWidth = (uint16_t )buf[3] << 8 | buf[2];
-    uint16_t picHeight = (uint16_t )buf[5] << 8 | buf[4];
+    uint8_t picIndex= buf[0];
+    uint16_t picWidth = (uint16_t )buf[2] << 8 | buf[1];
+    uint16_t picHeight = (uint16_t )buf[4] << 8 | buf[3];
 
     uint32_t falshAddr = picIndex * ERASE_64K_BLOCK_SIZE;
 
     picPara.picState = PIC_STATE_IDLE;
 
-    picPara.picIndex = picIndex;
-
-    picPara.picTotalNum = picTotalNum;
-
     picPara.picTotalData = (uint32_t )picWidth * (uint32_t )picHeight * 2;
+
+    picPara.picDataCnt = 0;
     
-    picPara.picFlashAddr = falshAddr + 6;
+    picPara.picFlashAddr = falshAddr + 5;
     
     Drv_Flash_Block_64k_Erase(falshAddr);
-    
-    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picTotalNum, 1);
 
-    Drv_Flash_Write_With_Loop(falshAddr+1, (uint8_t *)&picIndex, 1);
+    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picIndex, 1);
 
-    Drv_Flash_Write_With_Loop(falshAddr+2, (uint8_t *)&picWidth, 2);
+    Drv_Flash_Write_With_Loop(falshAddr+1, (uint8_t *)&picWidth, 2);
     
-    Drv_Flash_Write_With_Loop(falshAddr+4, (uint8_t *)&picHeight, 2);
+    Drv_Flash_Write_With_Loop(falshAddr+3, (uint8_t *)&picHeight, 2);
 }
 
 void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length )
 {
-    uint16_t picDataLength = length - 4;
-    uint8_t  *picDataPtr = (uint8_t *)&buf[4];
-    
-    picPara.picDataOffset = ((uint32_t)buf[3] << 24) | ((uint32_t)buf[2] << 16) | ((uint32_t)buf[1] << 8) | (uint32_t)buf[0];
+    Drv_Flash_Write(picPara.picFlashAddr, buf, length);
 
-    Drv_Flash_Write(picPara.picFlashAddr + picPara.picDataOffset, picDataPtr, picDataLength);
+    picPara.picFlashAddr += length;
 
-    if((picPara.picDataOffset + picDataLength) >= picPara.picTotalData)
+    picPara.picDataCnt += length;
+
+    if(picPara.picDataCnt >= picPara.picTotalData)
     {
-        if(picPara.picTotalNum == 1)
-        {
-            picPara.picDataOffset = 0;
+        picPara.picDataCnt = 0;
 
-            picPara.picFlashAddr = 0;
-            
-            App_Lcd_Show_Picture_En(picPara.picIndex);
-        }
-        else
-        {
-            if((picPara.picIndex-4) == picPara.picTotalNum)
-            {
-                picPara.picDataOffset = 0;
-
-                picPara.picFlashAddr = 0;
-
-                
-                App_Lcd_Show_Picture_En(5);
-            }
-        }
+        picPara.picFlashAddr = 0;
+        
+        App_Lcd_Show_Picture_En();
     }
-
-    
 }
 

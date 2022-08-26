@@ -6,7 +6,6 @@
 typedef void (*lcd_show_callback_t)(void );
 
 #define PIC_MAX_READ_BUF                512
-#define PIC_SHOW_SPEED                  50
 
 typedef enum 
 {
@@ -20,14 +19,11 @@ typedef struct _pic_para_t
 {
     pic_state_t picState;
     uint32_t    picTotalData;
-    uint32_t    picDataOffset;
+    uint32_t    picDataCnt;
     uint32_t    picFlashAddr;
     uint16_t    picWidth;
     uint16_t    picHeight;
     uint8_t     picIndex;
-    uint8_t     picTotalNum;
-    uint8_t     picCnt;
-    uint8_t     picSwitchTimerId;
     uint8_t     picDataBuf[PIC_MAX_READ_BUF];
 }pic_para_t;
 
@@ -69,7 +65,7 @@ void App_Lcd_Background_Led_Off(void );
 void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length );
 void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length );
 void App_Lcd_Show_Picture_Handler(void );
-void App_Lcd_Show_Picture_En(uint8_t picIndex );
+void App_Lcd_Show_Picture_En(void );
 
 #endif 
 
