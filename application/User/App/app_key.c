@@ -88,7 +88,7 @@ static void App_Hall_Event_Handler(void *arg )
 
     if(App_Batt_Get_Usb_State() == USB_PLUG_OUT)
     {
-        App_Lcd_Show_Picture();
+        App_Lcd_Show_Pic();
 
         App_Batt_Delete_Standby_Timer();
 
@@ -99,7 +99,9 @@ static void App_Hall_Event_Handler(void *arg )
 }
 
 static void App_Lcd_Show_Pic_End_Callbck(void *arg )
-{    
+{   
+    App_Lcd_Show_Pic_Disable();
+    
     App_Lcd_Clr();
 
     App_Batt_Send_Event();

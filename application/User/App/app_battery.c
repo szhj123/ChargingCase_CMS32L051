@@ -44,6 +44,7 @@ uint8_t standbyTimerId = TIMER_NULL;
 void App_Batt_Init(void )
 {
     uint8_t i;
+    
     Drv_Batt_Init();
 
     Drv_Task_Regist_Period(App_Batt_Handler, 0, 1, NULL);

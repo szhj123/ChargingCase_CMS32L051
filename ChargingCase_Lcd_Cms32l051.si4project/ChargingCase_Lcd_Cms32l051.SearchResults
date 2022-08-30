@@ -1,5 +1,4 @@
----- App_Lcd_Show_Picture_En Matches (4 in 2 files) ----
-app_lcd.c (application\User\App) line 217 : void App_Lcd_Show_Picture_En(void )
-App_Lcd_Set_Pic_Data in app_lcd.c (application\User\App) :             App_Lcd_Show_Picture_En();
-App_Lcd_Set_Pic_Data in app_lcd.c (application\User\App) :                 App_Lcd_Show_Picture_En();
-app_lcd.h (application\User\App) line 72 : void App_Lcd_Show_Picture_En(void );
+---- App_Lcd_Show_Picture Matches (3 in 3 files) ----
+App_Hall_Event_Handler in app_key.c (application\User\App) :         App_Lcd_Show_Picture();
+app_lcd.c (application\User\App) line 95 : void App_Lcd_Show_Picture(void )
+app_lcd.h (application\User\App) line 58 : void App_Lcd_Show_Picture(void );

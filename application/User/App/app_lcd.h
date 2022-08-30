@@ -55,7 +55,7 @@ typedef struct _lcd_para_t
 
 void App_Lcd_Init(void );
 void App_Lcd_Clr(void );
-void App_Lcd_Show_Picture(void );
+void App_Lcd_Show_Pic(void );
 void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color );
 void App_Lcd_Set_BattLevel_Flash(uint8_t battLevel, uint16_t color );
 void App_Lcd_Set_EarbudChg_L_Flash(void );
@@ -69,7 +69,8 @@ void App_Lcd_Background_Led_Off(void );
 void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length );
 void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length );
 void App_Lcd_Show_Picture_Handler(void );
-void App_Lcd_Show_Picture_En(uint8_t picIndex );
+void App_Lcd_Show_Pic_Enable(void );
+void App_Lcd_Show_Pic_Disable(void );
 
 #endif 
 

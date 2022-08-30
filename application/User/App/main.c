@@ -42,7 +42,7 @@ int main(void )
 
     App_Batt_Init();
 
-    //App_Com_Init();
+    App_Com_Init();
 
     //App_Led_Init();
     
@@ -50,7 +50,7 @@ int main(void )
 	{	
         Drv_Task_Scheduler();
 
-        //App_Lcd_Show_Picture_Handler();
+        App_Lcd_Show_Picture_Handler();
 	}
 }
 
