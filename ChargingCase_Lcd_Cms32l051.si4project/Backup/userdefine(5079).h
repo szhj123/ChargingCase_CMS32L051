@@ -425,7 +425,6 @@ typedef enum
 }while(0)
 #else
 #define ADC_PORT_SETTING() do{ \
-        PORT->PMC0 |= (1 << 1);   /* Set ANI10(P01) pin */ \
         PORT->PMC7 |= (1 << 3);   /* Set ANI32(P73) pin */ \
         PORT->PMC7 |= (1 << 4);   /* Set ANI33(P74) pin */ \
 }while(0)

@@ -46,10 +46,10 @@ void Cms32l051_Gpio_Init(void )
     PORT_Init(PORT12, PIN0, OUTPUT);
     PORT_Init(PORT3, PIN1, OUTPUT);
 
+    //p51, usb detect, input
     //p50, hall detect, input
-    //p30, hall detect, input
+    PORT_Init(PORT5, PIN1, INPUT);
     PORT_Init(PORT5, PIN0, INPUT);
-    PORT_Init(PORT3, PIN0, INPUT);
 
     //p74, r_adc, adc
     //p73, l_adc, adc input
@@ -57,7 +57,7 @@ void Cms32l051_Gpio_Init(void )
 
 void Cms32l051_Intp_Init(void )
 {
-    //p30, intp2
+    //p51, intp2
     //p50, intp1, 
     INTP_Init(1 << 2, INTP_BOTH);
     INTP_Init(1 << 1, INTP_BOTH);

@@ -25,7 +25,6 @@ void Hal_Batt_Init(void )
     Cms32l051_Intp_Init();
 
     Cms32l051_Adc_Init();
-
 }
 
 void Hal_Batt_Boost_Enable(void )
@@ -40,7 +39,7 @@ void Hal_Batt_Boost_Disable(void )
 
 uint8_t Hal_Batt_Get_Usb_State(void )
 {
-    return PORT_GetBit(PORT3, PIN0);
+    return PORT_GetBit(PORT5, PIN1);
 }
 
 uint8_t Hal_Batt_Get_Charging_State(void )

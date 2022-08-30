@@ -38,11 +38,11 @@ int main(void )
 
     App_Lcd_Init();
     
-    App_Key_Init();
+    //App_Key_Init();
 
-    App_Batt_Init();
+    //App_Batt_Init();
 
-    //App_Com_Init();
+    App_Com_Init();
 
     //App_Led_Init();
     
@@ -50,7 +50,7 @@ int main(void )
 	{	
         Drv_Task_Scheduler();
 
-        //App_Lcd_Show_Picture_Handler();
+        App_Lcd_Show_Picture_Handler();
 	}
 }
 
