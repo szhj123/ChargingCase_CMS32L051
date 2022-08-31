@@ -34,12 +34,11 @@ static void App_Batt_Charging_Handler(void );
 static void App_Batt_Charging_Full_Detect(void );
 static void Drv_Batt_Adc_Sample(uint8_t *battSampleEndFlag );
 static void App_Batt_Event_Handler(void *arg );
-static void App_Lcd_Shutdown(void *arg );
+static void App_Batt_Handler_End_Callback(void *arg );
 /* Private variables ------------------------------------*/
 batt_para_t battPara;
 
 uint8_t standbyTimerId = TIMER_NULL;
-
 
 void App_Batt_Init(void )
 {
@@ -582,6 +581,8 @@ static void App_Batt_Event_Handler(void *arg )
     uint8_t battLevel = msg->buf[0];
     earbud_chg_state_t earbudChgStateL= (earbud_chg_state_t )msg->buf[1];
     earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[2];
+
+    App_Lcd_Show_Pic_Disable();
     
     if(Drv_Batt_Get_Usb_State() == USB_PLUG_OUT)
     {
@@ -606,7 +607,7 @@ static void App_Batt_Event_Handler(void *arg )
         {
             Drv_Timer_Delete(standbyTimerId);
             
-            standbyTimerId = Drv_Timer_Regist_Oneshot(App_Lcd_Shutdown, 5000, NULL);
+            standbyTimerId = Drv_Timer_Regist_Oneshot(App_Batt_Handler_End_Callback, 5000, NULL);
         }
     }
     else
@@ -644,12 +645,13 @@ static void App_Batt_Event_Handler(void *arg )
     App_Lcd_Show_Bt_Logo();
 }
 
-static void App_Lcd_Shutdown(void *arg )
+static void App_Batt_Handler_End_Callback(void *arg )
 {
     App_Lcd_Clr();
 
     App_Lcd_Background_Led_Off();
 }
+
 
 void App_Batt_Delete_Standby_Timer(void )
 {

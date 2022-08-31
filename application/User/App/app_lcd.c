@@ -114,11 +114,11 @@ void App_Lcd_Show_Picture_Handler(void )
         {
             uint8_t buf[6];
             
-            Drv_Flash_Read((picPara.picIndex+picPara.picCnt)*ERASE_64K_BLOCK_SIZE, buf, 6);
-            //Drv_Flash_Read((picPara.picCnt+5)*ERASE_64K_BLOCK_SIZE, buf, 6);
+            //Drv_Flash_Read((picPara.picIndex+picPara.picCnt)*ERASE_64K_BLOCK_SIZE, buf, 6);
+            Drv_Flash_Read((picPara.picCnt+5)*ERASE_64K_BLOCK_SIZE, buf, 6);
 
             picPara.picTotalNum = buf[0];
-            //picPara.picIndex =  buf[1];
+            picPara.picIndex =  buf[1];
             picPara.picWidth =  (uint16_t )buf[3] << 8 | buf[2];
             picPara.picHeight = (uint16_t )buf[5] << 8 | buf[4];
 
@@ -202,13 +202,16 @@ static void App_Lcd_Show_Picture_End_Callback(void )
 }
 
 static void App_Lcd_Show_Picture_Switch(void *arg )
-{                        
-    if(++picPara.picCnt >= picPara.picTotalNum)
+{                      
+    if(picPara.picState != PIC_STATE_IDLE)
     {
-        picPara.picCnt = 0;
+        if(++picPara.picCnt >= picPara.picTotalNum)
+        {
+            picPara.picCnt = 0;
+        }
+        
+        picPara.picState = PIC_STATE_GET_INFO;
     }
-    
-    picPara.picState = PIC_STATE_GET_INFO;
 }
 
 void App_Lcd_Show_Pic_Enable(void )
@@ -644,7 +647,7 @@ void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length )
 
             picPara.picFlashAddr = 0;
             
-            App_Lcd_Show_Pic_Enable();
+            //App_Lcd_Show_Pic_Enable();
         }
         else
         {
@@ -656,11 +659,9 @@ void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length )
                 
                 picPara.picIndex = 5;
 
-                App_Lcd_Show_Pic_Enable();
+                //App_Lcd_Show_Pic_Enable();
             }
         }
     }
-
-    
 }
 

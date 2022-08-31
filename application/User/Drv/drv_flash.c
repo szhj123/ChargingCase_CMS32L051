@@ -127,6 +127,19 @@ void Drv_Flash_Block_64k_Erase(uint32_t addr )
     Drv_Flash_Wait_Bus_Idle();
 }
 
+void Drv_Flash_Chip_Erase(void )
+{
+    Drv_Write_Enable();
+
+    Hal_Flash_Start();
+
+    Hal_Flash_Single_Write(CHIP_ERASE);
+
+    Hal_Flash_Stop();
+
+    Drv_Flash_Wait_Bus_Idle();
+}
+
 void Drv_Flash_Write_With_Loop(uint32_t addr, uint8_t *buf, uint16_t length )
 {
     Drv_Write_Enable();
