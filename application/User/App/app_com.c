@@ -103,7 +103,7 @@ static void App_Com_Rx_Handler(void *arg )
             App_Led_Set_Para(msg->buf, msg->length);
             break;
         }
-        case CMD_LCD_SEND_EN:
+        case CMD_GET_LCD_ERASE:
         {
             App_Lcd_Set_Pic_Enable(msg->buf, msg->length);
 
@@ -112,13 +112,17 @@ static void App_Com_Rx_Handler(void *arg )
             break;
             
         }
-        case CMD_LCD_SEND_DATA:
+        case CMD_SET_LCD_DATA:
         {
             App_Lcd_Set_Pic_Data(msg->buf, msg->length);
             
             App_Com_Tx_Reply(CMD_LCD_ACK);
 
             break;
+        }
+        case CMD_GET_FW_VERSION:
+        {
+            App_Com_Tx_Version();
         }
         default: break;
     }
@@ -132,7 +136,7 @@ void App_Com_Tx_Reply(uint8_t reply )
     buf[0] = 0x5a;
     buf[1] = 0x5a;
     buf[2] = 0x3;
-    buf[3] = CMD_LCD_REPLY;
+    buf[3] = CMD_SET_LCD_ACK;
     buf[4] = reply;
     
     for(int i = 0;i<buf[2];i++)
@@ -141,6 +145,29 @@ void App_Com_Tx_Reply(uint8_t reply )
     }
 
     buf[5] = (char)checksum;
+
+    Drv_Com_Queue_Put(buf, buf[2]+3);
+}
+
+void App_Com_Tx_Version(void )
+{
+    uint8_t buf[8] = {0};
+    uint8_t checksum = 0;
+    
+    buf[0] = 0x5a;
+    buf[1] = 0x5a;
+    buf[2] = 0x05;
+    buf[3] = CMD_SET_FW_VERSION;
+    buf[4] = FW_VER_BUILD;
+    buf[5] = FW_VER_MINOR;
+    buf[6] = FW_VER_MAJOR;
+    
+    for(int i=0;i<buf[2];i++)
+    {
+        checksum += buf[i+2];
+    }
+
+    buf[7] = (char)checksum;
 
     Drv_Com_Queue_Put(buf, buf[2]+3);
 }
