@@ -13,6 +13,7 @@
 #include "drv_task.h"
 #include "drv_timer.h"
 #include "drv_event.h"
+#include "drv_flash.h"
 #include "app_com.h"
 #include "app_led.h"
 #include "app_lcd.h"
@@ -94,6 +95,8 @@ static void App_Com_Tx_End_Callback(void )
 
 static void App_Com_Rx_Handler(void *arg )
 {
+    static fw_info_t fwInfo;
+    
     msg_t *msg = (msg_t *)arg; 
 
     switch(msg->cmd)
@@ -107,7 +110,7 @@ static void App_Com_Rx_Handler(void *arg )
         {
             App_Lcd_Set_Pic_Enable(msg->buf, msg->length);
 
-            App_Com_Tx_Reply(CMD_LCD_ACK);
+            App_Com_Tx_Lcd_Ack(CMD_LCD_ACK);
 
             break;
             
@@ -116,8 +119,18 @@ static void App_Com_Rx_Handler(void *arg )
         {
             App_Lcd_Set_Pic_Data(msg->buf, msg->length);
             
-            App_Com_Tx_Reply(CMD_LCD_ACK);
+            App_Com_Tx_Lcd_Ack(CMD_LCD_ACK);
 
+            break;
+        }
+        case CMD_SET_FW_ERASE:
+        {
+            fwInfo.fwSize = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
+
+            Drv_Flash_App2_Erase(fwInfo.fwSize);
+
+            App_Com_Tx_Fw_Ack(CMD_FW_ACK);
+            
             break;
         }
         case CMD_GET_FW_VERSION:
@@ -128,7 +141,7 @@ static void App_Com_Rx_Handler(void *arg )
     }
 }
 
-void App_Com_Tx_Reply(uint8_t reply )
+void App_Com_Tx_Lcd_Ack(uint8_t reply )
 {
     uint8_t buf[6] = {0};
     uint8_t checksum = 0;
@@ -171,4 +184,26 @@ void App_Com_Tx_Version(void )
 
     Drv_Com_Queue_Put(buf, buf[2]+3);
 }
+
+void App_Com_Tx_Fw_Ack(uint8_t reply )
+{
+    uint8_t buf[6] = {0};
+    uint8_t checksum = 0;
+    
+    buf[0] = 0x5a;
+    buf[1] = 0x5a;
+    buf[2] = 0x3;
+    buf[3] = CMD_SET_FW_ACK;
+    buf[4] = reply;
+    
+    for(int i = 0;i<buf[2];i++)
+    {
+        checksum += buf[i+2];
+    }
+
+    buf[5] = (char)checksum;
+
+    Drv_Com_Queue_Put(buf, buf[2]+3);
+}
+
 

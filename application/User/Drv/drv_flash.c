@@ -23,35 +23,9 @@ static uint8_t flashRdEndFlag = 0;
 
 void Drv_Flash_Init(void )
 {   
-    #if 1
     Hal_Flash_Init();
-    #else
-    extern const unsigned char gImage_pic[];
-    uint8_t  picIndex= 0;
-    uint16_t picWidth = 0x84;
-    uint16_t picHeight = 0xa2;
 
-    uint32_t falshAddr = 0;
-
-    static uint8_t buf[10];
-    
-    Hal_Flash_Init();
-    
-    Drv_Flash_Block_64k_Erase(falshAddr);
-
-    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picIndex, 1);
-    falshAddr += 1;
-    
-    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picWidth, 2);
-    falshAddr += 2;
-    
-    Drv_Flash_Write_With_Loop(falshAddr, (uint8_t *)&picHeight, 2);
-    falshAddr += 2;
-    
-    Drv_Flash_Write(falshAddr, (uint8_t *)gImage_pic, 42444);
-
-    Drv_Flash_Read(0, buf, 10);
-    #endif 
+    //Drv_Flash_Chip_Erase();
 }
 
 void Drv_Flash_Read_Jedec_Id(void )
@@ -281,6 +255,84 @@ void Drv_Flash_Read(uint32_t addr, uint8_t *buf, uint32_t length )
     flashRdEndFlag = 0;
     
     Hal_Flash_Stop();
+}
+
+int Drv_Internal_Flash_Sector_Erase(uint32_t adr )
+{
+    FMC->FLERMD = 0x10;
+    FMC->FLPROT = 0xF1;
+    FMC->FLOPMD1 = 0x55;
+    FMC->FLOPMD2 = 0xAA;  
+    // Write data to start address of sector to trigger Erase Operation
+    *(uint32_t *) adr = 0xFFFFFFFF;
+    
+    // polling Erase Over Flag
+    while((FMC->FLSTS & FMC_FLSTS_OVF_Msk) == 0);
+    FMC->FLSTS |= FMC_FLSTS_OVF_Msk;
+    FMC->FLERMD = 0x00;
+    FMC->FLPROT = 0x00;
+
+    if(FMC->FLSTS & FMC_FLSTS_EVF_Msk)
+    {
+        return(1);  /* verify ng */
+    }
+    else
+    {
+        return(0);  /* verify ok */
+    }
+}
+
+int Drv_Internal_Flash_ProgramPage (uint32_t adr, uint32_t sz, uint8_t *buf)
+{
+    uint32_t i;
+    uint8_t *ptr;
+    
+    ptr = (uint8_t *) adr;
+    
+    FMC->FLPROT = 0xF1;
+    
+    for(i=0; i<sz; i++) 
+    {
+        FMC->FLOPMD1 = 0xAA;
+        FMC->FLOPMD2 = 0x55;  
+        *ptr++ = *buf++;    
+        // polling OVER Flag
+        while((FMC->FLSTS & FMC_FLSTS_OVF_Msk) == 0);
+        FMC->FLSTS |= FMC_FLSTS_OVF_Msk;
+    }
+
+    FMC->FLPROT = 0x00;
+    
+    return (0);
+}
+
+void Drv_Flash_App2_Erase(uint32_t fwSize )
+{
+    uint16_t i,j;
+
+    uint32_t addr = APP2_START_ADDR;
+
+    do{
+        for(j=0;j<3;j++)
+        {
+            if(!Drv_Internal_Flash_Sector_Erase(addr))
+            {
+                break;
+            }
+        }
+
+        if(j >= 3)
+        {
+            //flash erased error
+
+            return ;
+        }
+
+        
+        addr += INTERNALE_FLASH_SECTOR_SIZE;
+
+    }while(addr < (APP2_START_ADDR + fwSize));
+
 }
 
 

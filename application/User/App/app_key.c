@@ -149,7 +149,7 @@ static void App_Cmd_OpenCase_Tx_Callback(void )
         }
         case 1:
         {
-            if(txPara.delayCnt > 100)
+            if(txPara.delayCnt > 300)
             {
                 Drv_Key_Tx_High();
 
@@ -162,7 +162,7 @@ static void App_Cmd_OpenCase_Tx_Callback(void )
         }
         case 2:
         {
-            if(txPara.delayCnt > 700)
+            if(txPara.delayCnt > 600)
             {
                 Drv_Key_Tx_Low();
 
