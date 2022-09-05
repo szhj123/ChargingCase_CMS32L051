@@ -35,7 +35,6 @@
 typedef struct _user_data_t
 {
     uint8_t fwUpgFlag;
-    uint32_t fwSize;
 }user_data_t;
 
 void Drv_Flash_Init(void );
@@ -55,8 +54,6 @@ void Drv_Flash_App2_Program(uint32_t dataOffsetAddr, uint8_t *buf, uint32_t leng
 uint16_t Drv_Flash_App2_Get_Checksum(uint32_t fwSize );
 
 void Drv_Flash_Set_Upg_Flag(uint8_t flag );
-void Drv_Flash_Set_Fw_Size(uint32_t fwSize );
-uint32_t Drv_Flash_Get_Fw_Size(void );
 void Drv_Flash_Save_User_Data(void );
 
 

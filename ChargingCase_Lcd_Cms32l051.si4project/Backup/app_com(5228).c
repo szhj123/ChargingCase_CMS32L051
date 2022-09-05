@@ -125,8 +125,6 @@ static void App_Com_Rx_Handler(void *arg )
         case CMD_SET_FW_ERASE:
         {
             uint32_t fwSize = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
-
-            Drv_Timer_Init();
             
             App_Lcd_Task_Sleep();
 

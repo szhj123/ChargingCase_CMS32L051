@@ -15,7 +15,6 @@
 #include "drv_event.h"
 #include "drv_flash.h"
 #include "app_com.h"
-#include "app_battery.h"
 #include "app_led.h"
 #include "app_lcd.h"
 
@@ -96,6 +95,8 @@ static void App_Com_Tx_End_Callback(void )
 
 static void App_Com_Rx_Handler(void *arg )
 {
+    static uint32_t fwTotalSize;
+    
     msg_t *msg = (msg_t *)arg; 
 
     switch(msg->cmd)
@@ -124,21 +125,9 @@ static void App_Com_Rx_Handler(void *arg )
         }
         case CMD_SET_FW_ERASE:
         {
-            uint32_t fwSize = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
-
-            Drv_Timer_Init();
+            fwTotalSize = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
             
-            App_Lcd_Task_Sleep();
-
-            App_Batt_Task_Sleep();
-
-            App_Lcd_Show_Pic_Disable();
-
-            App_Lcd_Clr();   
-
-            Drv_Flash_Set_Fw_Size(fwSize);
-            
-            Drv_Flash_App2_Erase(fwSize);
+            Drv_Flash_App2_Erase(fwTotalSize);
 
             App_Com_Tx_Fw_Ack(CMD_FW_ACK);
             
@@ -161,7 +150,7 @@ static void App_Com_Rx_Handler(void *arg )
             uint16_t calChecksum = 0;
             uint16_t recvChecksum = ((uint16_t )msg->buf[1] << 8) | (uint16_t )msg->buf[0];
             
-            calChecksum = Drv_Flash_App2_Get_Checksum(Drv_Flash_Get_Fw_Size());
+            calChecksum = Drv_Flash_App2_Get_Checksum(fwTotalSize);
 
             if(recvChecksum == calChecksum)
             {
@@ -170,10 +159,6 @@ static void App_Com_Rx_Handler(void *arg )
             else
             {
                 App_Com_Tx_Fw_Ack(CMD_FW_NAK);
-
-                App_Lcd_Task_Wakeup();
-
-                App_Batt_Task_Wakeup();
             }
             break;
         }

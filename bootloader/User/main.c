@@ -33,7 +33,7 @@ typedef void (*app_func_callback_t)(void );
 typedef struct _user_data_t
 {
     uint8_t fwUpgFlag;
-		uint16_t fwSize;
+		uint32_t fwSize;
 }user_data_t;
 
 /* Private macro ----------------------------------------*/
@@ -42,7 +42,7 @@ void Get_User_Data(uint8_t *buf, uint16_t length );
 void App1_Erase(void );
 void App1_ProgramPage(void );
 void Set_User_Data(uint8_t *buf, uint16_t length );
-uint16_t Get_Fw_Checksum(uint32_t flashAddr, uint16_t length );
+uint16_t Get_Fw_Checksum(uint32_t flashAddr, uint32_t length );
 void App_Run(void );
 /* Private variables ------------------------------------*/
 static user_data_t userData;
@@ -126,15 +126,8 @@ void App1_ProgramPage(void )
 {
 	  uint8_t *pBuf = (uint8_t *)APP2_START_ADDR;
 		uint32_t flashAddr = APP1_START_ADDR;
-	
-		do{
-		    ProgramPage(flashAddr, FLASH_SECTOR_SIZE, pBuf);
-				
-				pBuf += FLASH_SECTOR_SIZE;
-			
-				flashAddr += FLASH_SECTOR_SIZE;
-			
-		}while(flashAddr < (APP1_START_ADDR + userData.fwSize));
+
+		 ProgramPage(flashAddr, userData.fwSize, pBuf);
 }
 
 void InvertUint16(uint16_t *poly )
@@ -174,7 +167,7 @@ uint16_t Flash_Cal_Checksum(uint8_t *data, uint32_t length)
     return wCRCin;
 }
 
-uint16_t Get_Fw_Checksum(uint32_t flashAddr, uint16_t length )
+uint16_t Get_Fw_Checksum(uint32_t flashAddr, uint32_t length )
 {
 		return Flash_Cal_Checksum((uint8_t *)flashAddr, length );
 }

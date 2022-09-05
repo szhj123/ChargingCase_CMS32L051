@@ -14,12 +14,10 @@
 #include "drv_timer.h"
 
 /* Private typedef --------------------------------------*/
-typedef void (*bld_func_callback_t)(void );
 /* Private define ------------------ ------------------- -*/
 /* Private macro ---------------------------------------*/
 /* Private function ---------------------------------- --*/
 /* Private variables ------------------------------------*/
-static bld_func_callback_t Bootloader = NULL;
 static uint8_t flashWrEndFlag = 0;
 static uint8_t flashRdEndFlag = 0;
 
@@ -397,16 +395,6 @@ void Drv_Flash_Set_Upg_Flag(uint8_t flag )
     userData.fwUpgFlag = flag;
 }
 
-void Drv_Flash_Set_Fw_Size(uint32_t fwSize )
-{
-    userData.fwSize = fwSize;
-}
-
-uint32_t Drv_Flash_Get_Fw_Size(void )
-{
-    return userData.fwSize;
-}
-
 void Drv_Flash_Save_User_Data(void )
 {
     Drv_Internal_Flash_Sector_Erase(USER_DATA_START_ADDR);
@@ -416,6 +404,10 @@ void Drv_Flash_Save_User_Data(void )
 
 void Bootloader_Run(void )
 {
+    typedef void (*bld_func_callback_t)(void );
+
+    bld_func_callback_t Bootloader = NULL;
+
     uint32_t BootloaderAddress;
     
     __disable_irq();

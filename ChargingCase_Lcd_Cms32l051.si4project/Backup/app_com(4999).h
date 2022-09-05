@@ -5,7 +5,7 @@
 
 #define FW_VER_BUILD               0
 #define FW_VER_MINOR               0
-#define FW_VER_MAJOR               2
+#define FW_VER_MAJOR               1
 
 #define CMD_SET_LED                0x01
 #define CMD_GET_LCD_ERASE          0x02

@@ -1,7 +1,7 @@
 .\objects\flash.o: ..\..\Driver\src\flash.c
 .\objects\flash.o: ..\..\Device\Include\CMS32L051.h
 .\objects\flash.o: ..\..\CMSIS\Include\core_cm0plus.h
-.\objects\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\flash.o: d:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\flash.o: ..\..\CMSIS\Include\cmsis_version.h
 .\objects\flash.o: ..\..\CMSIS\Include\cmsis_compiler.h
 .\objects\flash.o: ..\..\CMSIS\Include\cmsis_armcc.h

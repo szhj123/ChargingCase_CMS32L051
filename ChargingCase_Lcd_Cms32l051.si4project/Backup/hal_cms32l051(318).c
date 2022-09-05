@@ -129,8 +129,8 @@ void Cms32l051_Spi20_Init(void )
                   _0000_SCI_TRIGGER_SOFTWARE | _0000_SCI_MODE_SPI | _0000_SCI_TRANSFER_END;
     SCI1->SCR10 = _0004_SCRMN_DEFAULT_VALUE | _C000_SCI_RECEPTION_TRANSMISSION | dap << 13 | ckp << 12 | _0000_SCI_INTSRE_MASK |
                   _0000_SCI_PARITY_NONE | _0000_SCI_MSB | _0000_SCI_STOP_NONE | _0003_SCI_LENGTH_8;
-	//SCI1->SDR10 = 0 << 9; 	// fMCK/(1+n)x2 = fMCK/2
-    SCI1->SDR10 = 1 << 9; 	// fMCK/(1+n)x2 = fMCK/4
+	SCI1->SDR10 = 0 << 9; 	// fMCK/(1+n)x2 = fMCK/2
+    //SCI1->SDR10 = 1 << 9; 	// fMCK/(1+n)x2 = fMCK/4
     //SCI1->SDR10 = 2 << 9;		// fMCK/(1+n)x2 = fMCK/6
     //SCI1->SDR10 = 3 << 9;		// fMCK/(1+n)x2 = fMCK/8
 	//SCI1->SDR10 = 7 << 9;		// fMCK/(1+n)x2 = fMCK/16
@@ -169,7 +169,7 @@ void Cms32l051_Spi00_Init(void )
                   _0000_SCI_TRIGGER_SOFTWARE | _0000_SCI_MODE_SPI | _0000_SCI_TRANSFER_END;
     SCI0->SCR00 = _0004_SCRMN_DEFAULT_VALUE | _C000_SCI_RECEPTION_TRANSMISSION | dap << 13 | ckp << 12 | _0000_SCI_INTSRE_MASK |
                   _0000_SCI_PARITY_NONE | _0000_SCI_MSB | _0000_SCI_STOP_NONE | _0003_SCI_LENGTH_8;
-    SCI0->SDR00 = 1 << 9;
+    SCI0->SDR00 = 0 << 9;
     /* Set output enable */
     if ((mode == SPI_MODE_0) || (mode == SPI_MODE_1))
     {

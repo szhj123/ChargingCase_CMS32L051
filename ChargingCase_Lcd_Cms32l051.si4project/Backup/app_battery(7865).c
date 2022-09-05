@@ -36,9 +36,9 @@ static void Drv_Batt_Adc_Sample(uint8_t *battSampleEndFlag );
 static void App_Batt_Event_Handler(void *arg );
 static void App_Batt_Handler_End_Callback(void *arg );
 /* Private variables ------------------------------------*/
-static task_block_t *battTask = NULL;
-static batt_para_t battPara;
-static uint8_t standbyTimerId = TIMER_NULL;
+batt_para_t battPara;
+
+uint8_t standbyTimerId = TIMER_NULL;
 
 void App_Batt_Init(void )
 {
@@ -46,7 +46,7 @@ void App_Batt_Init(void )
     
     Drv_Batt_Init();
 
-    battTask = Drv_Task_Regist_Period(App_Batt_Handler, 0, 1, NULL);
+    Drv_Task_Regist_Period(App_Batt_Handler, 0, 1, NULL);
 
     for(i=0;i<100;i++)
     {
@@ -656,15 +656,5 @@ static void App_Batt_Handler_End_Callback(void *arg )
 void App_Batt_Delete_Standby_Timer(void )
 {
     Drv_Timer_Delete(standbyTimerId);
-}
-
-void App_Batt_Task_Sleep(void )
-{
-    Drv_Task_Sleep(battTask);
-}
-
-void App_Batt_Task_Wakeup(void )
-{
-    Drv_Task_Wakeup(battTask);
 }
 
