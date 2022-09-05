@@ -1,0 +1,9 @@
+.\objects\clk.o: ..\..\Driver\src\clk.c
+.\objects\clk.o: ..\..\Device\Include\CMS32L051.h
+.\objects\clk.o: ..\..\CMSIS\Include\core_cm0plus.h
+.\objects\clk.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\clk.o: ..\..\CMSIS\Include\cmsis_version.h
+.\objects\clk.o: ..\..\CMSIS\Include\cmsis_compiler.h
+.\objects\clk.o: ..\..\CMSIS\Include\cmsis_armcc.h
+.\objects\clk.o: ..\..\Device\Include\system_CMS32L051.h
+.\objects\clk.o: ..\..\Driver\inc\clk.h

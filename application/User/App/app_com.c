@@ -95,7 +95,7 @@ static void App_Com_Tx_End_Callback(void )
 
 static void App_Com_Rx_Handler(void *arg )
 {
-    static fw_info_t fwInfo;
+    static uint32_t fwTotalSize;
     
     msg_t *msg = (msg_t *)arg; 
 
@@ -125,17 +125,58 @@ static void App_Com_Rx_Handler(void *arg )
         }
         case CMD_SET_FW_ERASE:
         {
-            fwInfo.fwSize = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
-
-            Drv_Flash_App2_Erase(fwInfo.fwSize);
+            fwTotalSize = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
+            
+            Drv_Flash_App2_Erase(fwTotalSize);
 
             App_Com_Tx_Fw_Ack(CMD_FW_ACK);
             
             break;
         }
+        case CMD_SET_FW_DATA:
+        {
+            uint16_t fwDataLength = msg->length - 4;
+            uint8_t  *fwDataPtr = (uint8_t *)&msg->buf[4];
+            uint32_t fwOffsetAddr = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
+
+            Drv_Flash_App2_Program(fwOffsetAddr, fwDataPtr, fwDataLength);
+            
+            App_Com_Tx_Fw_Ack(CMD_FW_ACK);
+            
+            break;
+        }
+        case CMD_SET_FW_CHECKSUM:
+        {
+            uint16_t calChecksum = 0;
+            uint16_t recvChecksum = ((uint16_t )msg->buf[1] << 8) | (uint16_t )msg->buf[0];
+            
+            calChecksum = Drv_Flash_App2_Get_Checksum(fwTotalSize);
+
+            if(recvChecksum == calChecksum)
+            {
+                App_Com_Tx_Fw_Ack(CMD_FW_ACK);
+            }
+            else
+            {
+                App_Com_Tx_Fw_Ack(CMD_FW_NAK);
+            }
+            break;
+        }
         case CMD_GET_FW_VERSION:
         {
             App_Com_Tx_Version();
+            
+            break;
+        }
+        case CMD_SET_RESET:
+        {
+            Drv_Flash_Set_Upg_Flag(0x01);
+            
+            Drv_Flash_Save_User_Data();
+
+            Bootloader_Run();
+
+            break;
         }
         default: break;
     }

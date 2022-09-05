@@ -20,18 +20,13 @@
 #define CMD_GET_FW_VERSION         0x09
 #define CMD_SET_FW_VERSION         (CMD_GET_FW_VERSION | 0x80)
 
+#define CMD_SET_RESET              0x0a
+
 #define CMD_LCD_ACK                1
-#define CMD_LCD_NAK                2
+#define CMD_LCD_NAK                0
 
 #define CMD_FW_ACK                 1
-#define CMD_FW_NAK                 2
-
-typedef struct _fw_info_t
-{
-    uint32_t fwSize;
-    uint32_t fwOffset;
-}fw_info_t;
-
+#define CMD_FW_NAK                 0
 
 void App_Com_Init(void );
 void App_Com_Tx_Lcd_Ack(uint8_t reply );

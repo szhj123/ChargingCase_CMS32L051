@@ -19,7 +19,8 @@
 
 void Cms32l051_Systick_Init(void )
 {
-    SystemCoreClockUpdate();
+    //SystemCoreClockUpdate();
+    SystemCoreClock = 64000000;
 
     SysTick_Config(SystemCoreClock / 1000);
 }
@@ -68,7 +69,9 @@ void Cms32l051_Intp_Init(void )
 
 void Cms32l051_Tim40_Channel0_Interval_Init(void )
 {
-    SystemCoreClockUpdate();
+    //SystemCoreClockUpdate();
+    
+    SystemCoreClock = 64000000;
     
     CGC->PER0 |= CGC_PER0_TM40EN_Msk;    /* enables input clock supply */
     TM40->TPS0 = _0000_TM4_CKM3_fCLK_8 | _0000_TM4_CKM2_fCLK_1 | _00F0_TM4_CKM1_fCLK_15 | _0000_TM4_CKM0_fCLK_0; 
@@ -93,7 +96,9 @@ void Cms32l051_Tim40_Channel0_Interval_Init(void )
 
 void Cms32l051_Uart0_Init(void )
 {
-    SystemCoreClockUpdate();
+    //SystemCoreClockUpdate();
+    
+    SystemCoreClock = 64000000;
 
     UART0_Init(SystemCoreClock, 115200);
 
@@ -102,7 +107,9 @@ void Cms32l051_Uart0_Init(void )
 
 void Cms32l051_Uart1_Init(void )
 {
-    SystemCoreClockUpdate();
+    //SystemCoreClockUpdate();
+    
+    SystemCoreClock = 64000000;
     
     UART1_Init(SystemCoreClock, 921600);
 }

@@ -1,0 +1,9 @@
+.\objects\gpio.o: ..\..\Driver\src\gpio.c
+.\objects\gpio.o: ..\..\Device\Include\CMS32L051.h
+.\objects\gpio.o: ..\..\CMSIS\Include\core_cm0plus.h
+.\objects\gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\gpio.o: ..\..\CMSIS\Include\cmsis_version.h
+.\objects\gpio.o: ..\..\CMSIS\Include\cmsis_compiler.h
+.\objects\gpio.o: ..\..\CMSIS\Include\cmsis_armcc.h
+.\objects\gpio.o: ..\..\Device\Include\system_CMS32L051.h
+.\objects\gpio.o: ..\..\Driver\inc\gpio.h

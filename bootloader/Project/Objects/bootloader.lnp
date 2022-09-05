@@ -1,0 +1,9 @@
+--cpu Cortex-M0+
+".\objects\startup_cms32l051.o"
+".\objects\system_cms32l051.o"
+".\objects\flash.o"
+".\objects\main.o"
+--strict --scatter ".\Objects\bootloader.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\bootloader.map" -o .\Objects\bootloader.axf

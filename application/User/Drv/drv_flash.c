@@ -21,6 +21,8 @@
 static uint8_t flashWrEndFlag = 0;
 static uint8_t flashRdEndFlag = 0;
 
+static user_data_t userData;
+
 void Drv_Flash_Init(void )
 {   
     Hal_Flash_Init();
@@ -308,7 +310,7 @@ int Drv_Internal_Flash_ProgramPage (uint32_t adr, uint32_t sz, uint8_t *buf)
 
 void Drv_Flash_App2_Erase(uint32_t fwSize )
 {
-    uint16_t i,j;
+    uint16_t j;
 
     uint32_t addr = APP2_START_ADDR;
 
@@ -333,6 +335,99 @@ void Drv_Flash_App2_Erase(uint32_t fwSize )
 
     }while(addr < (APP2_START_ADDR + fwSize));
 
+}
+
+void Drv_Flash_App2_Program(uint32_t dataOffsetAddr, uint8_t *buf, uint32_t length )
+{
+    Drv_Internal_Flash_ProgramPage(APP2_START_ADDR + dataOffsetAddr, length, buf);
+}
+
+void InvertUint16(uint16_t *poly )
+{
+    uint8_t i;
+    uint16_t tmp = 0;
+    uint16_t polyVal = *poly;
+
+    for(i=0;i<16;i++)
+    {
+        if(polyVal & (1 << i))
+            tmp |= 1 << (15-i);
+    }
+    *poly = tmp;
+}
+
+uint16_t Drv_Flash_Cal_Checksum(uint8_t *data, uint32_t length)
+{
+    uint16_t wCRCin = 0x0000;
+    uint16_t wCPoly = 0x8005;
+    uint8_t i;
+
+    InvertUint16(&wCPoly);
+
+    while(length--)
+    {
+        wCRCin ^= *(data++);
+        for(i=0;i<8;i++)
+        {
+
+            if(wCRCin & 0x0001)
+                wCRCin = (wCRCin >> 1) ^ wCPoly;
+            else
+                wCRCin >>= 1;
+        }
+    }
+    return wCRCin;
+}
+
+uint16_t Drv_Flash_App2_Get_Checksum(uint32_t fwSize )
+{
+    uint16_t checksum = 0;
+    
+    uint8_t *fwDataPtr = (uint8_t *)APP2_START_ADDR;
+
+    checksum = Drv_Flash_Cal_Checksum(fwDataPtr, fwSize);
+
+    return checksum;
+}
+
+void Drv_Flash_Set_Upg_Flag(uint8_t flag )
+{
+    userData.fwUpgFlag = flag;
+}
+
+void Drv_Flash_Save_User_Data(void )
+{
+    Drv_Internal_Flash_Sector_Erase(USER_DATA_START_ADDR);
+
+    Drv_Internal_Flash_ProgramPage(USER_DATA_START_ADDR, sizeof(user_data_t), (uint8_t *)&userData);
+}
+
+void Bootloader_Run(void )
+{
+    typedef void (*bld_func_callback_t)(void );
+
+    bld_func_callback_t Bootloader = NULL;
+
+    uint32_t BootloaderAddress;
+    
+    __disable_irq();
+    
+	SCB->VTOR = BLD_START_ADDR;
+	
+	if (((*(__IO uint32_t*)BLD_START_ADDR) & 0x2FFE0000 ) == 0x20000000)
+	{
+		BootloaderAddress = *(__IO uint32_t*) (BLD_START_ADDR + 4);
+		Bootloader = (bld_func_callback_t) BootloaderAddress;
+
+		/* Initialize user application's stack pointer */
+		__set_MSP(*(__IO uint32_t*) BLD_START_ADDR);
+    
+		__enable_irq();
+		/* Jump to user application */
+		Bootloader();
+		
+        //((void (*)())BootloaderAddress)();
+	}
 }
 
 
