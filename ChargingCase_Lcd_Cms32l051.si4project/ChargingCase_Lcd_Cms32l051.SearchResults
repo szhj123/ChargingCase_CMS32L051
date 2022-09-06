@@ -1,1 +1,7 @@
----- reset Matches (0 in 0 files) ----
+---- SystemCoreClockUpdate Matches (6 in 3 files) ----
+Cms32l051_Systick_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
+Cms32l051_Tim40_Channel0_Interval_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
+Cms32l051_Uart0_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
+Cms32l051_Uart1_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
+system_CMS32L051.c (Device\Source) line 226 : void SystemCoreClockUpdate (void)            /* Get Core Clock Frequency      */
+system_CMS32L051.h (Device\Include) line 51 : extern void SystemCoreClockUpdate (void);
