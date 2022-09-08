@@ -13,9 +13,7 @@
 #include "drv_task.h"
 #include "drv_timer.h"
 #include "drv_event.h"
-#include "drv_flash.h"
 #include "app_com.h"
-#include "app_battery.h"
 #include "app_led.h"
 #include "app_lcd.h"
 
@@ -109,7 +107,7 @@ static void App_Com_Rx_Handler(void *arg )
         {
             App_Lcd_Set_Pic_Enable(msg->buf, msg->length);
 
-            App_Com_Tx_Lcd_Ack(CMD_LCD_ACK);
+            App_Com_Tx_Reply(CMD_LCD_ACK);
 
             break;
             
@@ -118,86 +116,19 @@ static void App_Com_Rx_Handler(void *arg )
         {
             App_Lcd_Set_Pic_Data(msg->buf, msg->length);
             
-            App_Com_Tx_Lcd_Ack(CMD_LCD_ACK);
+            App_Com_Tx_Reply(CMD_LCD_ACK);
 
-            break;
-        }
-        case CMD_SET_FW_ERASE:
-        {
-            uint32_t fwSize = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
-
-            Drv_Timer_Init();
-            
-            App_Lcd_Task_Sleep();
-
-            App_Batt_Task_Sleep();
-
-            App_Lcd_Show_Pic_Disable();
-
-            App_Lcd_Clr();   
-
-            Drv_Flash_Set_Fw_Size(fwSize);
-            
-            Drv_Flash_App2_Erase(fwSize);
-
-            App_Com_Tx_Fw_Ack(CMD_FW_ACK);
-            
-            break;
-        }
-        case CMD_SET_FW_DATA:
-        {
-            uint16_t fwDataLength = msg->length - 4;
-            uint8_t  *fwDataPtr = (uint8_t *)&msg->buf[4];
-            uint32_t fwOffsetAddr = ((uint32_t )msg->buf[3] << 24) | ((uint32_t )msg->buf[2] << 16) | ((uint32_t )msg->buf[1] << 8) | (uint32_t )msg->buf[0];
-
-            Drv_Flash_App2_Program(fwOffsetAddr, fwDataPtr, fwDataLength);
-            
-            App_Com_Tx_Fw_Ack(CMD_FW_ACK);
-            
-            break;
-        }
-        case CMD_SET_FW_CHECKSUM:
-        {
-            uint16_t calChecksum = 0;
-            uint16_t recvChecksum = ((uint16_t )msg->buf[1] << 8) | (uint16_t )msg->buf[0];
-            
-            calChecksum = Drv_Flash_App2_Get_Checksum(Drv_Flash_Get_Fw_Size());
-
-            if(recvChecksum == calChecksum)
-            {
-                App_Com_Tx_Fw_Ack(CMD_FW_ACK);
-            }
-            else
-            {
-                App_Com_Tx_Fw_Ack(CMD_FW_NAK);
-
-                App_Lcd_Task_Wakeup();
-
-                App_Batt_Task_Wakeup();
-            }
             break;
         }
         case CMD_GET_FW_VERSION:
         {
             App_Com_Tx_Version();
-            
-            break;
-        }
-        case CMD_SET_RESET:
-        {
-            Drv_Flash_Set_Upg_Flag(0x01);
-            
-            Drv_Flash_Save_User_Data();
-
-            Bootloader_Run();
-
-            break;
         }
         default: break;
     }
 }
 
-void App_Com_Tx_Lcd_Ack(uint8_t reply )
+void App_Com_Tx_Reply(uint8_t reply )
 {
     uint8_t buf[6] = {0};
     uint8_t checksum = 0;
@@ -240,26 +171,4 @@ void App_Com_Tx_Version(void )
 
     Drv_Com_Queue_Put(buf, buf[2]+3);
 }
-
-void App_Com_Tx_Fw_Ack(uint8_t reply )
-{
-    uint8_t buf[6] = {0};
-    uint8_t checksum = 0;
-    
-    buf[0] = 0x5a;
-    buf[1] = 0x5a;
-    buf[2] = 0x3;
-    buf[3] = CMD_SET_FW_ACK;
-    buf[4] = reply;
-    
-    for(int i = 0;i<buf[2];i++)
-    {
-        checksum += buf[i+2];
-    }
-
-    buf[5] = (char)checksum;
-
-    Drv_Com_Queue_Put(buf, buf[2]+3);
-}
-
 

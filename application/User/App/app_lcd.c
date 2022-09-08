@@ -28,7 +28,6 @@ static void App_Lcd_EarbudChg_L_Flash(void );
 static void App_Lcd_EarbudChg_R_Flash(void );
 static void App_Lcd_Show_Picture_Switch(void *arg );
 /* Private variables ------------------------------------*/
-static task_block_t *lcdTask = NULL;
 static lcd_para_t lcdPara;
 static pic_para_t picPara;
 static uint8_t lcdWrEndFlag;
@@ -37,7 +36,7 @@ void App_Lcd_Init(void )
 {
     Drv_Lcd_Init();
 
-    lcdTask = Drv_Task_Regist_Period(App_Lcd_Display_Handler, 0, 1, NULL);    
+    Drv_Task_Regist_Period(App_Lcd_Display_Handler, 0, 1, NULL);    
 
     App_Lcd_Show_Pic_Disable();
 }
@@ -100,9 +99,12 @@ void App_Lcd_Show_Pic(void )
     lcdPara.show_battLevel_callback = NULL;
     lcdPara.l_show_earbudChg_callback = NULL;
     lcdPara.r_show_earbudChg_callback = NULL;
-    
-    //Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
+
+    #if 1
+    Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
+    #else
     App_Lcd_Show_Pic_Enable();
+    #endif 
     
     App_Lcd_Background_Led_On();
 }
@@ -665,15 +667,4 @@ void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length )
         }
     }
 }
-
-void App_Lcd_Task_Sleep(void )
-{
-    Drv_Task_Sleep(lcdTask);
-}
-
-void App_Lcd_Task_Wakeup(void )
-{
-    Drv_Task_Wakeup(lcdTask);
-}
-
 

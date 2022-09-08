@@ -7,6 +7,8 @@
 #define USB_PLUG_IN                  (!USB_PLUG_OUT)
 
 void Drv_Batt_Init(void );
+void Drv_Batt_Boost_Enable(void );
+void Drv_Batt_Boost_Disable(void );
 uint8_t Drv_Batt_Get_Usb_State(void );
 uint8_t Drv_Batt_Get_Charing_State(void );
 uint16_t Drv_Batt_Get_BatVol(void );

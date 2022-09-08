@@ -72,8 +72,5 @@ void App_Lcd_Show_Picture_Handler(void );
 void App_Lcd_Show_Pic_Enable(void );
 void App_Lcd_Show_Pic_Disable(void );
 
-void App_Lcd_Task_Sleep(void );
-void App_Lcd_Task_Wakeup(void );
-
 #endif 
 

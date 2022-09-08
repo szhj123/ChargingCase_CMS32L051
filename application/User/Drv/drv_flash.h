@@ -21,22 +21,6 @@
 #define ERASE_64K_BLOCK_SIZE                65536u
 #define PAGE_SIZE                           256
 
-#define INTERNALE_FLASH_SECTOR_SIZE         512
-
-#define BLD_START_ADDR                      0
-#define BLD_MAX_SIZE                        0x1800
-#define APP1_START_ADDR                     (BLD_START_ADDR + BLD_MAX_SIZE)
-#define APP1_MAX_SIZE                       0x7400
-#define APP2_START_ADDR                     (APP1_START_ADDR + APP1_MAX_SIZE)
-#define APP2_MAX_SIZE                       0x7400
-
-#define USER_DATA_START_ADDR                0x500200
-
-typedef struct _user_data_t
-{
-    uint8_t fwUpgFlag;
-    uint32_t fwSize;
-}user_data_t;
 
 void Drv_Flash_Init(void );
 void Drv_Flash_Read_Jedec_Id(void );
@@ -47,20 +31,6 @@ void Drv_Flash_Write_With_Loop(uint32_t addr, uint8_t *buf, uint16_t length );
 void Drv_Flash_Read_With_Loop(uint32_t add, uint8_t *buf, uint16_t length );
 void Drv_Flash_Write(uint32_t addr, uint8_t *buf, uint32_t length );
 void Drv_Flash_Read(uint32_t addr, uint8_t *buf, uint32_t length );
-
-int Drv_Internal_Flash_Sector_Erase(uint32_t adr );
-int Drv_Internal_Flash_ProgramPage (uint32_t adr, uint32_t sz, uint8_t *buf);
-void Drv_Flash_App2_Erase(uint32_t fwSize );
-void Drv_Flash_App2_Program(uint32_t dataOffsetAddr, uint8_t *buf, uint32_t length );
-uint16_t Drv_Flash_App2_Get_Checksum(uint32_t fwSize );
-
-void Drv_Flash_Set_Upg_Flag(uint8_t flag );
-void Drv_Flash_Set_Fw_Size(uint32_t fwSize );
-uint32_t Drv_Flash_Get_Fw_Size(void );
-void Drv_Flash_Save_User_Data(void );
-
-
-void Bootloader_Run(void );
 
 #endif 
 

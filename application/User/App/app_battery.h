@@ -4,6 +4,7 @@
 #include "drv_battery.h"
 
 #define BATT_CMD                     0x01
+#define BATT_SLEEP                   0x02
 
 #define BATT_VOL_100                 4200
 #define BATT_VOL_90                  4060
@@ -89,9 +90,6 @@ earbud_chg_state_t App_Earbud_Get_ChgState_R(void );
 void App_Batt_Send_Event(void );
 uint8_t App_Batt_Get_Usb_State(void );
 void App_Batt_Delete_Standby_Timer(void );
+void App_Sys_Sleep(void );
 
-void App_Batt_Task_Sleep(void );
-void App_Batt_Task_Wakeup(void );
-
-#endif
-
+#endif 

@@ -1280,7 +1280,7 @@ typedef enum
 #define INTP2_PORT_SETTING() do{ \
         PORT->INTP2PCFG = 0x13;     /* allocate INTP2 to P30 */ \
         PORT->PM3  |=  (1 << 0);    /* P30 is used as INTP2 input */ \
-        PORT->PMC3 &= ~(1 << 00);   /* P30 digital function */ \
+        PORT->PMC3 &= ~(1 << 0);   /* P30 digital function */ \
 }while(0)
 
 /* ToDo: You can allocate the INTP3 to any desired pins with INTP3PCFG register */

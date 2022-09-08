@@ -19,8 +19,7 @@
 
 void Cms32l051_Systick_Init(void )
 {
-    //SystemCoreClockUpdate();
-    SystemCoreClock = 64000000;
+    SystemCoreClockUpdate();
 
     SysTick_Config(SystemCoreClock / 1000);
 }
@@ -48,8 +47,8 @@ void Cms32l051_Gpio_Init(void )
     PORT_Init(PORT3, PIN1, OUTPUT);
 
     //p50, hall detect, input
-    //p30, hall detect, input
-    PORT_Init(PORT5, PIN0, INPUT);
+    //p30, usb detect, input
+    PORT_Init(PORT5, PIN0, PULLUP_INPUT);
     PORT_Init(PORT3, PIN0, INPUT);
 
     //p74, r_adc, adc
@@ -69,9 +68,7 @@ void Cms32l051_Intp_Init(void )
 
 void Cms32l051_Tim40_Channel0_Interval_Init(void )
 {
-    //SystemCoreClockUpdate();
-    
-    SystemCoreClock = 64000000;
+    SystemCoreClockUpdate();
     
     CGC->PER0 |= CGC_PER0_TM40EN_Msk;    /* enables input clock supply */
     TM40->TPS0 = _0000_TM4_CKM3_fCLK_8 | _0000_TM4_CKM2_fCLK_1 | _00F0_TM4_CKM1_fCLK_15 | _0000_TM4_CKM0_fCLK_0; 
@@ -96,9 +93,7 @@ void Cms32l051_Tim40_Channel0_Interval_Init(void )
 
 void Cms32l051_Uart0_Init(void )
 {
-    //SystemCoreClockUpdate();
-    
-    SystemCoreClock = 64000000;
+    SystemCoreClockUpdate();
 
     UART0_Init(SystemCoreClock, 115200);
 
@@ -107,9 +102,7 @@ void Cms32l051_Uart0_Init(void )
 
 void Cms32l051_Uart1_Init(void )
 {
-    //SystemCoreClockUpdate();
-    
-    SystemCoreClock = 64000000;
+    SystemCoreClockUpdate();
     
     UART1_Init(SystemCoreClock, 921600);
 }
@@ -129,8 +122,8 @@ void Cms32l051_Spi20_Init(void )
                   _0000_SCI_TRIGGER_SOFTWARE | _0000_SCI_MODE_SPI | _0000_SCI_TRANSFER_END;
     SCI1->SCR10 = _0004_SCRMN_DEFAULT_VALUE | _C000_SCI_RECEPTION_TRANSMISSION | dap << 13 | ckp << 12 | _0000_SCI_INTSRE_MASK |
                   _0000_SCI_PARITY_NONE | _0000_SCI_MSB | _0000_SCI_STOP_NONE | _0003_SCI_LENGTH_8;
-	//SCI1->SDR10 = 0 << 9; 	// fMCK/(1+n)x2 = fMCK/2
-    SCI1->SDR10 = 1 << 9; 	// fMCK/(1+n)x2 = fMCK/4
+	SCI1->SDR10 = 0 << 9; 	// fMCK/(1+n)x2 = fMCK/2
+    //SCI1->SDR10 = 1 << 9; 	// fMCK/(1+n)x2 = fMCK/4
     //SCI1->SDR10 = 2 << 9;		// fMCK/(1+n)x2 = fMCK/6
     //SCI1->SDR10 = 3 << 9;		// fMCK/(1+n)x2 = fMCK/8
 	//SCI1->SDR10 = 7 << 9;		// fMCK/(1+n)x2 = fMCK/16
@@ -169,7 +162,7 @@ void Cms32l051_Spi00_Init(void )
                   _0000_SCI_TRIGGER_SOFTWARE | _0000_SCI_MODE_SPI | _0000_SCI_TRANSFER_END;
     SCI0->SCR00 = _0004_SCRMN_DEFAULT_VALUE | _C000_SCI_RECEPTION_TRANSMISSION | dap << 13 | ckp << 12 | _0000_SCI_INTSRE_MASK |
                   _0000_SCI_PARITY_NONE | _0000_SCI_MSB | _0000_SCI_STOP_NONE | _0003_SCI_LENGTH_8;
-    SCI0->SDR00 = 1 << 9;
+    SCI0->SDR00 = 0 << 9;
     /* Set output enable */
     if ((mode == SPI_MODE_0) || (mode == SPI_MODE_1))
     {
