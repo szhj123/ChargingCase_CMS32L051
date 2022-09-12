@@ -204,3 +204,7 @@ static void App_Cmd_CloseCase_Tx_Callback(void )
     cmd_handler = NULL;
 }
 
+uint8_t App_Key_Get_Hall_State(void )
+{
+   return Drv_Key_Get_Hall_State();
+}

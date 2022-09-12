@@ -12,6 +12,7 @@
 /* Includes ---------------------------------------------*/
 #include "app_battery.h"
 #include "app_lcd.h"
+#include "app_key.h"
 #include "drv_task.h"
 #include "drv_timer.h"
 #include "drv_event.h"
@@ -662,8 +663,11 @@ static void App_Batt_Handler_End_Callback(void *arg )
     App_Lcd_Clr();
 
     App_Lcd_Background_Led_Off();
-    
-    Drv_Msg_Queue_Put(App_Batt_Event_Handler, BATT_SLEEP, NULL, 0);
+
+    if(App_Key_Get_Hall_State() == 0)
+    {
+        Drv_Msg_Queue_Put(App_Batt_Event_Handler, BATT_SLEEP, NULL, 0);
+    }
 }
 
 
