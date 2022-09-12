@@ -653,7 +653,7 @@ static void App_Batt_Event_Handler(void *arg )
     }
     else if(msg->cmd == BATT_SLEEP)
     {
-        //App_Sys_Sleep();
+        App_Sys_Sleep();
     }
 }
 
