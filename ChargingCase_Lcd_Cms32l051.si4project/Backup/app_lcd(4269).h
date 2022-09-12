@@ -71,7 +71,6 @@ void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length );
 void App_Lcd_Show_Picture_Handler(void );
 void App_Lcd_Show_Pic_Enable(void );
 void App_Lcd_Show_Pic_Disable(void );
-pic_state_t App_Lcd_Get_Show_Pic_State(void );
 
 #endif 
 

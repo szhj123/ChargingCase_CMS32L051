@@ -1,2 +1,2 @@
----- App_Lcd_Shutdown Matches (1 in 1 files) ----
-app_lcd.c (application\User\App) line 97 : void App_Lcd_Shutdown(void *arg )
+---- picSwitchTimerId Matches (1 in 1 files) ----
+_pic_para_t in app_lcd.h (application\User\App) :     uint8_t     picSwitchTimerId;

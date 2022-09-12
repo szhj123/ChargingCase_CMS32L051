@@ -584,11 +584,6 @@ static void App_Batt_Event_Handler(void *arg )
         earbud_chg_state_t earbudChgStateL= (earbud_chg_state_t )msg->buf[1];
         earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[2];
 
-        if(App_Lcd_Get_Show_Pic_State() != PIC_STATE_IDLE)
-        {
-            return ;
-        }
-
         App_Lcd_Show_Pic_Disable();
         
         if(Drv_Batt_Get_Usb_State() == USB_PLUG_OUT)
@@ -651,9 +646,9 @@ static void App_Batt_Event_Handler(void *arg )
         
         App_Lcd_Show_Bt_Logo();
     }
-    else if(msg->cmd == BATT_SLEEP)
+    if(msg->cmd == BATT_SLEEP)
     {
-        //App_Sys_Sleep();
+        App_Sys_Sleep();
     }
 }
 
@@ -675,6 +670,12 @@ void App_Batt_Delete_Standby_Timer(void )
 void App_Sys_Sleep(void )
 {
     uint16_t i;
+
+    INTP_Init(1 << 2, INTP_BOTH);
+    INTP_Init(1 << 1, INTP_BOTH);
+
+    INTP_Start(1<<2);
+    INTP_Start(1<<1);
     
     Drv_Batt_Boost_Disable();
     
@@ -692,21 +693,6 @@ void App_Sys_Sleep(void )
         __NOP();
 
     Drv_Batt_Boost_Enable();
-
-    App_Sys_Wakeup();
     
-}
-
-void App_Sys_Wakeup(void )
-{
-    Cms32l051_Tim40_Channel0_Interval_Init();
-
-    Cms32l051_Uart1_Init();
-
-    Cms32l051_Spi20_Init();
-
-    Cms32l051_Spi00_Init();
-
-    Cms32l051_Adc_Init();
 }
 

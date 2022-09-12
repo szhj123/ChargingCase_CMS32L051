@@ -165,22 +165,10 @@ static void App_Cmd_OpenCase_Tx_Callback(void )
             if(txPara.delayCnt > 600)
             {
                 Drv_Key_Tx_Low();
-                
-                txPara.delayCnt = 0;
-                txPara.txStep = 3;
-            }
-            break;
-        }
-        case 3:
-        {
-            if(txPara.delayCnt > 100)
-            {
-                Drv_Key_Tx_High();
 
                 cmd_handler = NULL;
-
-                txPara.delayCnt = 0;
                 
+                txPara.delayCnt = 0;
                 txPara.txStep = 0;
             }
             break;

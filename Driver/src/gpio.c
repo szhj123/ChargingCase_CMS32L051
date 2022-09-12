@@ -202,58 +202,58 @@ void PORT_Init(PORT_TypeDef PORTx,PIN_TypeDef PINx,PIN_ModeDef MODEx)
 }
 
 
-// /**
-//   * @brief  Set the PORTx bit
-//   * @param  PORTx: where x can be 0~7, 12~14
-//   * @param  PINx: where x can be 0~7    
-// 	*
-//   * @retval None
-//   */
-// void PORT_SetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
-// {
-// 	uint8_t pos = 1<<PINx;
-// 	*((volatile uint8_t*)(&PORT->PSET0+PORTx)) = pos;
-// }
+ /**
+   * @brief  Set the PORTx bit
+   * @param  PORTx: where x can be 0~7, 12~14
+   * @param  PINx: where x can be 0~7    
+ 	*
+   * @retval None
+   */
+ void PORT_SetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
+ {
+ 	uint8_t pos = 1<<PINx;
+ 	*((volatile uint8_t*)(&PORT->PSET0+PORTx)) = pos;
+ }
 
-// /**
-//   * @brief  Clear the PORTx bit
-//   * @param  PORTx: where x can be 0~7, 12~14
-//   * @param  PINx: where x can be 0~7    
-// 	*
-//   * @retval None
-//   */
-// void PORT_ClrBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
-// {
-// 	uint8_t pos = 1<<PINx;
-// 	*((volatile uint8_t*)(&PORT->PCLR0+PORTx)) = pos;
-// }
+ /**
+   * @brief  Clear the PORTx bit
+   * @param  PORTx: where x can be 0~7, 12~14
+   * @param  PINx: where x can be 0~7    
+ 	*
+   * @retval None
+   */
+ void PORT_ClrBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
+ {
+ 	uint8_t pos = 1<<PINx;
+ 	*((volatile uint8_t*)(&PORT->PCLR0+PORTx)) = pos;
+ }
 
-// /**
-//   * @brief  Toggle the PORTx bit
-//   * @param  PORTx: where x can be 0~7, 12~14
-//   * @param  PINx: where x can be 0~7    
-// 	*
-//   * @retval None
-//   */
-// void PORT_ToggleBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
-// {
-// 	uint8_t pos = 1<<PINx;
-// 	*((volatile uint8_t*)(&PORT->P0+PORTx)) ^= pos;
-// }
+ /**
+   * @brief  Toggle the PORTx bit
+   * @param  PORTx: where x can be 0~7, 12~14
+   * @param  PINx: where x can be 0~7    
+ 	*
+   * @retval None
+   */
+ void PORT_ToggleBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
+ {
+ 	uint8_t pos = 1<<PINx;
+ 	*((volatile uint8_t*)(&PORT->P0+PORTx)) ^= pos;
+ }
 
-// /**
-//   * @brief  Get the PORTx bit
-//   * @param  PORTx: where x can be 0~7, 12~14
-//   * @param  PINx: where x can be 0~7    
-// 	*
-//   * @retval None
-//   */
-// uint8_t PORT_GetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
-// {
-// 	uint8_t pos = 1<<PINx;
-// 	PORT->PMS = 0x01;        /*!< Digital output level of the pin is read */
-// 	return *((volatile uint8_t*)(&PORT->P0+PORTx))&pos;
-// }
+ /**
+   * @brief  Get the PORTx bit
+   * @param  PORTx: where x can be 0~7, 12~14
+   * @param  PINx: where x can be 0~7    
+ 	*
+   * @retval None
+   */
+ uint8_t PORT_GetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx)
+ {
+ 	uint8_t pos = 1<<PINx;
+ 	PORT->PMS = 0x01;        /*!< Digital output level of the pin is read */
+ 	return *((volatile uint8_t*)(&PORT->P0+PORTx))&pos;
+ }
 
 
 /**

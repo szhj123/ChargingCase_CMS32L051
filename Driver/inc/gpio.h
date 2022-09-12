@@ -249,10 +249,10 @@ uint8_t GPIO_Get_Value(__IO uint8_t *port);
 
 
 void PORT_Init(PORT_TypeDef PORTx,PIN_TypeDef PINx,PIN_ModeDef MODEx);
-// void PORT_SetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
-// void PORT_ClrBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
-// void PORT_ToggleBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
-// uint8_t PORT_GetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
+ void PORT_SetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
+ void PORT_ClrBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
+ void PORT_ToggleBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
+ uint8_t PORT_GetBit(PORT_TypeDef PORTx,PIN_TypeDef PINx);
 void PORT_Output_Cfg(IO_CfgType PORT_CFGx, IO_CfgDef CFGx);
 void PORT_Input_Cfg(PortInput_CfgType PORT_CFGx, PortInput_CfgDef CFGx);
 void SPI_Cfg(SPI_CfgDef CFGx);
@@ -265,9 +265,9 @@ void SPI_Cfg(SPI_CfgDef CFGx);
  ** \return  none
  ** \note	 
 *****************************************************************************/
-#define   PORT_SetBit(PORTx,PINx)  do{\
-											*((uint8_t*)((uint8_t*)&PORT->PSET0+PORTx)) = (1<<PINx);\
-										   }while(0)
+//#define   PORT_SetBit(PORTx,PINx)  do{\
+//											*((uint8_t*)((uint8_t*)&PORT->PSET0+PORTx)) = (1<<PINx);\
+//										   }while(0)
 /*****************************************************************************
  ** \brief	 PORT_ClrBit
  **			 
@@ -276,9 +276,9 @@ void SPI_Cfg(SPI_CfgDef CFGx);
  ** \return  none
  ** \note	 
 *****************************************************************************/
-#define   PORT_ClrBit(PORTx,PINx)  do{\
-											*((uint8_t*)((uint8_t*)&PORT->PCLR0+PORTx)) = (1<<PINx);\
-										   }while(0)
+//#define   PORT_ClrBit(PORTx,PINx)  do{\
+//											*((uint8_t*)((uint8_t*)&PORT->PCLR0+PORTx)) = (1<<PINx);\
+//										   }while(0)
 /*****************************************************************************
  ** \brief	 PORT_ToggleBit
  **			 
@@ -287,9 +287,9 @@ void SPI_Cfg(SPI_CfgDef CFGx);
  ** \return  none
  ** \note	 
 *****************************************************************************/
-#define   PORT_ToggleBit(PORTx,PINx)  do{\
-											*((uint8_t*)((uint8_t*)&PORT->P0+PORTx)) ^= (1<<PINx);\
-										   }while(0)
+//#define   PORT_ToggleBit(PORTx,PINx)  do{\
+//											*((uint8_t*)((uint8_t*)&PORT->P0+PORTx)) ^= (1<<PINx);\
+//										   }while(0)
 /*****************************************************************************
  ** \brief	 PORT_GetBit
  **	
@@ -298,7 +298,7 @@ void SPI_Cfg(SPI_CfgDef CFGx);
  ** \return  PORT Bit
  ** \note	 
 *****************************************************************************/
-#define   PORT_GetBit(PORTx,PINx)  (*((uint8_t*)((uint8_t*)&PORT->P0+PORTx)) & (1<<PINx))
+//#define   PORT_GetBit(PORTx,PINx)  (*((uint8_t*)((uint8_t*)&PORT->P0+PORTx)) & (1<<PINx))
 
 
 #endif

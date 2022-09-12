@@ -91,6 +91,5 @@ void App_Batt_Send_Event(void );
 uint8_t App_Batt_Get_Usb_State(void );
 void App_Batt_Delete_Standby_Timer(void );
 void App_Sys_Sleep(void );
-void App_Sys_Wakeup(void );
 
 #endif 

@@ -26,6 +26,7 @@ void Cms32l051_Systick_Init(void )
 
 void Cms32l051_Gpio_Init(void )
 {
+    //p23, ldo vdd, output
     //p22, ctrl, output
     //p21, charging state, pull-up input
     //p20, en boost, output

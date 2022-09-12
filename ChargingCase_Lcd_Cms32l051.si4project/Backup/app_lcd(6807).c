@@ -101,7 +101,6 @@ void App_Lcd_Show_Pic(void )
     lcdPara.r_show_earbudChg_callback = NULL;
 
     #if 1
-    App_Lcd_Show_Pic_Enable();
     Drv_Lcd_Show_Picture(gImage_pic, sizeof(gImage_pic), App_Lcd_Show_Picture_End_Callback);
     #else
     App_Lcd_Show_Pic_Enable();
@@ -232,10 +231,7 @@ void App_Lcd_Show_Pic_Disable(void )
     picPara.picState = PIC_STATE_IDLE;
 }
 
-pic_state_t App_Lcd_Get_Show_Pic_State(void )
-{
-    return picPara.picState;
-}
+
 
 void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color )
 {
