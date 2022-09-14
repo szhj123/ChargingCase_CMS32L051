@@ -4,6 +4,7 @@
 #include "drv_battery.h"
 
 #define BATT_CMD                     0x01
+#define BATT_SLEEP                   0x02
 
 #define BATT_VOL_100                 4200
 #define BATT_VOL_90                  4060
@@ -92,6 +93,10 @@ void App_Batt_Delete_Standby_Timer(void );
 
 void App_Batt_Task_Sleep(void );
 void App_Batt_Task_Wakeup(void );
+
+void App_Sys_Sleep(void );
+void App_Sys_Wakeup(void );
+
 
 #endif
 

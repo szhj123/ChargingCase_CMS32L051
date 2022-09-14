@@ -38,7 +38,7 @@ void Drv_Key_Tx_Low(void )
     Hal_Key_Tx_Low();
 }
 
-uint8_t Drv_Key_Get_Hall_State(void )
+uint8_t Drv_Get_Hall_State(void )
 {
     return Hal_Key_Get_Hall_State();
 }

@@ -24,6 +24,16 @@ void Drv_Batt_Init(void )
     Hal_Batt_Init();    
 }
 
+void Drv_Batt_Boost_Enable(void )
+{
+    Hal_Batt_Boost_Enable();
+}
+
+void Drv_Datt_Boost_Disable(void )
+{
+    Hal_Batt_Boost_Disable();
+}
+
 uint8_t Drv_Batt_Get_Usb_State(void )
 {
     if(Hal_Batt_Get_Usb_State())

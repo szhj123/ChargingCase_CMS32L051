@@ -57,7 +57,7 @@ static void App_Hall_Handler(void *arg )
 {
     uint8_t hallState;
     
-    if(Drv_Key_Get_Hall_State())
+    if(Drv_Get_Hall_State())
     {
         hallState = 1;
     }
@@ -201,5 +201,10 @@ static void App_Cmd_CloseCase_Tx_Callback(void )
     Drv_Key_Tx_High();
 
     cmd_handler = NULL;
+}
+
+uint8_t App_Hall_Get_State(void )
+{
+    return Drv_Get_Hall_State();
 }
 

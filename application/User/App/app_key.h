@@ -25,6 +25,7 @@ typedef struct _tx_para_t
 void App_Key_Init(void );
 void App_Cmd_OpenCase_Tx(void );
 void App_Cmd_CloseCase_Tx(void );
+uint8_t App_Hall_Get_State(void );
 
 #endif 
 

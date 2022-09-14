@@ -109,11 +109,6 @@ void App_Lcd_Show_Pic(void )
 
 void App_Lcd_Show_Picture_Handler(void )
 {    
-    if(picPara.picShowEndFlag)
-    {
-        return ;
-    }
-
     switch(picPara.picState)
     {
         case PIC_STATE_GET_INFO:
@@ -199,6 +194,11 @@ void App_Lcd_Show_Picture_Handler(void )
             break;
         }
         default: break;
+    }
+
+    if(picPara.picShowEndFlag)
+    {
+        picPara.picState = PIC_STATE_IDLE;
     }
 }
 
