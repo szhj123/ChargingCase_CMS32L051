@@ -109,11 +109,6 @@ void App_Lcd_Show_Pic(void )
 
 void App_Lcd_Show_Picture_Handler(void )
 {    
-    if(picPara.picShowEndFlag)
-    {
-        return ;
-    }
-
     switch(picPara.picState)
     {
         case PIC_STATE_GET_INFO:
@@ -223,8 +218,6 @@ static void App_Lcd_Show_Picture_Switch(void *arg )
 void App_Lcd_Show_Pic_Enable(void )
 {
     picPara.picCnt = 0;
-
-    picPara.picShowEndFlag = 0;
         
     picPara.picState = PIC_STATE_GET_INFO;
 }
@@ -232,16 +225,10 @@ void App_Lcd_Show_Pic_Enable(void )
 void App_Lcd_Show_Pic_Disable(void )
 {
     picPara.picCnt = 0;
-
-    picPara.picShowEndFlag = 1;
         
     picPara.picState = PIC_STATE_IDLE;
 }
 
-pic_state_t App_Lcd_Get_Show_Pic_State(void )
-{
-    return picPara.picState;
-}
 
 
 void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color )

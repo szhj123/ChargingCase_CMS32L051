@@ -49,32 +49,32 @@ ARM Macro Assembler    Page 1
    32 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
    33 00000000         ; </h>
    34 00000000         
-   35 00000000 00000400 
+   35 00000000 00000200 
                        Stack_Size
-                               EQU              0x00000400
+                               EQU              0x00000200
    36 00000000         
    37 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
 =3
    38 00000000         Stack_Mem
                                SPACE            Stack_Size
-   39 00000400         __initial_sp
-   40 00000400         
-   41 00000400         
-   42 00000400         ; <h> Heap Configuration
-   43 00000400         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
-   44 00000400         ; </h>
+   39 00000200         __initial_sp
+   40 00000200         
+   41 00000200         
+   42 00000200         ; <h> Heap Configuration
+   43 00000200         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   44 00000200         ; </h>
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   45 00000400         
-   46 00000400 00000100 
+   45 00000200         
+   46 00000200 00000100 
                        Heap_Size
                                EQU              0x00000100
-   47 00000400         
-   48 00000400                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+   47 00000200         
+   48 00000200                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    49 00000000         __heap_base
    50 00000000         Heap_Mem
@@ -464,14 +464,14 @@ ARM Macro Assembler    Page 8
               00000000 
               00000000 
               00000000 
-              00000400 
+              00000200 
               00000100 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0+ --apcs=inter
-work --depend=.\objects\startup_cms32l051.d -o.\objects\startup_cms32l051.o -Id
-:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.3.0\Device\Include -Id:\Keil_v5\ARM\C
-MSIS\Include --predefine="__UVISION_VERSION SETA 535" --list=.\listings\startup
-_cms32l051.lst ..\..\Device\Source\ARM\startup_CMS32L051.s
+work --depend=.\objects\startup_cms32l051.d -o.\objects\startup_cms32l051.o -IC
+:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.2.0\Device\Include --predefine="__UVI
+SION_VERSION SETA 536" --list=.\listings\startup_cms32l051.lst ..\..\Device\Sou
+rce\ARM\startup_CMS32L051.s
 
 
 
@@ -495,7 +495,7 @@ Symbol: Stack_Mem
       At line 363 in file ..\..\Device\Source\ARM\startup_CMS32L051.s
       At line 365 in file ..\..\Device\Source\ARM\startup_CMS32L051.s
 
-__initial_sp 00000400
+__initial_sp 00000200
 
 Symbol: __initial_sp
    Definitions
@@ -1025,7 +1025,7 @@ Symbol: Heap_Size
       At line 50 in file ..\..\Device\Source\ARM\startup_CMS32L051.s
       At line 364 in file ..\..\Device\Source\ARM\startup_CMS32L051.s
 
-Stack_Size 00000400
+Stack_Size 00000200
 
 Symbol: Stack_Size
    Definitions

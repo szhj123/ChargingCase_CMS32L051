@@ -293,9 +293,9 @@ Image Symbol Table
     .bss                                     0x20000010   Section       96  libspace.o(.bss)
     HEAP                                     0x20000070   Section      256  startup_cms32l051.o(HEAP)
     Heap_Mem                                 0x20000070   Data         256  startup_cms32l051.o(HEAP)
-    STACK                                    0x20000170   Section     1024  startup_cms32l051.o(STACK)
-    Stack_Mem                                0x20000170   Data        1024  startup_cms32l051.o(STACK)
-    __initial_sp                             0x20000570   Data           0  startup_cms32l051.o(STACK)
+    STACK                                    0x20000170   Section      512  startup_cms32l051.o(STACK)
+    Stack_Mem                                0x20000170   Data         512  startup_cms32l051.o(STACK)
+    __initial_sp                             0x20000370   Data           0  startup_cms32l051.o(STACK)
 
     Global Symbols
 
@@ -553,7 +553,7 @@ Memory Map of the image
     0x00000654   0x00000654   0x00000020   Data   RO          349    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x00000674, Size: 0x00000570, Max: 0x00002000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x00000674, Size: 0x00000370, Max: 0x00002000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -561,7 +561,7 @@ Memory Map of the image
     0x20000004   0x00000678   0x0000000c   Data   RW          111    .data               main.o
     0x20000010        -       0x00000060   Zero   RW          220    .bss                c_p.l(libspace.o)
     0x20000070        -       0x00000100   Zero   RW            2    HEAP                startup_cms32l051.o
-    0x20000170        -       0x00000400   Zero   RW            1    STACK               startup_cms32l051.o
+    0x20000170        -       0x00000200   Zero   RW            1    STACK               startup_cms32l051.o
 
 
 ==============================================================================
@@ -571,13 +571,13 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       216          6          0          0          0       1460   flash.o
-       470         50          0         12          0      15783   main.o
-       128         28        192          0       1280       2152   startup_cms32l051.o
-       336        106          4          4          0      50851   system_cms32l051.o
+       216          6          0          0          0       1476   flash.o
+       470         50          0         12          0      15887   main.o
+       128         28        192          0        768       2160   startup_cms32l051.o
+       336        106          4          4          0      50899   system_cms32l051.o
 
     ----------------------------------------------------------------------
-      1152        190        228         16       1280      70246   Object Totals
+      1152        190        228         16        768      70422   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          2          0          0          0          0          0   (incl. Padding)
 
@@ -626,14 +626,14 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      1424        206        228         16       1376      70086   Grand Totals
-      1424        206        228         16       1376      70086   ELF Image Totals
+      1424        206        228         16        864      70262   Grand Totals
+      1424        206        228         16        864      70262   ELF Image Totals
       1424        206        228         16          0          0   ROM Totals
 
 ==============================================================================
 
     Total RO  Size (Code + RO Data)                 1652 (   1.61kB)
-    Total RW  Size (RW Data + ZI Data)              1392 (   1.36kB)
+    Total RW  Size (RW Data + ZI Data)               880 (   0.86kB)
     Total ROM Size (Code + RO Data + RW Data)       1668 (   1.63kB)
 
 ==============================================================================

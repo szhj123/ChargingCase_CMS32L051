@@ -1,7 +1,6 @@
----- SystemCoreClockUpdate Matches (6 in 3 files) ----
-Cms32l051_Systick_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
-Cms32l051_Tim40_Channel0_Interval_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
-Cms32l051_Uart0_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
-Cms32l051_Uart1_Init in hal_cms32l051.c (application\User\Hal) :     SystemCoreClockUpdate();
-system_CMS32L051.c (Device\Source) line 226 : void SystemCoreClockUpdate (void)            /* Get Core Clock Frequency      */
-system_CMS32L051.h (Device\Include) line 51 : extern void SystemCoreClockUpdate (void);
+---- standbyTimerId Matches (5 in 1 files) ----
+app_battery.c (application\User\App) line 41 : static uint8_t standbyTimerId = TIMER_NULL;
+App_Batt_Event_Handler in app_battery.c (application\User\App) :             Drv_Timer_Delete(standbyTimerId);
+App_Batt_Event_Handler in app_battery.c (application\User\App) :             standbyTimerId = Drv_Timer_Regist_Oneshot(App_Batt_Handler_End_Callback, 5000, NULL);
+App_Batt_Event_Handler in app_battery.c (application\User\App) :         Drv_Timer_Delete(standbyTimerId);
+App_Batt_Delete_Standby_Timer in app_battery.c (application\User\App) :     Drv_Timer_Delete(standbyTimerId);

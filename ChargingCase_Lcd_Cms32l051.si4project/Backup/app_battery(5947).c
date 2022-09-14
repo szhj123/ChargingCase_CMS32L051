@@ -582,11 +582,6 @@ static void App_Batt_Event_Handler(void *arg )
     earbud_chg_state_t earbudChgStateL= (earbud_chg_state_t )msg->buf[1];
     earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[2];
 
-    if(App_Lcd_Get_Show_Pic_State() != PIC_STATE_IDLE)
-    {
-        return ;
-    }
-
     App_Lcd_Show_Pic_Disable();
     
     if(Drv_Batt_Get_Usb_State() == USB_PLUG_OUT)

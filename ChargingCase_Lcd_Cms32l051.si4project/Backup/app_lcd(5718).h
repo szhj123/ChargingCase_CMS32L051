@@ -28,7 +28,6 @@ typedef struct _pic_para_t
     uint8_t     picTotalNum;
     uint8_t     picCnt;
     uint8_t     picSwitchTimerId;
-    uint8_t     picShowEndFlag;
     uint8_t     picDataBuf[PIC_MAX_READ_BUF];
 }pic_para_t;
 
@@ -75,8 +74,6 @@ void App_Lcd_Show_Pic_Disable(void );
 
 void App_Lcd_Task_Sleep(void );
 void App_Lcd_Task_Wakeup(void );
-
-pic_state_t App_Lcd_Get_Show_Pic_State(void );
 
 #endif 
 

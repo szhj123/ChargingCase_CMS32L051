@@ -77,6 +77,15 @@ static void App_Hall_Event_Handler(void *arg )
 
     uint8_t hallState = msg->buf[0];
 
+    if(hallState)
+    {
+        App_Cmd_OpenCase_Tx();
+    }
+    else
+    {
+        App_Cmd_CloseCase_Tx();
+    }
+
     if(App_Batt_Get_Usb_State() == USB_PLUG_OUT)
     {
         App_Lcd_Show_Pic();
@@ -86,15 +95,6 @@ static void App_Hall_Event_Handler(void *arg )
         Drv_Timer_Delete(showTimerId);
 
         showTimerId = Drv_Timer_Regist_Oneshot(App_Hall_Handler_End_Callback, 5000, NULL);
-    }
-
-    if(hallState)
-    {
-        App_Cmd_OpenCase_Tx();
-    }
-    else
-    {
-        App_Cmd_CloseCase_Tx();
     }
 }
 
@@ -165,17 +165,6 @@ static void App_Cmd_OpenCase_Tx_Callback(void )
             if(txPara.delayCnt > 600)
             {
                 Drv_Key_Tx_Low();
-                
-                txPara.delayCnt = 0;
-                txPara.txStep = 3;
-            }
-            break;
-        }
-        case 3: 
-        {
-            if(txPara.delayCnt > 100)
-            {
-                Drv_Key_Tx_High();
 
                 cmd_handler = NULL;
                 
