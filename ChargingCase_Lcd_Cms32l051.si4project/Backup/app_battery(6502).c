@@ -581,7 +581,6 @@ static void App_Batt_Event_Handler(void *arg )
 
     if(msg->cmd == BATT_CMD)
     {
-        #if 1
         uint8_t battLevel = msg->buf[0];
         earbud_chg_state_t earbudChgStateL= (earbud_chg_state_t )msg->buf[1];
         earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[2];
@@ -652,9 +651,6 @@ static void App_Batt_Event_Handler(void *arg )
         }
         
         App_Lcd_Show_Bt_Logo();
-        #else
-        App_Sys_Sleep();    
-        #endif 
     }
     else if(msg->cmd == BATT_SLEEP)
     {
@@ -727,7 +723,5 @@ void App_Sys_Wakeup(void )
      Cms32l051_Spi20_Init();
      
      Cms32l051_Adc_Init();
-
-     //Drv_Lcd_Init();
 }
 

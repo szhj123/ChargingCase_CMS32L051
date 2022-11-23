@@ -50,7 +50,7 @@ static void App_Hall_Detect_Callback(void )
     
     Drv_Timer_Delete(hallTimerId);
 
-    hallTimerId = Drv_Timer_Regist_Oneshot(App_Hall_Handler, 50, NULL);
+    hallTimerId = Drv_Timer_Regist_Oneshot(App_Hall_Handler, 500, NULL);
 }
 
 static void App_Hall_Handler(void *arg )

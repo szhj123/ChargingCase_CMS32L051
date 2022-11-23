@@ -222,14 +222,11 @@ static void App_Lcd_Show_Picture_Switch(void *arg )
 
 void App_Lcd_Show_Pic_Enable(void )
 {
-    if(App_Lcd_Get_Show_Pic_State() == PIC_STATE_IDLE)
-    {
-        picPara.picCnt = 0;
+    picPara.picCnt = 0;
 
-        picPara.picShowEndFlag = 0;
-            
-        picPara.picState = PIC_STATE_GET_INFO;
-    }
+    picPara.picShowEndFlag = 0;
+        
+    picPara.picState = PIC_STATE_GET_INFO;
 }
 
 void App_Lcd_Show_Pic_Disable(void )

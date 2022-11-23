@@ -153,13 +153,13 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0); // Start col address
     Drv_Lcd_Wr_Data(0);
     Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(80); // End col address
+    Drv_Lcd_Wr_Data(132); // End col address
 
     Drv_Lcd_Wr_Cmd(0x2b); // Set page address
     Drv_Lcd_Wr_Data(0); // Start col address
     Drv_Lcd_Wr_Data(0);
     Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(160); //159 End col address
+    Drv_Lcd_Wr_Data(162); //159 End col address
 
     Drv_Lcd_Wr_Cmd(0x83);
     Drv_Lcd_Wr_Data(0x00);
