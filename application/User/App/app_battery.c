@@ -581,7 +581,6 @@ static void App_Batt_Event_Handler(void *arg )
 
     if(msg->cmd == BATT_CMD)
     {
-        #if 1
         uint8_t battLevel = msg->buf[0];
         earbud_chg_state_t earbudChgStateL= (earbud_chg_state_t )msg->buf[1];
         earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[2];
@@ -622,7 +621,8 @@ static void App_Batt_Event_Handler(void *arg )
         else
         {
             Drv_Timer_Delete(standbyTimerId);
-            
+
+            #if 0
             if(battLevel >= 100)
             {
                 App_Lcd_Set_BattLevel_Solid(battLevel, GREEN);
@@ -631,8 +631,13 @@ static void App_Batt_Event_Handler(void *arg )
             {
                 App_Lcd_Set_BattLevel_Flash(battLevel, WHITE);
             }
+            #else
+            
+            App_Lcd_Set_EarbudChg_L_Flash();
+            #endif 
         }
 
+        #if 0
         if(earbudChgStateL == EARBUD_CHG_DONE)
         {
             App_Lcd_Set_Earbud_L_Solid();
@@ -650,10 +655,6 @@ static void App_Batt_Event_Handler(void *arg )
         {
             App_Lcd_Set_EarbudChg_R_Flash();
         }
-        
-        App_Lcd_Show_Bt_Logo();
-        #else
-        App_Sys_Sleep();    
         #endif 
     }
     else if(msg->cmd == BATT_SLEEP)

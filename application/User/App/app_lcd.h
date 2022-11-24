@@ -29,6 +29,7 @@ typedef struct _pic_para_t
     uint8_t     picCnt;
     uint8_t     picSwitchTimerId;
     uint8_t     picShowEndFlag;
+    uint8_t     picWrEndFlag;
     uint8_t     picDataBuf[PIC_MAX_READ_BUF];
 }pic_para_t;
 
@@ -38,7 +39,6 @@ typedef struct _lcd_para_t
     lcd_show_callback_t l_show_earbudChg_callback; 
     lcd_show_callback_t r_show_earbudChg_callback;
     
-    uint8_t l_earbudFlashStep;
     uint8_t r_earbudFlashStep;
     char battLevelStr[5];
 
@@ -50,7 +50,6 @@ typedef struct _lcd_para_t
     uint8_t  flashCharLength;
 
     uint16_t showBattLevelDelayCnt;
-    uint16_t l_showEarbudChgDelayCnt;
     uint16_t r_showEarbudChgDelayCnt;
 }lcd_para_t;
 
@@ -62,7 +61,6 @@ void App_Lcd_Set_BattLevel_Flash(uint8_t battLevel, uint16_t color );
 void App_Lcd_Set_EarbudChg_L_Flash(void );
 void App_Lcd_Set_EarbudChg_R_Flash(void );
 void App_Lcd_Ui_Init(uint8_t battLevel );
-void App_Lcd_Show_Bt_Logo(void );
 void App_Lcd_Set_Earbud_L_Solid(void );
 void App_Lcd_Set_Earbud_R_Solid(void );
 void App_Lcd_Background_Led_On(void );

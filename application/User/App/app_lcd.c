@@ -23,15 +23,17 @@
 /* Private function ---------------------------------- --*/
 static void App_Lcd_Display_Handler(void *arg );
 static void App_Lcd_Show_Picture_End_Callback(void );
+static void App_Lcd_Show_Earbud_Picture_End_Callback(void );
 static void App_Lcd_BattLevel_Flash(void );
-static void App_Lcd_EarbudChg_L_Flash(void );
+static void App_Lcd_EarbudChg_Flash(void );
 static void App_Lcd_EarbudChg_R_Flash(void );
 static void App_Lcd_Show_Picture_Switch(void *arg );
+static void App_Lcd_Earbud_Pic_Switch(void * arg);
 /* Private variables ------------------------------------*/
 static task_block_t *lcdTask = NULL;
 static lcd_para_t lcdPara;
 static pic_para_t picPara;
-static uint8_t lcdWrEndFlag;
+static pic_para_t earBudPicPara;
 
 void App_Lcd_Init(void )
 {
@@ -47,11 +49,6 @@ static void App_Lcd_Delay_Count(void )
     if(lcdPara.showBattLevelDelayCnt < 0xffff)
     {
         lcdPara.showBattLevelDelayCnt++;
-    }
-
-    if(lcdPara.l_showEarbudChgDelayCnt < 0xffff)
-    {
-        lcdPara.l_showEarbudChgDelayCnt++;
     }
 
     if(lcdPara.r_showEarbudChgDelayCnt < 0xffff)
@@ -131,7 +128,7 @@ void App_Lcd_Show_Picture_Handler(void )
                 
                 picPara.picFlashAddr = picPara.picIndex*ERASE_64K_BLOCK_SIZE + 6;
 
-                lcdWrEndFlag = 0;
+                picPara.picWrEndFlag = 0;
                 
                 picPara.picState = PIC_STATE_GET_DATA;
             }
@@ -166,9 +163,9 @@ void App_Lcd_Show_Picture_Handler(void )
         }
         case PIC_STATE_WAIT_GET_END:
         {
-            if(lcdWrEndFlag)
+            if(picPara.picWrEndFlag)
             {
-                lcdWrEndFlag = 0;
+                picPara.picWrEndFlag = 0;
 
                 if(picPara.picTotalData == 0)
                 {
@@ -204,7 +201,12 @@ void App_Lcd_Show_Picture_Handler(void )
 
 static void App_Lcd_Show_Picture_End_Callback(void )
 {
-    lcdWrEndFlag = 1;
+    picPara.picWrEndFlag = 1;
+}
+
+static void App_Lcd_Show_Earbud_Picture_End_Callback(void )
+{
+    earBudPicPara.picWrEndFlag = 1;
 }
 
 static void App_Lcd_Show_Picture_Switch(void *arg )
@@ -363,80 +365,108 @@ void App_Lcd_Set_Earbud_L_Solid(void )
 }
 
 void App_Lcd_Set_EarbudChg_L_Flash(void )
-{
-    Drv_Lcd_Fill(35, 50, 50, 55, WHITE);
-    
-    Drv_Lcd_Draw_Rectangle(30, 55, 55, 115, WHITE);
+{   
+    if(lcdPara.l_show_earbudChg_callback != App_Lcd_EarbudChg_Flash)
+    {
+        earBudPicPara.picCnt = 0;
+        
+        earBudPicPara.picState = PIC_STATE_GET_INFO;
+        
+        App_Lcd_Background_Led_On();
 
-    App_Lcd_Background_Led_On();
-
-    lcdPara.l_earbudFlashStep = 0;
-
-    lcdPara.l_showEarbudChgDelayCnt = 0;
-
-    lcdPara.l_show_earbudChg_callback = App_Lcd_EarbudChg_L_Flash;
+        lcdPara.l_show_earbudChg_callback = App_Lcd_EarbudChg_Flash;
+    }
 }
 
-static void App_Lcd_EarbudChg_L_Flash(void )
+static void App_Lcd_EarbudChg_Flash(void )
 {
-    if(lcdPara.l_showEarbudChgDelayCnt > 250)
+    switch(earBudPicPara.picState)
     {
-        lcdPara.l_showEarbudChgDelayCnt = 0;
-        
-        switch(lcdPara.l_earbudFlashStep)
+        case PIC_STATE_GET_INFO:
         {
-            case 0:
-            {
-                Drv_Lcd_Fill(35, 104, 51, 112, RED);
-                lcdPara.l_earbudFlashStep = 1;
-                break;
-            }
-            case 1:
-            {
-                Drv_Lcd_Fill(35, 93, 51, 101, YELLOW);
-                Drv_Lcd_Fill(35, 104, 51, 112, RED);
-                lcdPara.l_earbudFlashStep = 2;
-                break;
-            }
-            case 2: 
-            {
-                Drv_Lcd_Fill(35, 82, 51, 90, GREEN);
-                Drv_Lcd_Fill(35, 93, 51, 101, YELLOW);
-                Drv_Lcd_Fill(35, 104, 51, 112, RED);
-                lcdPara.l_earbudFlashStep = 3;
-                break;
-            }
-            case 3:
-            {
-                Drv_Lcd_Fill(35, 71, 51, 79, GREEN);
-                Drv_Lcd_Fill(35, 82, 51, 90, GREEN);
-                Drv_Lcd_Fill(35, 93, 51, 101, YELLOW);
-                Drv_Lcd_Fill(35, 104, 51, 112, RED);
-                lcdPara.l_earbudFlashStep = 4;
-                break;
-            }
-            case 4:
-            {
-                Drv_Lcd_Fill(35, 60, 51, 68, GREEN);
-                Drv_Lcd_Fill(35, 71, 51, 79, GREEN);
-                Drv_Lcd_Fill(35, 82, 51, 90, GREEN);
-                Drv_Lcd_Fill(35, 93, 51, 101, YELLOW);
-                Drv_Lcd_Fill(35, 104, 51, 112, RED);
-                lcdPara.l_earbudFlashStep = 5;
-                break;
-            }
-            case 5:
-            {
-                Drv_Lcd_Fill(35, 60, 51, 68, BLACK);
-                Drv_Lcd_Fill(35, 71, 51, 79, BLACK);
-                Drv_Lcd_Fill(35, 82, 51, 90, BLACK);
-                Drv_Lcd_Fill(35, 93, 51, 101, BLACK);
-                Drv_Lcd_Fill(35, 104, 51, 112, BLACK);
-                lcdPara.l_earbudFlashStep = 0;
-                break;
-            }
-            default: break;
+            uint8_t buf[6];
+            
+            Drv_Flash_Read((earBudPicPara.picCnt)*ERASE_64K_BLOCK_SIZE, buf, 6);
+
+            earBudPicPara.picTotalNum = 5;
+            earBudPicPara.picIndex =  buf[1];
+            earBudPicPara.picWidth =  (uint16_t )buf[3] << 8 | buf[2];
+            earBudPicPara.picHeight = (uint16_t )buf[5] << 8 | buf[4];
+
+            Drv_Lcd_Set_Position(25, 0, earBudPicPara.picWidth-1+25, earBudPicPara.picHeight-1);
+               
+            earBudPicPara.picTotalData = earBudPicPara.picWidth*earBudPicPara.picHeight*2;
+                
+            earBudPicPara.picFlashAddr = earBudPicPara.picCnt*ERASE_64K_BLOCK_SIZE + 6;
+
+            earBudPicPara.picWrEndFlag = 0;
+                
+            earBudPicPara.picState = PIC_STATE_GET_DATA;
+            break;
         }
+        case PIC_STATE_GET_DATA:
+        {
+            if(earBudPicPara.picTotalData > PIC_MAX_READ_BUF)
+            {
+                Drv_Flash_Read(earBudPicPara.picFlashAddr, earBudPicPara.picDataBuf, PIC_MAX_READ_BUF);
+
+                earBudPicPara.picTotalData -= PIC_MAX_READ_BUF;
+
+                earBudPicPara.picFlashAddr += PIC_MAX_READ_BUF;
+
+                Drv_Lcd_Show_Picture(earBudPicPara.picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Earbud_Picture_End_Callback);
+                
+            }
+            else
+            {
+                Drv_Flash_Read(earBudPicPara.picFlashAddr, earBudPicPara.picDataBuf, earBudPicPara.picTotalData);
+
+                Drv_Lcd_Show_Picture(earBudPicPara.picDataBuf, earBudPicPara.picTotalData, App_Lcd_Show_Earbud_Picture_End_Callback);
+
+                earBudPicPara.picTotalData = 0;
+            }
+                
+
+            earBudPicPara.picState = PIC_STATE_WAIT_GET_END;
+
+            break;
+        }
+        case PIC_STATE_WAIT_GET_END:
+        {
+            if(earBudPicPara.picWrEndFlag)
+            {
+                earBudPicPara.picWrEndFlag = 0;
+
+                if(earBudPicPara.picTotalData == 0)
+                {
+                    Drv_Timer_Regist_Oneshot(App_Lcd_Earbud_Pic_Switch, 500, NULL);
+                }
+                else
+                {
+                    earBudPicPara.picState = PIC_STATE_GET_DATA;
+                }
+            }
+
+            break;
+        }
+        case PIC_STATE_IDLE:
+        {
+            break;
+        }
+        default: break;
+    }
+}
+
+static void App_Lcd_Earbud_Pic_Switch(void *arg )
+{
+    if(earBudPicPara.picState != PIC_STATE_IDLE)
+    {
+        if(++earBudPicPara.picCnt >= earBudPicPara.picTotalNum)
+        {
+            earBudPicPara.picCnt = 0;
+        }
+        
+        earBudPicPara.picState = PIC_STATE_GET_INFO;
     }
 }
 
@@ -532,23 +562,6 @@ static void App_Lcd_EarbudChg_R_Flash(void )
             default: break;
         }
     }
-}
-
-void App_Lcd_Show_Bt_Logo(void )
-{
-    Drv_Lcd_Show_String(32, 125, "L", WHITE, BLACK, 32, 0);
-    Drv_Lcd_Draw_Rectangle(30, 125, 50, 156, WHITE);
-
-    Drv_Lcd_Show_String(86, 125, "R", WHITE, BLACK, 32, 0);
-    Drv_Lcd_Draw_Rectangle(84, 125, 104, 156, WHITE);
-
-    Drv_Lcd_Draw_Line(60, 130, 75, 150, BLUE);
-    Drv_Lcd_Draw_Line(60, 150, 75, 130, BLUE);
-    Drv_Lcd_Draw_Line(68, 125, 68, 155, BLUE);
-    Drv_Lcd_Draw_Line(68, 125, 75, 130, BLUE);
-    Drv_Lcd_Draw_Line(68, 155, 75, 150, BLUE);
-
-    App_Lcd_Background_Led_On();
 }
 
 void App_Lcd_Ui_Init(uint8_t battLevel )
