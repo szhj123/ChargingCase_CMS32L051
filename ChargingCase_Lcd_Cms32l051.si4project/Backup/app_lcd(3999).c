@@ -115,8 +115,8 @@ void App_Lcd_Show_Picture_Handler(void )
         {
             uint8_t buf[6];
             
-            Drv_Flash_Read((picPara.picIndex+picPara.picCnt)*ERASE_64K_BLOCK_SIZE, buf, 6);
-            //Drv_Flash_Read((picPara.picCnt+5)*ERASE_64K_BLOCK_SIZE, buf, 6);
+            //Drv_Flash_Read((picPara.picIndex+picPara.picCnt)*ERASE_64K_BLOCK_SIZE, buf, 6);
+            Drv_Flash_Read((picPara.picCnt+5)*ERASE_64K_BLOCK_SIZE, buf, 6);
 
             picPara.picTotalNum = buf[0];
             picPara.picIndex =  buf[1];
@@ -125,7 +125,7 @@ void App_Lcd_Show_Picture_Handler(void )
 
             if(picPara.picTotalNum != 0xff)
             {
-                Drv_Lcd_Set_Position(25, 0, picPara.picWidth-1+25, picPara.picHeight-1);
+                Drv_Lcd_Set_Position(0, 0, picPara.picWidth-1, picPara.picHeight-1);
                 
                 picPara.picTotalData = picPara.picWidth*picPara.picHeight*2;
                 
