@@ -368,7 +368,7 @@ void App_Lcd_Set_EarbudChg_L_Flash(void )
 {   
     if(lcdPara.l_show_earbudChg_callback != App_Lcd_EarbudChg_Flash)
     {
-        earBudPicPara.picCnt = 10;
+        earBudPicPara.picCnt = 0;
         
         earBudPicPara.picState = PIC_STATE_GET_INFO;
         
@@ -461,28 +461,10 @@ static void App_Lcd_Earbud_Pic_Switch(void *arg )
 {
     if(earBudPicPara.picState != PIC_STATE_IDLE)
     {
-        if(earBudPicPara.picCnt >= 10)
+        if(++earBudPicPara.picCnt >= earBudPicPara.picTotalNum)
         {
-            if(++earBudPicPara.picCnt >= (earBudPicPara.picTotalNum+10))
-            {
-                earBudPicPara.picCnt = 10;
-            }
+            earBudPicPara.picCnt = 0;
         }
-        else if(earBudPicPara.picCnt >= 5)
-        {
-            if(++earBudPicPara.picCnt >= (earBudPicPara.picTotalNum+5))
-            {
-                earBudPicPara.picCnt = 5;
-            }
-        }
-        else
-        {                
-            if(++earBudPicPara.picCnt >= earBudPicPara.picTotalNum)
-            {
-                earBudPicPara.picCnt = 0;
-            }
-        }
-        
         
         earBudPicPara.picState = PIC_STATE_GET_INFO;
     }
