@@ -50,7 +50,7 @@ int main(void )
 	{	
         Drv_Task_Scheduler();
 
-        App_Lcd_Show_Picture_Handler();
+        App_Lcd_Show_Logo_Handler();
 	}
 }
 

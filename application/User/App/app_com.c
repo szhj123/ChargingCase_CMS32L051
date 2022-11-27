@@ -132,7 +132,7 @@ static void App_Com_Rx_Handler(void *arg )
 
             App_Batt_Task_Sleep();
 
-            App_Lcd_Show_Pic_Disable();
+            App_Lcd_Show_Logo_Disable();
 
             App_Lcd_Clr();   
 

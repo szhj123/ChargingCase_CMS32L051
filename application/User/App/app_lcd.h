@@ -8,6 +8,22 @@ typedef void (*lcd_show_callback_t)(void );
 #define PIC_MAX_READ_BUF                512
 #define PIC_SHOW_SPEED                  50
 
+#define PIC_EARBUD_CHG_L_START_INDEX    0
+#define PIC_EARBUD_CHG_R_START_INDEX    5
+#define PIC_EARBUD_CHG_LR_START_INDEX   10
+#define PIC_EARBUD_CHG_L_DONE_INDEX     4
+#define PIC_EARBUD_CHG_R_DONE_INDEX     9
+#define PIC_EARBUD_CHG_LR_DONE_INDEX    14
+
+typedef enum
+{
+    PIC_EARBUD_CHG_NULL = 0,
+    PIC_EARBUD_CHG_L,
+    PIC_EARBUD_CHG_R,
+    PIC_EARBUD_CHG_LR,
+    PIC_EARBUD_CHG_LR_DONE
+}pic_earbud_chg_state_t;
+
 typedef enum 
 {
     PIC_STATE_GET_INFO = 0,
@@ -30,14 +46,14 @@ typedef struct _pic_para_t
     uint8_t     picSwitchTimerId;
     uint8_t     picShowEndFlag;
     uint8_t     picWrEndFlag;
+    pic_earbud_chg_state_t picEarbudChgState;
     uint8_t     picDataBuf[PIC_MAX_READ_BUF];
 }pic_para_t;
 
 typedef struct _lcd_para_t
 {
-    lcd_show_callback_t show_battLevel_callback;
-    lcd_show_callback_t l_show_earbudChg_callback; 
-    lcd_show_callback_t r_show_earbudChg_callback;
+    lcd_show_callback_t battery_level_show_callback;
+    lcd_show_callback_t earbud_chg_show_callback; 
     
     uint8_t r_earbudFlashStep;
     char battLevelStr[5];
@@ -55,26 +71,22 @@ typedef struct _lcd_para_t
 
 void App_Lcd_Init(void );
 void App_Lcd_Clr(void );
-void App_Lcd_Show_Pic(void );
+void App_Lcd_Show_Logo(void );
 void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color );
 void App_Lcd_Set_BattLevel_Flash(uint8_t battLevel, uint16_t color );
-void App_Lcd_Set_EarbudChg_L_Flash(void );
-void App_Lcd_Set_EarbudChg_R_Flash(void );
-void App_Lcd_Ui_Init(uint8_t battLevel );
-void App_Lcd_Set_Earbud_L_Solid(void );
-void App_Lcd_Set_Earbud_R_Solid(void );
+void App_Lcd_Show_Earbud_Chg_Enable(pic_earbud_chg_state_t picEarbudChgState );
 void App_Lcd_Background_Led_On(void );
 void App_Lcd_Background_Led_Off(void );
 void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length );
 void App_Lcd_Set_Pic_Data(uint8_t *buf, uint16_t length );
-void App_Lcd_Show_Picture_Handler(void );
-void App_Lcd_Show_Pic_Enable(void );
-void App_Lcd_Show_Pic_Disable(void );
+void App_Lcd_Show_Logo_Handler(void );
+void App_Lcd_Show_Logo_Enable(void );
+void App_Lcd_Show_Logo_Disable(void );
 
 void App_Lcd_Task_Sleep(void );
 void App_Lcd_Task_Wakeup(void );
 
-pic_state_t App_Lcd_Get_Show_Pic_State(void );
+pic_state_t App_Lcd_Get_Show_Logo_State(void );
 
 #endif 
 

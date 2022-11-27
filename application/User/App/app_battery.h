@@ -3,8 +3,10 @@
 
 #include "drv_battery.h"
 
-#define BATT_CMD                     0x01
-#define BATT_SLEEP                   0x02
+#define CMD_BATT_LEVEL               0x01
+#define CMD_BATT_EARBUD_CHG_STATE    0x02
+#define CMD_BATT_SLEEP               0x03
+
 
 #define BATT_VOL_100                 4200
 #define BATT_VOL_90                  4060
@@ -54,7 +56,8 @@ typedef enum _batt_level_state_t
 typedef enum _earbud_chg_state_t
 {
     EARBUD_CHG_PROCEE = 0,
-    EARBUD_CHG_DONE
+    EARBUD_CHG_DONE,
+    EARBUD_CHG_NULL
 }earbud_chg_state_t;
 
 typedef struct _batt_para_t
@@ -87,7 +90,8 @@ uint16_t App_Earbud_Get_Cur_R(void );
 batt_level_state_t App_Batt_Get_Level(void );
 earbud_chg_state_t App_Earbud_Get_ChgState_L(void );
 earbud_chg_state_t App_Earbud_Get_ChgState_R(void );
-void App_Batt_Send_Event(void );
+void App_Batt_Send_Batt_Level(void );
+void App_Batt_Send_Earbud_Chg_State(void );
 uint8_t App_Batt_Get_Usb_State(void );
 void App_Batt_Delete_Standby_Timer(void );
 

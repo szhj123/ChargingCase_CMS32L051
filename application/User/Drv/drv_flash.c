@@ -88,6 +88,24 @@ void Drv_Flash_Sector_Erase(uint32_t addr )
     Drv_Flash_Wait_Bus_Idle();
 }
 
+void Drv_Flash_Block_32k_Erase(uint32_t addr )
+{
+    Drv_Write_Enable();
+
+    Hal_Flash_Start();
+
+    Hal_Flash_Single_Write(BLOCK_ERASE_32K);
+
+    Hal_Flash_Single_Write((uint8_t )(addr >> 16));
+    Hal_Flash_Single_Write((uint8_t )(addr >> 8));
+    Hal_Flash_Single_Write((uint8_t )(addr));
+
+    Hal_Flash_Stop();
+
+    Drv_Flash_Wait_Bus_Idle();
+}
+
+
 void Drv_Flash_Block_64k_Erase(uint32_t addr )
 {
     Drv_Write_Enable();

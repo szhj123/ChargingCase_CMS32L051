@@ -25,7 +25,7 @@ typedef void (*cmd_handler_t)(void );
 static void App_Hall_Detect_Callback(void );
 static void App_Hall_Handler(void *arg );
 static void App_Hall_Event_Handler(void *arg );
-static void App_Hall_Handler_End_Callback(void *arg );
+//static void App_Hall_Handler_End_Callback(void *arg );
 
 static void App_Cmd_Tx_Handler(void *arg );
 static void App_Cmd_OpenCase_Tx_Callback(void );
@@ -71,21 +71,23 @@ static void App_Hall_Handler(void *arg )
 
 static void App_Hall_Event_Handler(void *arg )
 {
-    static uint8_t showTimerId = TIMER_NULL;
-    
     msg_t *msg = (msg_t *)arg;
 
     uint8_t hallState = msg->buf[0];
 
     if(App_Batt_Get_Usb_State() == USB_PLUG_OUT)
     {
-        App_Lcd_Show_Pic();
+        App_Lcd_Show_Logo();
 
         App_Batt_Delete_Standby_Timer();
 
+        #if 0
+        static uint8_t showTimerId = TIMER_NULL;
+        
         Drv_Timer_Delete(showTimerId);
 
         showTimerId = Drv_Timer_Regist_Oneshot(App_Hall_Handler_End_Callback, 5000, NULL);
+        #endif 
     }
 
     if(hallState)
@@ -98,14 +100,18 @@ static void App_Hall_Event_Handler(void *arg )
     }
 }
 
+#if 0
 static void App_Hall_Handler_End_Callback(void *arg )
 {   
-    App_Lcd_Show_Pic_Disable();
+    App_Lcd_Show_Logo_Disable();
     
     App_Lcd_Clr();
 
-    App_Batt_Send_Event();
+    App_Batt_Send_Batt_Level();
+
+    App_Batt_Send_Earbud_Chg_State();
 }
+#endif 
 
 static void App_Cmd_Tx_Delay_Count(void )
 {

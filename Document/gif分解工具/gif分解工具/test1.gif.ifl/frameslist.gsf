@@ -1,0 +1,8 @@
+[Header]
+Type=GifSplitter Frames
+Version=2.0
+Count=3
+[Frames]
+IMG00000=D:\全部\触摸屏\2.TFT_LCD屏\软件\gif分解工具\test1.gif.ifl\IMG00000.bmp
+IMG00001=D:\全部\触摸屏\2.TFT_LCD屏\软件\gif分解工具\test1.gif.ifl\IMG00001.bmp
+IMG00002=D:\全部\触摸屏\2.TFT_LCD屏\软件\gif分解工具\test1.gif.ifl\IMG00002.bmp
