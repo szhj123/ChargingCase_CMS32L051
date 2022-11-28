@@ -1,4 +1,5 @@
----- App_Lcd_Show_Pic Matches (3 in 3 files) ----
-App_Hall_Event_Handler in app_key.c (application\User\App) :         App_Lcd_Show_Pic();
-app_lcd.c (application\User\App) line 92 : void App_Lcd_Show_Pic(void )
-app_lcd.h (application\User\App) line 74 : void App_Lcd_Show_Pic(void );
+---- logoPara.picDataBuf Matches (4 in 1 files) ----
+App_Lcd_Show_Logo_Handler in app_lcd.c (application\User\App) :                 Drv_Flash_Read(logoPara.picFlashAddr, logoPara.picDataBuf, PIC_MAX_READ_BUF);
+App_Lcd_Show_Logo_Handler in app_lcd.c (application\User\App) :                 Drv_Lcd_Show_Picture(logoPara.picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Picture_End_Callback);
+App_Lcd_Show_Logo_Handler in app_lcd.c (application\User\App) :                 Drv_Flash_Read(logoPara.picFlashAddr, logoPara.picDataBuf, logoPara.picTotalData);
+App_Lcd_Show_Logo_Handler in app_lcd.c (application\User\App) :                 Drv_Lcd_Show_Picture(logoPara.picDataBuf, logoPara.picTotalData, App_Lcd_Show_Picture_End_Callback);

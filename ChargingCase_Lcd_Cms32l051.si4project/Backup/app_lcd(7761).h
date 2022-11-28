@@ -47,6 +47,7 @@ typedef struct _pic_para_t
     uint8_t     picShowEndFlag;
     uint8_t     picWrEndFlag;
     pic_earbud_chg_state_t picEarbudChgState;
+    uint8_t     picDataBuf[PIC_MAX_READ_BUF];
 }pic_para_t;
 
 typedef struct _lcd_para_t

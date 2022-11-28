@@ -193,7 +193,5 @@ void Cms32l051_Spi00_Init(void )
 void Cms32l051_Adc_Init(void )
 {
     ADC_Init();
-
-    ADC->ADM2 = _80_AD_POSITIVE_INVREFP | _00_AD_NEGATIVE_VSS | _00_AD_AREA_MODE_1 ;
 }
 

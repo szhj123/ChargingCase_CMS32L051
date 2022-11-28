@@ -3,7 +3,7 @@
 
 #include "hal_timer.h"
 
-#define TIMER_MAX_NUM                 (8)
+#define TIMER_MAX_NUM                 (16)
 #define TIMER_NULL                    TIMER_MAX_NUM
 
 typedef struct _timer_block_t

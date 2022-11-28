@@ -55,7 +55,7 @@ uint16_t Drv_Batt_Get_BatVol(void )
 {
     uint16_t batVol;
     
-    batVol = (ADC_REF_VOL * Hal_Batt_Get_AdcVal(ADC_CHANNEL_10) * 3) >> 12;
+    batVol = (EXTER_REF_VOL * Hal_Batt_Get_AdcVal(ADC_CHANNEL_10) * 3) >> 12;
 
     return batVol;
 }
@@ -64,7 +64,7 @@ uint16_t Drv_Earbud_Get_Cur_L(void )
 {
     uint16_t earbudCur;
     
-    earbudCur = (ADC_REF_VOL * Hal_Batt_Get_AdcVal(ADC_CHANNEL_32)) >> 13;
+    earbudCur = (EXTER_REF_VOL * Hal_Batt_Get_AdcVal(ADC_CHANNEL_32)) >> 13;
 
     return earbudCur;
 }
@@ -73,7 +73,7 @@ uint16_t Drv_Earbud_Get_Cur_R(void )
 {
     uint16_t earbudCur;
     	
-    earbudCur = (ADC_REF_VOL * Hal_Batt_Get_AdcVal(ADC_CHANNEL_33)) >> 13;
+    earbudCur = (EXTER_REF_VOL * Hal_Batt_Get_AdcVal(ADC_CHANNEL_33)) >> 13;
 
     return earbudCur;
 }

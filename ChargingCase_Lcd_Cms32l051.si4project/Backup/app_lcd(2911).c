@@ -37,8 +37,6 @@ static lcd_para_t lcdPara;
 static pic_para_t logoPara;
 static pic_para_t earBudPicPara;
 
-static uint8_t picDataBuf[PIC_MAX_READ_BUF];
-
 void App_Lcd_Init(void )
 {
     Drv_Lcd_Init();
@@ -121,35 +119,38 @@ void App_Lcd_Show_Logo_Handler(void )
             logoPara.picWidth =  (uint16_t )buf[3] << 8 | buf[2];
             logoPara.picHeight = (uint16_t )buf[5] << 8 | buf[4];
 
-            Drv_Lcd_Set_Position(0, 0, logoPara.picWidth-1, logoPara.picHeight-1);
-            
-            logoPara.picTotalData = logoPara.picWidth*logoPara.picHeight*2;
-            
-            logoPara.picFlashAddr = logoPara.picIndex*ERASE_64K_BLOCK_SIZE + 6;
+            if(logoPara.picTotalNum != 0xff)
+            {
+                Drv_Lcd_Set_Position(0, 0, logoPara.picWidth-1, logoPara.picHeight-1);
+                
+                logoPara.picTotalData = logoPara.picWidth*logoPara.picHeight*2;
+                
+                logoPara.picFlashAddr = logoPara.picIndex*ERASE_64K_BLOCK_SIZE + 6;
 
-            logoPara.picWrEndFlag = 0;
-            
-            logoPara.picState = PIC_STATE_GET_DATA;
+                logoPara.picWrEndFlag = 0;
+                
+                logoPara.picState = PIC_STATE_GET_DATA;
+            }
             break;
         }
         case PIC_STATE_GET_DATA:
         {
             if(logoPara.picTotalData > PIC_MAX_READ_BUF)
             {
-                Drv_Flash_Read(logoPara.picFlashAddr, picDataBuf, PIC_MAX_READ_BUF);
+                Drv_Flash_Read(logoPara.picFlashAddr, logoPara.picDataBuf, PIC_MAX_READ_BUF);
 
                 logoPara.picTotalData -= PIC_MAX_READ_BUF;
 
                 logoPara.picFlashAddr += PIC_MAX_READ_BUF;
 
-                Drv_Lcd_Show_Picture(picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Picture_End_Callback);
+                Drv_Lcd_Show_Picture(logoPara.picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Picture_End_Callback);
                 
             }
             else
             {
-                Drv_Flash_Read(logoPara.picFlashAddr, picDataBuf, logoPara.picTotalData);
+                Drv_Flash_Read(logoPara.picFlashAddr, logoPara.picDataBuf, logoPara.picTotalData);
 
-                Drv_Lcd_Show_Picture(picDataBuf, logoPara.picTotalData, App_Lcd_Show_Picture_End_Callback);
+                Drv_Lcd_Show_Picture(logoPara.picDataBuf, logoPara.picTotalData, App_Lcd_Show_Picture_End_Callback);
 
                 logoPara.picTotalData = 0;
             }
@@ -232,11 +233,14 @@ static void App_Lcd_Show_Logo_Switch(void *arg )
 
 void App_Lcd_Show_Logo_Enable(void )
 {
-    logoPara.picCnt = 0;
+    if(App_Lcd_Get_Show_Logo_State() == PIC_STATE_IDLE)
+    {
+        logoPara.picCnt = 0;
 
-    logoPara.picShowEndFlag = 0;
-        
-    logoPara.picState = PIC_STATE_GET_INFO;
+        logoPara.picShowEndFlag = 0;
+            
+        logoPara.picState = PIC_STATE_GET_INFO;
+    }
 }
 
 void App_Lcd_Show_Logo_Disable(void )
@@ -428,20 +432,20 @@ static void App_Lcd_Show_Earbud_Chg(void )
         {
             if(earBudPicPara.picTotalData > PIC_MAX_READ_BUF)
             {
-                Drv_Flash_Read(earBudPicPara.picFlashAddr, picDataBuf, PIC_MAX_READ_BUF);
+                Drv_Flash_Read(earBudPicPara.picFlashAddr, earBudPicPara.picDataBuf, PIC_MAX_READ_BUF);
 
                 earBudPicPara.picTotalData -= PIC_MAX_READ_BUF;
 
                 earBudPicPara.picFlashAddr += PIC_MAX_READ_BUF;
 
-                Drv_Lcd_Show_Picture(picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Earbud_Picture_End_Callback);
+                Drv_Lcd_Show_Picture(earBudPicPara.picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Earbud_Picture_End_Callback);
                 
             }
             else
             {
-                Drv_Flash_Read(earBudPicPara.picFlashAddr, picDataBuf, earBudPicPara.picTotalData);
+                Drv_Flash_Read(earBudPicPara.picFlashAddr, earBudPicPara.picDataBuf, earBudPicPara.picTotalData);
 
-                Drv_Lcd_Show_Picture(picDataBuf, earBudPicPara.picTotalData, App_Lcd_Show_Earbud_Picture_End_Callback);
+                Drv_Lcd_Show_Picture(earBudPicPara.picDataBuf, earBudPicPara.picTotalData, App_Lcd_Show_Earbud_Picture_End_Callback);
 
                 earBudPicPara.picTotalData = 0;
             }

@@ -3,9 +3,8 @@
 
 #include "hal_cms32l051.h"
 
-#define MSG_DATA_MAX_LENGTH                70
+#define MSG_DATA_MAX_LENGTH                128
 #define MSG_QUEUE_MAX_LENGTH               8
-
 
 typedef struct _msg_t
 {

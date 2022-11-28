@@ -628,6 +628,7 @@ static void App_Batt_Event_Handler(void *arg )
         else
         {
             Drv_Timer_Delete(standbyTimerId);
+
         }
 
     }
@@ -653,8 +654,6 @@ static void App_Batt_Handler_End_Callback(void *arg )
 void App_Batt_Delete_Standby_Timer(void )
 {
     Drv_Timer_Delete(standbyTimerId);
-
-    standbyTimerId = TIMER_NULL;
 }
 
 void App_Batt_Task_Sleep(void )
@@ -671,7 +670,7 @@ void App_Sys_Sleep(void )
 {
     uint16_t i;
     
-    Drv_Datt_Boost_Disable();    
+    Drv_Datt_Boost_Disable();
     
     /*** enter power down ***/
 	CGC->PMUKEY = 0x192A;
@@ -684,7 +683,7 @@ void App_Sys_Sleep(void )
 	/* enable LVR */
 	LVD->LVIM = 0x00;
 
-    for(i=0;i<250;i++) __NOP();
+    //for(i=0;i<250;i++) __NOP();
     
     App_Sys_Wakeup();
 }

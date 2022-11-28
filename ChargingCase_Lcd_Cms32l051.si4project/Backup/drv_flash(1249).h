@@ -30,9 +30,7 @@
 #define APP2_START_ADDR                     (APP1_START_ADDR + APP1_MAX_SIZE)
 #define APP2_MAX_SIZE                       0x7400
 
-
 #define USER_DATA_START_ADDR                0x500200
-
 
 typedef struct _user_data_t
 {
