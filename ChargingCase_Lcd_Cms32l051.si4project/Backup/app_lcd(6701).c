@@ -286,7 +286,7 @@ void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color )
 
     App_Lcd_Background_Led_On();
     
-    Drv_Lcd_Show_String(lcdPara.startX, 60, (const uint8_t *)lcdPara.battLevelStr, lcdPara.battLeveColor, WHITE, 32, 0);
+    Drv_Lcd_Show_String(lcdPara.startX, 10, (const uint8_t *)lcdPara.battLevelStr, lcdPara.battLeveColor, BLACK, 32, 0);
 }
 
 void App_Lcd_Set_BattLevel_Flash(uint8_t battLevel, uint16_t color )
@@ -459,8 +459,6 @@ static void App_Lcd_Show_Earbud_Chg(void )
 
                 if(earBudPicPara.picTotalData == 0)
                 {
-                    App_Lcd_Set_BattLevel_Solid(75, GREEN);
-                    
                     Drv_Timer_Regist_Oneshot(App_Lcd_Earbud_Pic_Switch, 500, NULL);
                 }
                 else
