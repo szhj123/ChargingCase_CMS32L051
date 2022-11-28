@@ -397,7 +397,7 @@ void Drv_Lcd_Show_Char(uint16_t x,uint16_t y,uint8_t num,uint16_t fc,uint16_t bc
 	Drv_Lcd_Set_Position(x,y,x+sizex-1,y+sizey-1);  //ÉèÖÃ¹â±êÎ»ÖÃ 
 	for(i=0;i<TypefaceNum;i++)
 	{ 
-		temp=ascii_1608[num][i];		 //µ÷ÓÃ16x32×ÖÌå
+		temp=ascii_3216[num][i];		 //µ÷ÓÃ16x32×ÖÌå
 
 		for(t=0;t<8;t++)
 		{

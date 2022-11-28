@@ -63,12 +63,16 @@ typedef struct _lcd_para_t
     uint16_t startY;
     uint8_t  flashCharIndex;
     uint8_t  flashCharLength;
+
+    uint16_t showBattLevelDelayCnt;
+    uint16_t r_showEarbudChgDelayCnt;
 }lcd_para_t;
 
 void App_Lcd_Init(void );
 void App_Lcd_Clr(void );
 void App_Lcd_Show_Logo(void );
-void App_Lcd_Show_Battery_Level(uint8_t battLevel, uint16_t color );
+void App_Lcd_Set_BattLevel_Solid(uint8_t battLevel, uint16_t color );
+void App_Lcd_Set_BattLevel_Flash(uint8_t battLevel, uint16_t color );
 void App_Lcd_Show_Earbud_Chg_Enable(pic_earbud_chg_state_t picEarbudChgState );
 void App_Lcd_Background_Led_On(void );
 void App_Lcd_Background_Led_Off(void );
@@ -81,8 +85,7 @@ void App_Lcd_Show_Logo_Disable(void );
 void App_Lcd_Task_Sleep(void );
 void App_Lcd_Task_Wakeup(void );
 
-pic_state_t App_Lcd_Get_Logo_Show_State(void );
-pic_state_t App_Lcd_Get_Earbud_Show_State(void );
+pic_state_t App_Lcd_Get_Show_Logo_State(void );
 
 #endif 
 

@@ -15,7 +15,7 @@
 #include "adc.h"
 #include "dma.h"
 
-#define ADC_REF_VOL                1450//mv
+#define ADC_REF_VOL                3000//mv
 
 
 typedef void (*Hal_Isr_Callback_t)(void );

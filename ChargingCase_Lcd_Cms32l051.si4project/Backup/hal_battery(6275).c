@@ -25,6 +25,7 @@ void Hal_Batt_Init(void )
     Cms32l051_Intp_Init();
 
     Cms32l051_Adc_Init();
+
 }
 
 void Hal_Batt_Boost_Enable(void )

@@ -589,12 +589,7 @@ static void App_Batt_Event_Handler(void *arg )
 
     if(msg->cmd == CMD_BATT_LEVEL)
     {
-        uint8_t battLevel = msg->buf[0];
-
-        if(App_Lcd_Get_Earbud_Show_State() == PIC_STATE_IDLE)
-        {
-            App_Lcd_Show_Battery_Level(battLevel, BLUE);
-        }
+        //uint8_t battLevel = msg->buf[0];
     }
     else if(msg->cmd == CMD_BATT_EARBUD_CHG_STATE)
     {
