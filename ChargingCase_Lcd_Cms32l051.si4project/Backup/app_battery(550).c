@@ -203,8 +203,6 @@ static void App_Batt_Charging_Handler(void )
             saveEarbudChg_r = App_Earbud_Get_ChgState_R();
 
             battPara.battVolErr = 0;
-
-            App_Lcd_Init_Earbud_Chg_Show_State();
             
             App_Batt_Send_Batt_Level();
 
@@ -593,16 +591,9 @@ static void App_Batt_Event_Handler(void *arg )
     {
         uint8_t battLevel = msg->buf[0];
 
-        if(battLevel == 0)
+        if(App_Lcd_Get_Earbud_Show_State() == PIC_STATE_IDLE)
         {
-            App_Batt_Handler_End_Callback(NULL);
-        }
-        else
-        {
-            if(App_Lcd_Get_Earbud_Show_State() == PIC_STATE_IDLE)
-            {
-                App_Lcd_Show_Battery_Level(battLevel, BLUE);
-            }
+            App_Lcd_Show_Battery_Level(battLevel, BLUE);
         }
     }
     else if(msg->cmd == CMD_BATT_EARBUD_CHG_STATE)
@@ -684,11 +675,9 @@ void App_Batt_Task_Wakeup(void )
 void App_Sys_Sleep(void )
 {
     uint16_t i;
-
-    ADC_Stop();
-
-    Drv_Batt_Boost_Vout_Disable();
-        
+    
+    Drv_Datt_Boost_Disable();    
+    
     /*** enter power down ***/
 	CGC->PMUKEY = 0x192A;
 	CGC->PMUKEY = 0x3E4F;
@@ -718,7 +707,7 @@ void App_Sys_Wakeup(void )
      Cms32l051_Spi20_Init();
      
      Cms32l051_Adc_Init();
-     
-     Drv_Batt_Boost_Vout_Enable();
+
+     Drv_Batt_Boost_Enable();
 }
 

@@ -431,11 +431,6 @@ pic_state_t App_Lcd_Get_Earbud_Show_State(void )
     return earBudPicPara.picState;
 }
 
-void App_Lcd_Init_Earbud_Chg_Show_State(void )
-{
-    earBudPicPara.picEarbudChgState = PIC_EARBUD_CHG_NULL;
-}
-
 void App_Lcd_Set_Pic_Enable(uint8_t *buf, uint16_t length )
 {
     uint8_t  picTotalNum = buf[0];

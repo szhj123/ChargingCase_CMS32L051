@@ -27,7 +27,7 @@
 /* Private variables ------------------------------------*/
 
 int main(void )
-{    
+{
     Drv_Task_Init();
 
     Drv_Timer_Init();
@@ -37,7 +37,7 @@ int main(void )
     App_Msg_Init();
 
     App_Lcd_Init();
-        
+    
     App_Key_Init();
 
     App_Batt_Init();

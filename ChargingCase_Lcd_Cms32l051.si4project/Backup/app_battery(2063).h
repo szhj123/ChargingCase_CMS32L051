@@ -19,7 +19,7 @@
 #define BATT_VOL_20                  3740
 #define BATT_VOL_10                  3680
 #define BATT_VOL_5                   3450
-#define BATT_VOL_0                   3200
+#define BATT_VOL_0                   3300
 
 #define EARBUD_MIN_CUR               7
 #define EARBUD_MAX_CUR               300

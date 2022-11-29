@@ -39,19 +39,15 @@ void Cms32l051_Gpio_Init(void )
     PORT_SetBit(PORT2, PIN0);
     
     //p147, lcd background led, output
-    //p137, sclk, input
     //p136, lcd rst, output
     //p120, lcd cs, output
     //p31,  lcd rs, output
     PORT_Init(PORT14, PIN7, OUTPUT);
-    //PORT_Init(PORT13, PIN7, PULLUP_INPUT);
     PORT_Init(PORT13, PIN6, OUTPUT);
     PORT_Init(PORT12, PIN0, OUTPUT);
     PORT_Init(PORT3, PIN1, OUTPUT);
 
     //p50, hall detect, input
-    //p40, swdio, input
-    PORT_Init(PORT4, PIN0, PULLUP_INPUT);
     //p30, hall detect, input
     PORT_Init(PORT5, PIN0, INPUT);
     PORT_Init(PORT3, PIN0, INPUT);

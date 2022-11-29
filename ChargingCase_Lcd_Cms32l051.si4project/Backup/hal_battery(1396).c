@@ -37,17 +37,6 @@ void Hal_Batt_Boost_Disable(void )
     PORT_ClrBit(PORT2, PIN0);
 }
 
-void Hal_Batt_Boost_Vout_Enable(void )
-{
-    PORT_SetBit(PORT2, PIN2);
-}
-
-void Hal_Batt_Boost_Vout_Disable(void )
-{
-    PORT_ClrBit(PORT2, PIN2);
-}
-
-
 uint8_t Hal_Batt_Get_Usb_State(void )
 {
     return PORT_GetBit(PORT3, PIN0);

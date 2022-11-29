@@ -34,17 +34,6 @@ void Drv_Datt_Boost_Disable(void )
     Hal_Batt_Boost_Disable();
 }
 
-void Drv_Batt_Boost_Vout_Enable(void )
-{
-    Hal_Batt_Boost_Vout_Enable();
-}
-
-void Drv_Batt_Boost_Vout_Disable(void )
-{
-    Hal_Batt_Boost_Vout_Disable();
-}
-
-
 uint8_t Drv_Batt_Get_Usb_State(void )
 {
     if(Hal_Batt_Get_Usb_State())

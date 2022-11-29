@@ -83,7 +83,6 @@ void App_Lcd_Task_Wakeup(void );
 
 pic_state_t App_Lcd_Get_Logo_Show_State(void );
 pic_state_t App_Lcd_Get_Earbud_Show_State(void );
-void App_Lcd_Init_Earbud_Chg_Show_State(void );
 
 #endif 
 
