@@ -22,7 +22,7 @@
 #define BATT_DETECT_TIME             100 //ms
 #define BATT_ERROR_VOL_REDUCE_TIME   5000 //ms
 #define BATT_ERROR_VOL_REDUCE_COUNT  (BATT_ERROR_VOL_REDUCE_TIME / BATT_DETECT_TIME)
-#define BATT_CHARGING_STEADY_TIME    3000 //ms
+#define BATT_CHARGING_STEADY_TIME    2000 //ms
 #define BATT_CHARGING_STEADY_COUNT   (BATT_CHARGING_STEADY_TIME / BATT_DETECT_TIME)
 #define BATT_CHARGING_FULL_TIME      1800000//ms
 #define BATT_CHARGING_FULL_COUNT     (BATT_CHARGING_FULL_TIME / BATT_DETECT_TIME)
@@ -611,7 +611,7 @@ static void App_Batt_Event_Handler(void *arg )
         
         earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[1];
 
-        App_Lcd_Show_Logo_Disable();   
+        App_Lcd_Show_Logo_Disable();        
 
         if(earbudChgStateL != EARBUD_CHG_DONE && earbudChgStateR != EARBUD_CHG_DONE)
         {

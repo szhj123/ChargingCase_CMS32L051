@@ -245,17 +245,19 @@ void App_Lcd_Show_Battery_Level(uint8_t battLevel, uint16_t color )
     lcdPara.battery_level_show_callback = NULL;
 
     sprintf(lcdPara.battLevelStr, "%3d", battLevel);
-    lcdPara.battLevelStr[3] = '%';
-    lcdPara.battLevelStr[4] = '\0';
+    lcdPara.battLevelStr[3] = '\0';
 
-    lcdPara.startX = 28;
+    //lcdPara.battLevelStr[3] = '%';
+    //lcdPara.battLevelStr[4] = '\0';
+
+    lcdPara.startX = 80;
   
     lcdPara.battLeveColor = color;
 
 
     App_Lcd_Background_Led_On();
     
-    Drv_Lcd_Show_String(lcdPara.startX, 63, (const uint8_t *)lcdPara.battLevelStr, lcdPara.battLeveColor, WHITE, 32, 0);
+    Drv_Lcd_Show_String(lcdPara.startX, 80, (const uint8_t *)lcdPara.battLevelStr, lcdPara.battLeveColor, WHITE, 16, 0);
 }
 
 void App_Lcd_Show_Earbud_Chg_Enable(pic_earbud_chg_state_t picEarbudChgState )
