@@ -5,7 +5,7 @@
 
 typedef void (*lcd_show_callback_t)(void );
 
-#define PIC_MAX_READ_BUF                480
+#define PIC_MAX_READ_BUF                512
 #define PIC_SHOW_SPEED                  50
 
 #define PIC_EARBUD_CHG_L_START_INDEX    0
@@ -38,7 +38,6 @@ typedef struct _pic_para_t
     uint32_t    picTotalData;
     uint32_t    picDataOffset;
     uint32_t    picFlashAddr;
-    uint16_t    picDelayCnt;
     uint16_t    picWidth;
     uint16_t    picHeight;
     uint8_t     picIndex;

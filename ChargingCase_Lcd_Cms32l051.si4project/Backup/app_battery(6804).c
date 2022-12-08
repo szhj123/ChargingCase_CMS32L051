@@ -613,9 +613,6 @@ static void App_Batt_Event_Handler(void *arg )
 
         App_Lcd_Show_Logo_Disable();   
 
-        earbudChgStateL = EARBUD_CHG_PROCEE;
-        earbudChgStateR = EARBUD_CHG_PROCEE;
-
         if(earbudChgStateL != EARBUD_CHG_DONE && earbudChgStateR != EARBUD_CHG_DONE)
         {
             App_Lcd_Show_Earbud_Chg_Enable(PIC_EARBUD_CHG_LR);

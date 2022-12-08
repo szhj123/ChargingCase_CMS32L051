@@ -62,9 +62,8 @@ uint16_t Hal_Batt_Get_AdcVal(adc_channel_t adcChannel)
 {
     uint16_t tmpBuf[16];
     
-    ADC_Converse(adcChannel, sizeof(tmpBuf)/sizeof(uint16_t ), tmpBuf);
+    ADC_Converse(adcChannel, sizeof(tmpBuf)/sizeof(tmpBuf[0]), tmpBuf);
 
-    return ADC_MidAvg_Filter(tmpBuf, sizeof(tmpBuf)/sizeof(uint16_t ));
 }
 
 

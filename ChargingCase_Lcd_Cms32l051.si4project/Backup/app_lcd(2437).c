@@ -298,8 +298,6 @@ void App_Lcd_Show_Earbud_Chg_Enable(pic_earbud_chg_state_t picEarbudChgState )
         earBudPicPara.picState = PIC_STATE_GET_INFO;
         
         earBudPicPara.picEarbudChgState = picEarbudChgState;
-
-        Drv_Lcd_Clr(WHITE);
         
         App_Lcd_Background_Led_On();
 
@@ -342,20 +340,8 @@ static void App_Lcd_Show_Earbud_Chg(void )
 
                 earBudPicPara.picFlashAddr += PIC_MAX_READ_BUF;
 
-                if(earBudPicPara.picTotalData > 8320 && earBudPicPara.picTotalData < 16480 )
-                {
-                    App_Lcd_Show_Earbud_Picture_End_Callback();
-                }
-                else if(earBudPicPara.picTotalData == 8320)
-                {
-                    Drv_Lcd_Set_Position(25, 112, earBudPicPara.picWidth-1+25, earBudPicPara.picHeight-50-1);
-                    
-                    App_Lcd_Show_Earbud_Picture_End_Callback();
-                }
-                else
-                {
-                    Drv_Lcd_Show_Picture(picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Earbud_Picture_End_Callback);
-                }
+                Drv_Lcd_Show_Picture(picDataBuf, PIC_MAX_READ_BUF, App_Lcd_Show_Earbud_Picture_End_Callback);
+                
             }
             else
             {
@@ -382,12 +368,8 @@ static void App_Lcd_Show_Earbud_Chg(void )
                     uint8_t battLevel = App_Batt_Get_Level();
                     
                     App_Lcd_Show_Battery_Level(battLevel, BLUE);
-
-                    earBudPicPara.picDelayCnt = 0;
                     
-                    earBudPicPara.picState = PIC_STATE_IDLE;
-                    
-                    //Drv_Timer_Regist_Oneshot(App_Lcd_Earbud_Pic_Switch, 500, NULL);
+                    Drv_Timer_Regist_Oneshot(App_Lcd_Earbud_Pic_Switch, 500, NULL);
                 }
                 else
                 {
@@ -399,12 +381,6 @@ static void App_Lcd_Show_Earbud_Chg(void )
         }
         case PIC_STATE_IDLE:
         {
-            if(++earBudPicPara.picDelayCnt >= 500)
-            {
-                earBudPicPara.picDelayCnt = 0;
-                
-                App_Lcd_Earbud_Pic_Switch(NULL);
-            }
             break;
         }
         default: break;
@@ -413,7 +389,7 @@ static void App_Lcd_Show_Earbud_Chg(void )
 
 static void App_Lcd_Earbud_Pic_Switch(void *arg )
 {
-    //if(earBudPicPara.picState != PIC_STATE_IDLE)
+    if(earBudPicPara.picState != PIC_STATE_IDLE)
     {
         if(earBudPicPara.picTotalNum != 1)
         {
