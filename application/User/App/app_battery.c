@@ -84,14 +84,14 @@ static void Drv_Batt_Adc_Sample(uint8_t *battSampleEndFlag )
     static uint32_t earbudCurSum_r;
 
     uint16_t tmpBatVol;
-    uint16_t tmpEarbudCur_l;
-    uint16_t tmpEarbudCur_r;
+    uint16_t tmpEarbud_L_Cur;
+    uint16_t tmpEarbud_R_Cur;
 	    
     tmpBatVol = Drv_Batt_Get_BatVol();
         
-    tmpEarbudCur_l = Drv_Earbud_Get_Cur_L();
+    tmpEarbud_L_Cur = Drv_Earbud_Get_Cur_L();
     
-    tmpEarbudCur_r = Drv_Earbud_Get_Cur_R();
+    tmpEarbud_R_Cur = Drv_Earbud_Get_Cur_R();
 
     *battSampleEndFlag = 0;
 
@@ -99,8 +99,8 @@ static void Drv_Batt_Adc_Sample(uint8_t *battSampleEndFlag )
     {            
         
         batVolSum += tmpBatVol;
-        earbudCurSum_l += tmpEarbudCur_l;
-        earbudCurSum_r += tmpEarbudCur_r;
+        earbudCurSum_l += tmpEarbud_L_Cur;
+        earbudCurSum_r += tmpEarbud_R_Cur;
         
         adcSampleCnt++;
     }
@@ -121,54 +121,64 @@ static void Drv_Batt_Adc_Sample(uint8_t *battSampleEndFlag )
 
 static void App_Batt_Discharging_Handler(void )
 {
-    static batt_level_state_t saveBattLevel;
-    static earbud_chg_state_t saveEarbudChg_l;
-    static earbud_chg_state_t saveEarbudChg_r;
-
     battPara.chgState = CHG_STATE_INIT;
-
-    battPara.battVolSave = battPara.battVol;
     
     switch(battPara.dischgState)
     {
         case DISCHG_STATE_INIT:
         {
-            if(saveBattLevel == 0)
+            if(battPara.preBattLevel == 0)
             {
-                saveBattLevel = App_Batt_Get_Level();
+                App_Batt_Cal_Level();
+
+                battPara.preBattLevel = battPara.battLevel;
             }
 
-            saveEarbudChg_l = App_Earbud_Get_ChgState_L();
+            App_Earbud_Cal_L_Chg_State();
 
-            saveEarbudChg_r = App_Earbud_Get_ChgState_R();
+            App_Earbud_Cal_R_Chg_State();
+
+            battPara.preEarbud_L_Chg_State = battPara.earbud_L_Chg_State;
+
+            battPara.preEarbud_R_Chg_State = battPara.earbud_R_Chg_State;
 
             App_Batt_Send_Batt_Level();
 
             App_Batt_Send_Earbud_Chg_State();
 
             battPara.dischgState = DISCH_STATE_HANDLER;
+
+            Drv_Task_Delay(battTask, 3000);
             
             break;
         }
         case DISCH_STATE_HANDLER:
         {
-            if(App_Batt_Get_Level() < saveBattLevel)
+            battPara.battVolSave = battPara.battVol;
+            
+            App_Batt_Cal_Level();
+
+            App_Earbud_Cal_L_Chg_State();
+
+            App_Earbud_Cal_R_Chg_State();
+            
+            if(battPara.battLevel < battPara.preBattLevel)
             {
-                saveBattLevel = App_Batt_Get_Level();
+                battPara.preBattLevel = battPara.battLevel;
 
                 App_Batt_Send_Batt_Level();
             }
             
-            if(saveEarbudChg_l != App_Earbud_Get_ChgState_L())
+            if(battPara.earbud_L_Chg_State != battPara.preEarbud_L_Chg_State)
             {
-                saveEarbudChg_l = App_Earbud_Get_ChgState_L();
+                battPara.earbud_L_Chg_State = battPara.preEarbud_L_Chg_State;
                 
                 App_Batt_Send_Earbud_Chg_State();
             }
 
-            if(saveEarbudChg_r != App_Earbud_Get_ChgState_R())
+            if(battPara.earbud_R_Chg_State != battPara.preEarbud_R_Chg_State)
             {
-                saveEarbudChg_r = App_Earbud_Get_ChgState_R();
+                battPara.earbud_R_Chg_State = battPara.preEarbud_R_Chg_State;
                 
                 App_Batt_Send_Earbud_Chg_State();
             }
@@ -181,10 +191,6 @@ static void App_Batt_Discharging_Handler(void )
 
 static void App_Batt_Charging_Handler(void )
 {
-    static batt_level_state_t saveBattLevel;
-    static earbud_chg_state_t saveEarbudChg_l;
-    static earbud_chg_state_t saveEarbudChg_r;
-
     battPara.dischgState = DISCHG_STATE_INIT;
 
     switch(battPara.chgState)
@@ -194,13 +200,19 @@ static void App_Batt_Charging_Handler(void )
             if(battPara.battVolSave == 0)
             {
                 battPara.battVolSave = App_Batt_Get_BatVol();
+
+                App_Batt_Cal_Level();
             }
-            
-            saveBattLevel = App_Batt_Get_Level();
 
-            saveEarbudChg_l = App_Earbud_Get_ChgState_L();
+            App_Earbud_Cal_L_Chg_State();
 
-            saveEarbudChg_r = App_Earbud_Get_ChgState_R();
+            App_Earbud_Cal_R_Chg_State();
+
+            battPara.preBattLevel = battPara.battLevel;
+
+            battPara.preEarbud_L_Chg_State = battPara.earbud_L_Chg_State;
+
+            battPara.preEarbud_R_Chg_State = battPara.earbud_R_Chg_State;
 
             battPara.battVolErr = 0;
 
@@ -234,26 +246,32 @@ static void App_Batt_Charging_Handler(void )
         case CHG_STATE_HANDLER:
         {
             App_Batt_Charging_Full_Detect();
-            
+
             battPara.battVol -= battPara.battVolErr;
+
+            App_Batt_Cal_Level();
+
+            App_Earbud_Cal_L_Chg_State();
+
+            App_Earbud_Cal_R_Chg_State();
             
-            if(App_Batt_Get_Level() > saveBattLevel)
+            if(battPara.battLevel > battPara.preBattLevel)
             {
-                saveBattLevel = App_Batt_Get_Level();
+                battPara.preBattLevel = battPara.battLevel;
 
                 App_Batt_Send_Batt_Level();
             }
 
-            if(saveEarbudChg_l != App_Earbud_Get_ChgState_L())
+            if(battPara.earbud_L_Chg_State != battPara.preEarbud_L_Chg_State)
             {
-                saveEarbudChg_l = App_Earbud_Get_ChgState_L();
+                battPara.earbud_L_Chg_State = battPara.preEarbud_L_Chg_State;
                 
                 App_Batt_Send_Earbud_Chg_State();
             }
 
-            if(saveEarbudChg_r != App_Earbud_Get_ChgState_R())
+            if(battPara.earbud_R_Chg_State != battPara.preEarbud_R_Chg_State)
             {
-                saveEarbudChg_r = App_Earbud_Get_ChgState_R();
+                battPara.earbud_R_Chg_State = battPara.preEarbud_R_Chg_State;
                 
                 App_Batt_Send_Earbud_Chg_State();
             }
@@ -266,17 +284,23 @@ static void App_Batt_Charging_Handler(void )
 static void App_Batt_Charging_Full_Detect(void )
 {
     static uint16_t battDelayCnt;
+    static uint16_t battFullDelayCnt;
         
     if(battPara.battLevel != BATT_LEVEL_100)
     {
         if(Drv_Batt_Get_Charing_State())
         {
-            battDelayCnt = 0;
-            
-            battPara.battLevel = BATT_LEVEL_100;
+            if(++battFullDelayCnt > 50)
+            {
+                battDelayCnt = 0;
+
+                battFullDelayCnt = 0;
+                
+                battPara.battLevel = BATT_LEVEL_100;
+            }
         }
 
-        if(battPara.battVol >= 4200)
+        if(battPara.battVol >= 4150)
         {
             if(battPara.battVolErr > 0)
             {
@@ -297,11 +321,15 @@ static void App_Batt_Charging_Full_Detect(void )
                 }
             }
         }
+        else
+        {
+            battDelayCnt = 0;
+        }
     }
 }
 
 
-batt_level_state_t App_Batt_Get_Level(void )
+batt_level_state_t App_Batt_Cal_Level(void )
 {
     static const uint8_t battErrVol = 25; //ms
     
@@ -363,9 +391,12 @@ batt_level_state_t App_Batt_Get_Level(void )
     {
         if(battPara.battLevel == BATT_LEVEL_100)
         {
-            if(battPara.battVol < (BATT_VOL_100 - battErrVol))
+            if(Drv_Batt_Get_Usb_State() == USB_PLUG_OUT)
             {
-                battPara.battLevel = BATT_LEVEL_90;
+                if(battPara.battVol < (BATT_VOL_100 - battErrVol))
+                {
+                    battPara.battLevel = BATT_LEVEL_90;
+                }
             }
         }
         else if(battPara.battLevel == BATT_LEVEL_90)
@@ -486,52 +517,65 @@ batt_level_state_t App_Batt_Get_Level(void )
     return battPara.battLevel;
 }
 
-earbud_chg_state_t App_Earbud_Get_ChgState_L(void )
+earbud_chg_state_t App_Earbud_Cal_L_Chg_State(void )
 {
     static const uint8_t curErr = 5;//ma
     
-    if(battPara.earbudChgState_l == EARBUD_CHG_PROCEE)
+    if(battPara.earbud_L_Chg_State == EARBUD_CHG_PROCEE)
     {
-        if(battPara.earbudCur_l < EARBUD_MIN_CUR)
+        if(battPara.earbud_L_Cur < EARBUD_MIN_CUR)
         {
-            battPara.earbudChgState_l = EARBUD_CHG_DONE;
+            battPara.earbud_L_Chg_State = EARBUD_CHG_DONE;
         }
     }
     else
     {
-        if(battPara.earbudCur_l > (EARBUD_MIN_CUR + curErr))
+        if(battPara.earbud_L_Cur > (EARBUD_MIN_CUR + curErr))
         {
-            battPara.earbudChgState_l = EARBUD_CHG_PROCEE;
+            battPara.earbud_L_Chg_State = EARBUD_CHG_PROCEE;
         }
     }
 
     
-    return battPara.earbudChgState_l;
+    return battPara.earbud_L_Chg_State;
 }
 
-earbud_chg_state_t App_Earbud_Get_ChgState_R(void )
+earbud_chg_state_t App_Earbud_Cal_R_Chg_State(void )
 {
     static const uint8_t curErr = 5;//ma
     
-    if(battPara.earbudChgState_r == EARBUD_CHG_PROCEE)
+    if(battPara.earbud_R_Chg_State == EARBUD_CHG_PROCEE)
     {
-        if(battPara.earbudCur_r < EARBUD_MIN_CUR)
+        if(battPara.earbud_R_Cur < EARBUD_MIN_CUR)
         {
-            battPara.earbudChgState_r = EARBUD_CHG_DONE;
+            battPara.earbud_R_Chg_State = EARBUD_CHG_DONE;
         }
     }
     else
     {
-        if(battPara.earbudCur_r > (EARBUD_MIN_CUR + curErr))
+        if(battPara.earbud_R_Cur > (EARBUD_MIN_CUR + curErr))
         {
-            battPara.earbudChgState_r = EARBUD_CHG_PROCEE;
+            battPara.earbud_R_Chg_State = EARBUD_CHG_PROCEE;
         }
     }
 		
-		return battPara.earbudChgState_r;
+		return battPara.earbud_R_Chg_State;
 }
 
+batt_level_state_t App_Batt_Get_Level(void )
+{
+    return battPara.battLevel;
+}
 
+earbud_chg_state_t App_Earbud_Get_L_Chg_State(void )
+{
+    return battPara.earbud_L_Chg_State;
+}
+
+earbud_chg_state_t App_Earbud_Get_R_Chg_State(void )
+{
+    return battPara.earbud_R_Chg_State;
+}
 
 void App_Batt_Set_BatVol(uint16_t battVol )
 {
@@ -545,22 +589,22 @@ uint16_t App_Batt_Get_BatVol(void )
 
 void App_Earbud_Set_Cur_L(uint16_t earbudCur )
 {
-    battPara.earbudCur_l = earbudCur;
+    battPara.earbud_L_Cur = earbudCur;
 }
 
 uint16_t App_Earbud_Get_Cur_L(void )
 {
-    return battPara.earbudCur_l;
+    return battPara.earbud_L_Cur;
 }
 
 void App_Earbud_Set_Cur_R(uint16_t earbudCur )
 {
-    battPara.earbudCur_r = earbudCur;
+    battPara.earbud_R_Cur = earbudCur;
 }
 
 uint16_t App_Earbud_Get_Cur_R(void )
 {
-    return battPara.earbudCur_r;
+    return battPara.earbud_R_Cur;
 }
 
 uint8_t App_Batt_Get_Usb_State(void )
@@ -579,8 +623,8 @@ void App_Batt_Send_Earbud_Chg_State(void )
 {
     uint8_t buf[2] = {0};
 
-    buf[0] = (uint8_t )App_Earbud_Get_ChgState_L();
-    buf[1] = (uint8_t )App_Earbud_Get_ChgState_R();
+    buf[0] = (uint8_t )App_Earbud_Get_L_Chg_State();
+    buf[1] = (uint8_t )App_Earbud_Get_R_Chg_State();
 
     Drv_Msg_Queue_Put(App_Batt_Event_Handler, CMD_BATT_EARBUD_CHG_STATE, buf, sizeof(buf));
 }
@@ -612,9 +656,6 @@ static void App_Batt_Event_Handler(void *arg )
         earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[1];
 
         App_Lcd_Show_Logo_Disable();   
-
-        earbudChgStateL = EARBUD_CHG_PROCEE;
-        earbudChgStateR = EARBUD_CHG_PROCEE;
 
         if(earbudChgStateL != EARBUD_CHG_DONE && earbudChgStateR != EARBUD_CHG_DONE)
         {

@@ -378,10 +378,8 @@ static void App_Lcd_Show_Earbud_Chg(void )
                 earBudPicPara.picWrEndFlag = 0;
 
                 if(earBudPicPara.picTotalData == 0)
-                {
-                    uint8_t battLevel = App_Batt_Get_Level();
-                    
-                    App_Lcd_Show_Battery_Level(battLevel, BLUE);
+                {                    
+                    App_Lcd_Show_Battery_Level((uint8_t )App_Batt_Get_Level(), BLUE);
 
                     earBudPicPara.picDelayCnt = 0;
                     

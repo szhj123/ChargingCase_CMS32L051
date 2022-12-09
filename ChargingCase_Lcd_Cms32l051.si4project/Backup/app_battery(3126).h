@@ -68,20 +68,15 @@ typedef struct _batt_para_t
     uint16_t battVol;
     uint16_t battVolSave;
     uint16_t battVolErr;
-    uint16_t earbud_L_Cur;
-    uint16_t earbud_R_Cur;
+    uint16_t earbudCur_l;
+    uint16_t earbudCur_r;
 
     uint16_t delayCnt;
     
 
     batt_level_state_t battLevel;
-    earbud_chg_state_t earbud_L_Chg_State;
-    earbud_chg_state_t earbud_R_Chg_State;
-
-    batt_level_state_t preBattLevel;
-    earbud_chg_state_t preEarbud_L_Chg_State;
-    earbud_chg_state_t preEarbud_R_Chg_State;
-    
+    earbud_chg_state_t earbudChgState_l;
+    earbud_chg_state_t earbudChgState_r;
 
 }batt_para_t;
 
@@ -92,14 +87,9 @@ void App_Earbud_Set_Cur_L(uint16_t earbudCur );
 uint16_t App_Earbud_Get_Cur_L(void );
 void App_Earbud_Set_Cur_R(uint16_t earbudCur );
 uint16_t App_Earbud_Get_Cur_R(void );
-batt_level_state_t App_Batt_Cal_Level(void );
-earbud_chg_state_t App_Earbud_Cal_L_Chg_State(void );
-earbud_chg_state_t App_Earbud_Cal_R_Chg_State(void );
-
 batt_level_state_t App_Batt_Get_Level(void );
-earbud_chg_state_t App_Earbud_Get_L_Chg_State(void );
-earbud_chg_state_t App_Earbud_Get_R_Chg_State(void );
-
+earbud_chg_state_t App_Earbud_Get_ChgState_L(void );
+earbud_chg_state_t App_Earbud_Get_ChgState_R(void );
 void App_Batt_Send_Batt_Level(void );
 void App_Batt_Send_Earbud_Chg_State(void );
 uint8_t App_Batt_Get_Usb_State(void );
