@@ -1,6 +1,6 @@
 Dependencies for Project 'bootloader', Target 'bootloader': (DO NOT MODIFY !)
 CompilerVersion: 5060960::V5.06 update 7 (build 960)::.\ARMCC
-F (..\..\Device\Source\ARM\startup_CMS32L051.s)(0x631FEA57)(--cpu Cortex-M0+ -g --apcs=interwork -IC:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.2.0\Device\Include--pd "__UVISION_VERSION SETA 536"--list .\listings\startup_cms32l051.lst --xref -o .\objects\startup_cms32l051.o --depend .\objects\startup_cms32l051.d)
+F (..\..\Device\Source\ARM\startup_CMS32L051.s)(0x638445E5)(--cpu Cortex-M0+ -g --apcs=interwork -IC:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.2.0\Device\Include--pd "__UVISION_VERSION SETA 536"--list .\listings\startup_cms32l051.lst --xref -o .\objects\startup_cms32l051.o --depend .\objects\startup_cms32l051.d)
 F (..\User\system_CMS32L051.c)(0x631695DB)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I ..\..\CMSIS\Include -I ..\..\Device\Include -I ..\..\Device\Source -I ..\..\Driver\inc -I ..\User-IC:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.2.0\Device\Include-D__UVISION_VERSION="536"-o .\objects\system_cms32l051.o --omf_browse .\objects\system_cms32l051.crf --depend .\objects\system_cms32l051.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x6025237E)
 I (..\..\Device\Include\CMS32L051.h)(0x61EF8A2A)
@@ -18,7 +18,7 @@ I (..\..\CMSIS\Include\cmsis_compiler.h)(0x626F4ADE)
 I (..\..\CMSIS\Include\cmsis_armcc.h)(0x626F4ADE)
 I (..\..\Device\Include\system_CMS32L051.h)(0x61EF8A2A)
 I (..\..\Driver\inc\flash.h)(0x61EF8A2A)
-I (..\..\Device\Source\userdefine.h)(0x631FE588)
+I (..\..\Device\Source\userdefine.h)(0x63BE5F4A)
 F (..\User\main.c)(0x631695DB)(-c --cpu Cortex-M0+ -g -O0 --apcs=interwork --split_sections -I ..\..\CMSIS\Include -I ..\..\Device\Include -I ..\..\Device\Source -I ..\..\Driver\inc -I ..\User-IC:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.2.0\Device\Include-D__UVISION_VERSION="536"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x60252374)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x60252374)
@@ -31,4 +31,4 @@ I (..\..\CMSIS\Include\cmsis_compiler.h)(0x626F4ADE)
 I (..\..\CMSIS\Include\cmsis_armcc.h)(0x626F4ADE)
 I (..\..\Device\Include\system_CMS32L051.h)(0x61EF8A2A)
 I (..\..\Driver\inc\flash.h)(0x61EF8A2A)
-I (..\..\Device\Source\userdefine.h)(0x631FE588)
+I (..\..\Device\Source\userdefine.h)(0x63BE5F4A)

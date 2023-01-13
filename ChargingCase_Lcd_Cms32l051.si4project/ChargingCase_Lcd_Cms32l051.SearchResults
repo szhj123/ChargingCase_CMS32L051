@@ -1,4 +1,4 @@
----- BATT_VOL_0 Matches (3 in 2 files) ----
-App_Batt_Get_Level in app_battery.c (application\User\App) :             if(battPara.battVol < BATT_VOL_0)
-App_Batt_Get_Level in app_battery.c (application\User\App) :             if(battPara.battVol < BATT_VOL_0)
-app_battery.h (application\User\App) line 22 : #define BATT_VOL_0                   3200
+---- App_Hall_Get_State Matches (3 in 3 files) ----
+App_Batt_Handler_End_Callback in app_battery.c (application\User\App) :     if(App_Hall_Get_State() == 0)
+app_key.c (application\User\App) line 212 : uint8_t App_Hall_Get_State(void )
+app_key.h (application\User\App) line 28 : uint8_t App_Hall_Get_State(void );

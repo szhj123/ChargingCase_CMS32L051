@@ -37,9 +37,6 @@ void Drv_Lcd_Draw_Rectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2,u
 void Drv_Lcd_Show_String(uint16_t x,uint16_t y,const uint8_t *p,uint16_t fc,uint16_t bc,uint8_t sizey,uint8_t mode);
 void Drv_Lcd_Show_IntNum(uint16_t x,uint16_t y,uint16_t num,uint8_t len,uint16_t fc,uint16_t bc,uint8_t sizey );
 
-void Drv_Lcd_Sleep_Enable(void );
-void Drv_Lcd_Sleep_Disbale(void );
-
 #endif 
 
 

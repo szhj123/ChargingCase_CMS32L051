@@ -25,6 +25,7 @@ void Hal_Lcd_Init(void )
     Cms32l051_Gpio_Init();
 
     Cms32l051_Spi20_Init();
+    
 }
 
 void Hal_Lcd_Spi_Send_With_DMA(const uint8_t *buf, uint16_t length, Hal_Isr_Callback_t callback )

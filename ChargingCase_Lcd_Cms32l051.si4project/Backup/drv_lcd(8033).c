@@ -70,7 +70,6 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0x11);//ss/gs
     Drv_Lcd_Wr_Cmd(0x83);
     Drv_Lcd_Wr_Data(0x10);
-
     //////////////////////gamma_set//////////////////////////////////////
     Drv_Lcd_Wr_Cmd(0x2a); // Set col address
     Drv_Lcd_Wr_Data(0x00);
@@ -96,14 +95,12 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x00);
-
     Drv_Lcd_Wr_Data(0x13);//VPMIDP G[0] 15/16
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x11);//VRP1 G[1] 10
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x16);//VRP0 G[2] 21
     Drv_Lcd_Wr_Data(0x00);
-
     Drv_Lcd_Wr_Data(0x05);//KP7 G[3] 0
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x0d);//KP6 G[4] 1
@@ -119,7 +116,6 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0x1b);//KP1 G[9] 30
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x1f);//KP0 G[10] 31
-
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x00);
     Drv_Lcd_Wr_Data(0x00);
@@ -172,7 +168,6 @@ void Drv_Lcd_Init(void )
 
     Drv_Lcd_Wr_Cmd(0x11);
     Drv_Lcd_Delay_Us(200);
-        
     Drv_Lcd_Wr_Cmd(0x21);
     Drv_Lcd_Wr_Cmd(0x36);
     Drv_Lcd_Wr_Data(0x00);
@@ -182,7 +177,7 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Wr_Data(0xc0);
     
     Drv_Lcd_Clr(0x0000);
-   
+    
     Drv_Lcd_Background_Led_On();
 
     #if 0
@@ -220,21 +215,6 @@ void Drv_Lcd_Init(void )
     Drv_Lcd_Draw_Line(68, 155, 75, 150, BLUE);
     #endif 
 }
-
-void Drv_Lcd_Sleep_Enable(void )
-{
-    Drv_Lcd_Wr_Cmd(0x10);
-    
-    Drv_Lcd_Delay_Us(200);
-}
-
-void Drv_Lcd_Sleep_Disbale(void )
-{
-    Drv_Lcd_Wr_Cmd(0x11);
-
-    Drv_Lcd_Delay_Us(200);
-}
-
 
 void Drv_Lcd_Clr(uint16_t color)
 {

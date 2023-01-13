@@ -171,14 +171,14 @@ static void App_Batt_Discharging_Handler(void )
             
             if(battPara.earbud_L_Chg_State != battPara.preEarbud_L_Chg_State)
             {
-                battPara.preEarbud_L_Chg_State = battPara.earbud_L_Chg_State;
+                battPara.earbud_L_Chg_State = battPara.preEarbud_L_Chg_State;
                 
                 App_Batt_Send_Earbud_Chg_State();
             }
 
             if(battPara.earbud_R_Chg_State != battPara.preEarbud_R_Chg_State)
             {
-                battPara.preEarbud_R_Chg_State = battPara.earbud_R_Chg_State;
+                battPara.earbud_R_Chg_State = battPara.preEarbud_R_Chg_State;
                 
                 App_Batt_Send_Earbud_Chg_State();
             }
@@ -655,7 +655,7 @@ static void App_Batt_Event_Handler(void *arg )
         
         earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[1];
 
-        App_Lcd_Show_Logo_Disable();  
+        App_Lcd_Show_Logo_Disable();   
 
         if(earbudChgStateL != EARBUD_CHG_DONE && earbudChgStateR != EARBUD_CHG_DONE)
         {
