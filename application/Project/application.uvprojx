@@ -300,8 +300,8 @@
               </OCR_RVCT8>
               <OCR_RVCT9>
                 <Type>0</Type>
-                <StartAddress>0x200001a0</StartAddress>
-                <Size>0x1e60</Size>
+                <StartAddress>0x20000100</StartAddress>
+                <Size>0xf00</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -449,11 +449,6 @@
               <FilePath>..\User\App\main.c</FilePath>
             </File>
             <File>
-              <FileName>app_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\App\app_led.c</FilePath>
-            </File>
-            <File>
               <FileName>app_com.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\App\app_com.c</FilePath>
@@ -492,11 +487,6 @@
               <FileName>drv_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Drv\drv_timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>drv_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Drv\drv_led.c</FilePath>
             </File>
             <File>
               <FileName>drv_event.c</FileName>
@@ -547,11 +537,6 @@
               <FileName>hal_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Hal\hal_timer.c</FilePath>
-            </File>
-            <File>
-              <FileName>hal_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Hal\hal_led.c</FilePath>
             </File>
             <File>
               <FileName>hal_com.c</FileName>

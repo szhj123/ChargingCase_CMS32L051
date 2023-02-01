@@ -1,4 +1,7 @@
----- App_Hall_Get_State Matches (3 in 3 files) ----
-App_Batt_Handler_End_Callback in app_battery.c (application\User\App) :     if(App_Hall_Get_State() == 0)
-app_key.c (application\User\App) line 212 : uint8_t App_Hall_Get_State(void )
-app_key.h (application\User\App) line 28 : uint8_t App_Hall_Get_State(void );
+---- standbyTimerId Matches (6 in 1 files) ----
+app_battery.c (application\User\App) line 42 : static uint8_t standbyTimerId = TIMER_NULL;
+App_Batt_Event_Handler in app_battery.c (application\User\App) :                 Drv_Timer_Delete(standbyTimerId);
+App_Batt_Event_Handler in app_battery.c (application\User\App) :                 standbyTimerId = Drv_Timer_Regist_Oneshot(App_Batt_Handler_End_Callback, 5000, NULL);
+App_Batt_Event_Handler in app_battery.c (application\User\App) :             Drv_Timer_Delete(standbyTimerId);
+App_Batt_Delete_Standby_Timer in app_battery.c (application\User\App) :     Drv_Timer_Delete(standbyTimerId);
+App_Batt_Delete_Standby_Timer in app_battery.c (application\User\App) :     standbyTimerId = TIMER_NULL;

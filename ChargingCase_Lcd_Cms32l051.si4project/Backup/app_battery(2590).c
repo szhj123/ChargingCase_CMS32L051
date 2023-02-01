@@ -646,23 +646,11 @@ static void App_Batt_Event_Handler(void *arg )
             if(App_Lcd_Get_Earbud_Show_State() == PIC_STATE_IDLE)
             {
                 App_Lcd_Show_Battery_Level(battLevel, BLUE);
-
-                if(battLevel == 100)
-                {
-                    Drv_Timer_Delete(standbyTimerId);
-                
-                    standbyTimerId = Drv_Timer_Regist_Oneshot(App_Batt_Handler_End_Callback, 5000, NULL);
-                }
             }
         }
     }
     else if(msg->cmd == CMD_BATT_EARBUD_CHG_STATE)
-    {       
-        if(App_Lcd_Get_Logo_Show_State() != PIC_STATE_IDLE)
-        {
-            return ;
-        }
-        
+    {
         earbud_chg_state_t earbudChgStateL= (earbud_chg_state_t )msg->buf[0];
         
         earbud_chg_state_t earbudChgStateR = (earbud_chg_state_t )msg->buf[1];
