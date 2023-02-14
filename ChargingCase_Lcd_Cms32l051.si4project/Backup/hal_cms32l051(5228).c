@@ -116,8 +116,6 @@ void Cms32l051_Uart1_Init(void )
     SystemCoreClock = 64000000;
     
     UART1_Init(SystemCoreClock, 921600);
-
-    UART0_Init(SystemCoreClock, 115200);
 }
 
 void Cms32l051_Spi20_Init(void )
