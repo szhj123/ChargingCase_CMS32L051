@@ -27,7 +27,7 @@ void Drv_Lcd_Wr_Cmd(uint8_t cmd );
 void Drv_Lcd_Wr_Data(uint8_t dat );
 void Drv_Lcd_Background_Led_On(void );
 void Drv_Lcd_Background_Led_Off(void );
-void Drv_Lcd_Delay_Us(uint16_t us );
+void Drv_Lcd_Delay_Us(uint32_t us );
 
 void Drv_Lcd_Wr_Color(uint16_t dat);
 void Drv_Lcd_Fill(uint16_t xsta,uint16_t ysta,uint16_t xend,uint16_t yend,uint16_t color);

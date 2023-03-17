@@ -469,7 +469,7 @@ ARM Macro Assembler    Page 8
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0+ --apcs=inter
 work --depend=.\objects\startup_cms32l051.d -o.\objects\startup_cms32l051.o -IC
-:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.2.0\Device\Include --predefine="__UVI
+:\Keil_v5\Arm\Packs\Cmsemicon\CMS32L051\1.3.0\Device\Include --predefine="__UVI
 SION_VERSION SETA 536" --list=.\listings\startup_cms32l051.lst ..\..\Device\Sou
 rce\ARM\startup_CMS32L051.s
 

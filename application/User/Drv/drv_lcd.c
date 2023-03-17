@@ -24,162 +24,102 @@ void Drv_Lcd_Init(void )
     Hal_Lcd_Init();
 
     LCD_RST_HIGH();
-    Drv_Lcd_Delay_Us(120);
+    Drv_Lcd_Delay_Us(10*1000);
     LCD_RST_LOW();
-    Drv_Lcd_Delay_Us(100);
+    Drv_Lcd_Delay_Us(10*1000);
     LCD_RST_HIGH();
-    Drv_Lcd_Delay_Us(120);
+    Drv_Lcd_Delay_Us(120*1000);
     
-    Drv_Lcd_Wr_Cmd(0xff);
-    Drv_Lcd_Wr_Data(0xa5);
-    Drv_Lcd_Wr_Cmd(0x3a);
-    Drv_Lcd_Wr_Data(0x55); //65
-    Drv_Lcd_Wr_Cmd(0x51);
-    Drv_Lcd_Wr_Data(0x14);
-    Drv_Lcd_Wr_Cmd(0x53);
-    Drv_Lcd_Wr_Data(0x11);
-    Drv_Lcd_Wr_Cmd(0x62);
-    Drv_Lcd_Wr_Data(0x20);
-    Drv_Lcd_Wr_Cmd(0x86);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Cmd(0x87);
-    Drv_Lcd_Wr_Data(0x1a);
-    Drv_Lcd_Wr_Cmd(0x88);
-    Drv_Lcd_Wr_Data(0x11);//vcomh0
-    Drv_Lcd_Wr_Cmd(0x89);
-    Drv_Lcd_Wr_Data(0x1c);//vcoml
-    Drv_Lcd_Wr_Cmd(0x61);
-    Drv_Lcd_Wr_Data(0x16);
-    Drv_Lcd_Wr_Cmd(0x93);
-    Drv_Lcd_Wr_Data(0x12); // 13--line inversion 12--frame inversion
-    Drv_Lcd_Wr_Cmd(0x95);
-    Drv_Lcd_Wr_Data(0x10);
-    Drv_Lcd_Wr_Cmd(0x96);
-    Drv_Lcd_Wr_Data(0x0e);
-    Drv_Lcd_Wr_Cmd(0xb4);
-    Drv_Lcd_Wr_Data(0x60);
-    Drv_Lcd_Wr_Cmd(0x91);
-    Drv_Lcd_Wr_Data(0x10);
-    Drv_Lcd_Wr_Cmd(0xC1);
-    Drv_Lcd_Wr_Data(0xF1);
-    Drv_Lcd_Wr_Cmd(0xC5);
-    Drv_Lcd_Wr_Data(0xF8);
-    Drv_Lcd_Wr_Cmd(0xb5);
-    Drv_Lcd_Wr_Data(0x20);
-    Drv_Lcd_Wr_Cmd(0xc3);
-    Drv_Lcd_Wr_Data(0x11);//ss/gs
-    Drv_Lcd_Wr_Cmd(0x83);
-    Drv_Lcd_Wr_Data(0x10);
-
-    //////////////////////gamma_set//////////////////////////////////////
-    Drv_Lcd_Wr_Cmd(0x2a); // Set col address
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x84); // Start col address
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x84); // End col address
-
-    Drv_Lcd_Wr_Cmd(0x2b); // Set page address
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00); // Start col address
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x1f); // End col address
-
-    Drv_Lcd_Wr_Cmd(0x2c); // Write Display Data
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-
-    Drv_Lcd_Wr_Data(0x13);//VPMIDP G[0] 15/16
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x11);//VRP1 G[1] 10
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x16);//VRP0 G[2] 21
-    Drv_Lcd_Wr_Data(0x00);
-
-    Drv_Lcd_Wr_Data(0x05);//KP7 G[3] 0
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x0d);//KP6 G[4] 1
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x0c);//KP5 G[5] 2
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x0d);//KP4 G[6] 6
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x1e);//KP3 G[7] 25
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x1b);//KP2 G[8] 29
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x1b);//KP1 G[9] 30
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x1f);//KP0 G[10] 31
-
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x13);//VPMIDN G[11] 15/16
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x16); //VRN0 G[13] 21
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x11);//VRN1 G[12] 10
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x1f);//KN0 G[21] 31
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x1b);//KN1 G[20] 30
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x1b);//KN2 G[19] 29
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x1e);//KN3 G[18] 25
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x0d);//KN4 G[17] 6
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x0c);//KN5 G[16] 2
-    Drv_Lcd_Wr_Data(0X00);
-    Drv_Lcd_Wr_Data(31-0x13);//KN6 G[15] 1
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Data(31-0x05);//KN7 G[14] 0
-
-    Drv_Lcd_Wr_Cmd(0x2a); // Set col address
-    Drv_Lcd_Wr_Data(0); // Start col address
-    Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(80); // End col address
-
-    Drv_Lcd_Wr_Cmd(0x2b); // Set page address
-    Drv_Lcd_Wr_Data(0); // Start col address
-    Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(0);
-    Drv_Lcd_Wr_Data(160); //159 End col address
-
-    Drv_Lcd_Wr_Cmd(0x83);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Cmd(0xff);
-    Drv_Lcd_Wr_Data(0x00);
-
-    Drv_Lcd_Wr_Cmd(0x11);
-    Drv_Lcd_Delay_Us(200);
-        
-    Drv_Lcd_Wr_Cmd(0x21);
-    Drv_Lcd_Wr_Cmd(0x36);
-    Drv_Lcd_Wr_Data(0x00);
-    Drv_Lcd_Wr_Cmd(0x29);
-
-    Drv_Lcd_Wr_Cmd(0x36);
-    Drv_Lcd_Wr_Data(0xc0);
+    Drv_Lcd_Wr_Cmd(0x11); 
+    Drv_Lcd_Delay_Us(1000);    
+    
+    Drv_Lcd_Wr_Cmd(0xB1);     //------------------------------------ST7735S Frame Rate-----------------------------------------//
+    Drv_Lcd_Wr_Data(0x05);   
+    Drv_Lcd_Wr_Data(0x3C);   
+    Drv_Lcd_Wr_Data(0x3C);   
+    
+    Drv_Lcd_Wr_Cmd(0xB2);     
+    Drv_Lcd_Wr_Data(0x05);   
+    Drv_Lcd_Wr_Data(0x3C);   
+    Drv_Lcd_Wr_Data(0x3C);   
+    
+    Drv_Lcd_Wr_Cmd(0xB3);     
+    Drv_Lcd_Wr_Data(0x05);   
+    Drv_Lcd_Wr_Data(0x3C);   
+    Drv_Lcd_Wr_Data(0x3C);   
+    Drv_Lcd_Wr_Data(0x05);   
+    Drv_Lcd_Wr_Data(0x3C);   
+    Drv_Lcd_Wr_Data(0x3C);   //------------------------------------End ST7735S Frame Rate-----------------------------------------//
+    
+    Drv_Lcd_Wr_Cmd(0xB4);     //Dot inversion
+    Drv_Lcd_Wr_Data(0x03);   
+    
+    Drv_Lcd_Wr_Cmd(0xC0);     //------------------------------------ST7735S Power Sequence-----------------------------------------//
+    Drv_Lcd_Wr_Data(0x0E);   
+    Drv_Lcd_Wr_Data(0x0E);   
+    Drv_Lcd_Wr_Data(0x04);   
+    
+    Drv_Lcd_Wr_Cmd(0xC1);     
+    Drv_Lcd_Wr_Data(0xC0);   
+    
+    Drv_Lcd_Wr_Cmd(0xC2);     
+    Drv_Lcd_Wr_Data(0x0D);   
+    Drv_Lcd_Wr_Data(0x00);   
+    
+    Drv_Lcd_Wr_Cmd(0xC3);     
+    Drv_Lcd_Wr_Data(0x8D);   
+    Drv_Lcd_Wr_Data(0x2A);   
+    
+    Drv_Lcd_Wr_Cmd(0xC4);     
+    Drv_Lcd_Wr_Data(0x8D);   
+    Drv_Lcd_Wr_Data(0xEE);   //---------------------------------End ST7735S Power Sequence-------------------------------------//
+    
+    Drv_Lcd_Wr_Cmd(0xC5);     //VCOM
+    Drv_Lcd_Wr_Data(0x04);   
+    
+    Drv_Lcd_Wr_Cmd(0x36);     //MX, MY, RGB mode
+    Drv_Lcd_Wr_Data(0x08);   
+    
+    Drv_Lcd_Wr_Cmd(0x3a);  
+    Drv_Lcd_Wr_Data(0x05);  
+    
+    
+    Drv_Lcd_Wr_Cmd(0xE0);     
+    Drv_Lcd_Wr_Data(0x05);   
+    Drv_Lcd_Wr_Data(0x1A);   
+    Drv_Lcd_Wr_Data(0x0B);   
+    Drv_Lcd_Wr_Data(0x15);   
+    Drv_Lcd_Wr_Data(0x3D);   
+    Drv_Lcd_Wr_Data(0x38);   
+    Drv_Lcd_Wr_Data(0x2E);   
+    Drv_Lcd_Wr_Data(0x30);   
+    Drv_Lcd_Wr_Data(0x2D);   
+    Drv_Lcd_Wr_Data(0x28);   
+    Drv_Lcd_Wr_Data(0x30);   
+    Drv_Lcd_Wr_Data(0x3B);   
+    Drv_Lcd_Wr_Data(0x00);   
+    Drv_Lcd_Wr_Data(0x01);   
+    Drv_Lcd_Wr_Data(0x02);   
+    Drv_Lcd_Wr_Data(0x10);   
+    
+    Drv_Lcd_Wr_Cmd(0xE1);     
+    Drv_Lcd_Wr_Data(0x05);   
+    Drv_Lcd_Wr_Data(0x1A);   
+    Drv_Lcd_Wr_Data(0x0B);   
+    Drv_Lcd_Wr_Data(0x15);   
+    Drv_Lcd_Wr_Data(0x36);   
+    Drv_Lcd_Wr_Data(0x2E);   
+    Drv_Lcd_Wr_Data(0x28);   
+    Drv_Lcd_Wr_Data(0x2B);   
+    Drv_Lcd_Wr_Data(0x2B);   
+    Drv_Lcd_Wr_Data(0x28);   
+    Drv_Lcd_Wr_Data(0x30);   
+    Drv_Lcd_Wr_Data(0x3B);   
+    Drv_Lcd_Wr_Data(0x00);   
+    Drv_Lcd_Wr_Data(0x01);   
+    Drv_Lcd_Wr_Data(0x02);   
+    Drv_Lcd_Wr_Data(0x10);   
+    Drv_Lcd_Wr_Cmd(0x29); 
     
     Drv_Lcd_Clr(0x0000);
    
@@ -331,7 +271,7 @@ void Drv_Lcd_Background_Led_Off(void )
     LCD_BACK_LED_HIGH();
 }
 
-void Drv_Lcd_Delay_Us(uint16_t us )
+void Drv_Lcd_Delay_Us(uint32_t us )
 {
     uint16_t i;
 

@@ -29,7 +29,7 @@ void Drv_Flash_Init(void )
 {   
     Hal_Flash_Init();
 
-    //Drv_Flash_Chip_Erase();
+    Drv_Flash_Read_Jedec_Id();
 }
 
 void Drv_Flash_Read_Jedec_Id(void )

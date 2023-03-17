@@ -393,7 +393,7 @@ batt_level_state_t App_Batt_Cal_Level(void )
         {
             if(Drv_Batt_Get_Usb_State() == USB_PLUG_OUT)
             {
-                if(battPara.battVol < (BATT_VOL_100 - battErrVol))
+                if(battPara.battVol < 4120)
                 {
                     battPara.battLevel = BATT_LEVEL_90;
                 }

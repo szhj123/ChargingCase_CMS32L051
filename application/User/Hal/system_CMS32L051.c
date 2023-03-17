@@ -119,7 +119,7 @@ const uint8_t user_opt_data[4] __attribute__((used)) __attribute__((section(".AR
 //                                                            <0x72=> VLVDH = 4.06V/3.98V, VLVDL = 2.75V    ( interrupt & reset mode ) 
 //              <i> Please setting the item for interrupt & reset mode
 // </h>
-    0xFF,
+    0x37,
 
 /**
  * @brief HOCO Control BYTE (FRQSEL)
