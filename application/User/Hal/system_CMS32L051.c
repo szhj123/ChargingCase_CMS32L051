@@ -52,7 +52,7 @@ typedef enum {
          following is an example for different system frequencies */
 
 //-------- <<< Use Configuration Wizard in Context Menu >>> ------------------
-const uint8_t user_opt_data[4] __attribute__((used)) __attribute__((section(".ARM.__AT_0x000018C0"))) =
+const uint8_t user_opt_data[4] __attribute__((used)) __attribute__((section(".ARM.__AT_0x000000C0"))) =
 {
 
 /**

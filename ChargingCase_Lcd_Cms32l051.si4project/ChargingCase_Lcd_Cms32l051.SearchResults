@@ -1,7 +1,5 @@
----- standbyTimerId Matches (6 in 1 files) ----
-app_battery.c (application\User\App) line 42 : static uint8_t standbyTimerId = TIMER_NULL;
-App_Batt_Event_Handler in app_battery.c (application\User\App) :                 Drv_Timer_Delete(standbyTimerId);
+---- App_Batt_Handler_End_Callback Matches (4 in 1 files) ----
+app_battery.c (application\User\App) line 38 : static void App_Batt_Handler_End_Callback(void *arg );
+App_Batt_Event_Handler in app_battery.c (application\User\App) :             App_Batt_Handler_End_Callback(NULL);
+App_Batt_Event_Handler in app_battery.c (application\User\App) :                     standbyTimerId = Drv_Timer_Regist_Oneshot(App_Batt_Handler_End_Callback, 5000, NULL);
 App_Batt_Event_Handler in app_battery.c (application\User\App) :                 standbyTimerId = Drv_Timer_Regist_Oneshot(App_Batt_Handler_End_Callback, 5000, NULL);
-App_Batt_Event_Handler in app_battery.c (application\User\App) :             Drv_Timer_Delete(standbyTimerId);
-App_Batt_Delete_Standby_Timer in app_battery.c (application\User\App) :     Drv_Timer_Delete(standbyTimerId);
-App_Batt_Delete_Standby_Timer in app_battery.c (application\User\App) :     standbyTimerId = TIMER_NULL;

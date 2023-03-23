@@ -6,7 +6,7 @@
 typedef void (*lcd_show_callback_t)(void );
 
 #define PIC_MAX_READ_BUF                480
-#define PIC_SHOW_SPEED                  25
+#define PIC_SHOW_SPEED                  50
 
 #define PIC_EARBUD_CHG_L_START_INDEX    0
 #define PIC_EARBUD_CHG_R_START_INDEX    5
@@ -59,20 +59,17 @@ typedef struct _lcd_para_t
     char battLevelStr[5];
 
     uint16_t battLeveColor;
-    uint16_t battDelayCnt;
     
     uint16_t startX;
     uint16_t startY;
     uint8_t  flashCharIndex;
     uint8_t  flashCharLength;
-
-    uint8_t battShowFlag;
 }lcd_para_t;
 
 void App_Lcd_Init(void );
 void App_Lcd_Clr(void );
 void App_Lcd_Show_Logo(void );
-void App_Lcd_Show_Battery_Level(uint8_t battLevel );
+void App_Lcd_Show_Battery_Level(uint8_t battLevel, uint16_t color );
 void App_Lcd_Show_Earbud_Chg_Enable(pic_earbud_chg_state_t picEarbudChgState );
 void App_Lcd_Background_Led_On(void );
 void App_Lcd_Background_Led_Off(void );

@@ -6,10 +6,6 @@
 #define TX_IDLE                       0
 #define TX_BUSY                       (!TX_IDLE)
 
-#define CASE_CLOASE                   0
-#define CASE_OPEN                     1
-#define CASE_NULL                     2
-
 typedef enum
 {
     TX_LOW = 0,

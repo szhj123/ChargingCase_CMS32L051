@@ -23,6 +23,7 @@ typedef void (*cmd_handler_t)(void );
 /* Private macro ----------------------------------------*/
 /* Private function -------------------------------------*/
 static void App_Hall_Detect_Callback(void );
+static void App_Hall_Handler(void *arg );
 static void App_Hall_Event_Handler(void *arg );
 //static void App_Hall_Handler_End_Callback(void *arg );
 
@@ -45,18 +46,27 @@ void App_Key_Init(void )
 
 static void App_Hall_Detect_Callback(void )
 {
-    uint8_t caseState;
+    static uint8_t hallTimerId = TIMER_NULL;
+    
+    Drv_Timer_Delete(hallTimerId);
+
+    hallTimerId = Drv_Timer_Regist_Oneshot(App_Hall_Handler, 500, NULL);
+}
+
+static void App_Hall_Handler(void *arg )
+{
+    uint8_t hallState;
     
     if(Drv_Get_Hall_State())
     {
-        caseState = CASE_CLOASE;
+        hallState = 1;
     }
     else
     {
-        caseState = CASE_OPEN;
+        hallState = 0;
     }
 
-    Drv_Msg_Queue_Put(App_Hall_Event_Handler, CMD_HALL, &caseState, 1);
+    Drv_Msg_Queue_Put(App_Hall_Event_Handler, CMD_HALL, &hallState, 1);
 }
 
 static void App_Hall_Event_Handler(void *arg )
@@ -201,17 +211,6 @@ static void App_Cmd_CloseCase_Tx_Callback(void )
 
 uint8_t App_Hall_Get_State(void )
 {
-    uint8_t  caseState;
-    
-    if(Drv_Get_Hall_State())
-    {
-        caseState = CASE_CLOASE;
-    }
-    else
-    {
-        caseState = CASE_OPEN;
-    }
-
-    return caseState;
+    return Drv_Get_Hall_State();
 }
 
